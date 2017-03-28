@@ -8,13 +8,32 @@
 
   <% include ../partials/nav.ejs %>
 
-<div class="jumbotron text-center">
-  <a href="/" class="lang-logo">
-    <img src="/IDFbadge.png">
-  </a>
-  <h1>First Aid Bracelet Site</h1>
-  <p> That's one small step for man, one giant leap for mankind ~ Niel Armstrong</p>
-  <a type="button" class="btn btn-lg btn-default" href="https://firstaidbracelet.herokuapp.com/db"><span class="glyphicon glyphicon-flash"></span> Our Database</a>
+  <style type="text/css">
+  .mainbody {
+    width: 100%;
+    height: 100%;
+  }
+
+  .lang-logo {
+    width: 50%;
+  }
+  .medic-logo {
+    width: 50%;
+  }
+
+  </style>
+<div class="mainbody">
+  <div class="jumbotron text-center">
+    <a href="/" class="lang-logo">
+      <img src="/IDFbadge.png">
+    </a>
+    <a href="/" class="medic-logo">
+      <img src="/medic-logo.png">
+    </a>
+    <h1>First Aid Bracelet Site</h1>
+    <p> That's one small step for man, one giant leap for mankind ~ Niel Armstrong</p>
+    <a type="button" class="btn btn-lg btn-default" href="https://firstaidbracelet.herokuapp.com/db"><span class="glyphicon glyphicon-flash"></span> Our Database</a>
+  </div>
 </div>
 
 </body>
