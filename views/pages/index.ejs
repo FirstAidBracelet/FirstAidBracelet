@@ -22,6 +22,33 @@
     .agam-logo-image {
       width: 182px;
     }
+
+    .image {
+      opacity: 1;
+      display: block;
+      transition: .5s ease;
+      backface-visibility: hidden;
+    }
+
+    .middle {
+      transition: .5s ease;
+      opacity: 0;
+    }
+
+    .doctor-main:hover .doctor-logo-image {
+      opacity: 0.3;
+    }
+
+    .doctor-main:hover .doc-middle {
+      opacity: 1;
+    }
+
+    .text {
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      padding: 16px 32px;
+    }
   </style>
 
   <% include ../partials/header.ejs %>
@@ -48,9 +75,14 @@
       <a type="button" class="btn btn-lg btn-default" href="https://firstaidbracelet.herokuapp.com/db"><span class="glyphicon glyphicon-flash"></span> Our Database</a>
       
       <div class="continue">
+      <span class="doctor-main">
         <a href="/doctor" class="doctor">
             <img class="doctor-logo-image" src="/manDoctor.jpg">
         </a>
+        <div class="doc-middle">
+          <div class="text">Doctor</div>
+        </div>
+        </span>
         <a href="/" class="agam-logo-link">
             <img class="agam-logo-image" src="/track-map.png">
         </a>
