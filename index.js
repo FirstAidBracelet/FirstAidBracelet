@@ -27,6 +27,10 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
+app.get('/doctor', function(request, response) {
+  response.render('pages/doctor');
+});
+
 app.get('/cool', function(request, response) {
   response.send(cool());
 });
