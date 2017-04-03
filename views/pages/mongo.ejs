@@ -12,8 +12,9 @@
 <h2>MongoDB</h2>
 
 <ul>
-    <% docs.forEach(function(r) { %>
-        <li> <%= r['Name']%> </li>
+    <% docs.forEach(function(doc) { %>
+        <li> <%= doc['Rank']%> </li>
+        <li> <%= doc.Rank%> </li>
     <% }); %>
 </ul>
 

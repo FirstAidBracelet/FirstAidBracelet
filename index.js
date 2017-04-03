@@ -35,6 +35,9 @@ app.get('/mongo', function (request, response) {
     //
     var col = db.collection('soldiers');
     col.find().toArray(function(err, docs) {
+      /*docs.forEach(function (doc)) {
+        var pri = doc['Rank'];
+      }*/
       response.render('pages/mongo', {docs: docs});
     });
 
