@@ -37,7 +37,7 @@ app.get('/mongo', function (request, response) {
     response.render('pages/mongo');
     //db.close();
     //});*/
-};
+});
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
