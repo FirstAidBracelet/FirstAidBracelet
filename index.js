@@ -31,9 +31,9 @@ app.get('/mongo', function (request, response) {
     // Use connect method to connect to the server
     MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
-    console.log("Connected successfully to server");
+    var con = "Connected successfully to server";
     //
-    response.render('pages/mongo');
+    response.render('pages/mongo', {con: con});
     db.close();
     });
 });
