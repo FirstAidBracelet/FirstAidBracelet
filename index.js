@@ -22,8 +22,7 @@ app.get('/db', function (request, response) {
 
 //mongodb stuff
 app.get('/mongo', function (request, response) {
-  response.render('pages/mongo');
-    /*var MongoClient = require('mongodb').MongoClient
+  var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
 
     // Connection URL
@@ -35,8 +34,8 @@ app.get('/mongo', function (request, response) {
     console.log("Connected successfully to server");
     //
     response.render('pages/mongo');
-    //db.close();
-    //});*/
+    db.close();
+    });
 });
 app.set('port', (process.env.PORT || 5000));
 
