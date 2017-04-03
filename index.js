@@ -33,7 +33,7 @@ app.get('/mongo', function (request, response) {
     assert.equal(null, err);
     console.log("Connected successfully to server");
     //
-    response.render('pages/mongo');
+    //response.render('pages/mongo');
     db.close();
     });
 };
