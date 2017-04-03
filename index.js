@@ -35,7 +35,7 @@ app.get('/mongo', function (request, response) {
     //
     var col = db.collection('soldiers');
     col.find().toArray(function(err, docs) {
-      response.render('pages/mongo', {col: col});
+      response.render('pages/mongo', {docs: docs});
     });
 
     
