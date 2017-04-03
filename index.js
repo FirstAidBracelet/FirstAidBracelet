@@ -20,7 +20,7 @@ app.get('/db', function (request, response) {
 });
 
 /*
-mongodb stuff*/
+mongodb stuff
 app.get('/mongo', function (request, response) {
     var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
@@ -33,10 +33,10 @@ app.get('/mongo', function (request, response) {
     assert.equal(null, err);
     console.log("Connected successfully to server");
     //
-    //response.render('pages/mongo');
+    //bresponse.render('pages/mongo');
     db.close();
     });
-};
+};*/
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
