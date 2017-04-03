@@ -33,10 +33,18 @@ app.get('/mongo', function (request, response) {
     assert.equal(null, err);
     var con = "Connected successfully to server";
     //
-    response.render('pages/mongo', {con: con});
+    var col = db.collection('soldiers');
+    col.find().toArray(function(err, docs) {
+      response.render('pages/mongo', {col: col});
+    });
+
+    
+
     db.close();
     });
 });
+
+
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
