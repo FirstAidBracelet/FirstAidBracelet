@@ -11,11 +11,12 @@
 <div class="container">
 <h2>MongoDB</h2>
 
-<p id="demo"></p>
+<ul>
+    <% col.forEach(function(r) { %>
+        <li> <%= r.Name %> </li>
+    <% }); %>
+</ul>
 
-<script>
-document.getElementById("demo").innerHTML = <%=col.Name%>;
-</script>
 
 </div>
 
