@@ -1,7 +1,7 @@
-var cool = require('cool-ascii-faces');
 var express = require('express');
 var app = express();
 var pg = require('pg');
+
 
 /*
 postgres stuff
@@ -30,9 +30,7 @@ app.get('/mongo', function (request, response) {
 
     // Use connect method to connect to the server
     MongoClient.connect(url, function(err, db) {
-    assert.equal(null, err);
-    var con = "Connected successfully to server";
-    //
+        assert.equal(null, err);
     var col = db.collection('soldiers');
     col.find().toArray(function(err, docs) {
       /*docs.forEach(function (doc)) {
@@ -40,8 +38,6 @@ app.get('/mongo', function (request, response) {
       }*/
       response.render('pages/mongo', {docs: docs});
     });
-
-    
 
     db.close();
     });
@@ -64,9 +60,6 @@ app.get('/doctor', function(request, response) {
   response.render('pages/doctor');
 });
 
-app.get('/cool', function(request, response) {
-  response.send(cool());
-});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));

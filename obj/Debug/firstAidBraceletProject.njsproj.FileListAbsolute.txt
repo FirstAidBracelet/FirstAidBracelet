@@ -1,0 +1,1 @@
+C:\Git\firstaidbracelet\bin\Microsoft.NodejsTools.WebRole.dll

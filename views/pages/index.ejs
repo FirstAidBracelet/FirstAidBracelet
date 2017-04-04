@@ -1,100 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <style type="text/css">
-    .mainbody {
-      width: max-width;
-      height: max-height;
-      background-color: #b475e5;
-    }
-
-    .logos {
-      width: 300px;
-      height: 300px;
-      display: flex;
-      margin: 0 0 0 32.5%;
-    }
-
-    .idf-logo-image {
-      width: 285px;
-    }
-
-    .agam-logo-image {
-      width: 182px;
-    }
-
-    .doctor-logo-image {
-      opacity: 1;
-      display: block;
-      transition: .5s ease;
-      backface-visibility: hidden;
-    }
-
-    .doc-middle {
-      transition: .5s ease;
-      opacity: 0;
-      width: 182px;
-    }
-
-    .doctor-main {
-      width: 182px;
-    }
-
-    .doctor-main:hover .doctor-logo-image {
-      opacity: 0.3;
-    }
-
-    .doctor-main:hover .doc-middle {
-      opacity: 1;
-    }
-
-    .text {
-      background-color: #4CAF50;
-      color: white;
-      font-size: 16px;
-      padding: 16px 32px;
-    }
-  </style>
-
-  <% include ../partials/header.ejs %>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-
 <body>
 
-  <% include ../partials/nav.ejs %>
-
-  <div class="mainbody">
-    <div class="jumbotron text-center">
-      <div class="logos">
-       
-        <a href="/" class="idf-logo-link">
-          <img class="idf-logo-image" src="/IDFbadge.png">
-        </a>
-        <a href="/" class="medic-logo-link">
-          <img src="/medic-logo.png">
-        </a>
-      </div>
-     
-      <h1>First Aid Bracelet Site</h1>
-      <p> That's one small step for man, one giant leap for mankind ~ Niel Armstrong</p>
-      <a type="button" class="btn btn-lg btn-default" href="https://firstaidbracelet.herokuapp.com/db"><span class="glyphicon glyphicon-flash"></span> Our Database</a>
-      
-      <div class="continue">
-        <a href="/doctor" class="doctor">
-          <span class="doctor-main">
-            <img class="doctor-logo-image" src="/manDoctor.jpg">
-            <div class="doc-middle">
-              <div class="text">Doctor</div>
-            </div>
-          </span>
-        </a>
-        <a href="/" class="agam-logo-link">
-            <img class="agam-logo-image" src="/track-map.png">
-        </a>
-      </div>
-   
-    </div>
+<div class="container">
+  <div class="jumbotron">
+  <h1><center> <br>  First Aid Bracelet Site <br> <center></h1>
   </div>
+  <div class="row" style="background-color:#532F8C;">
+   <div class="col-md-3"></div> 
+   <div class="col-md-3"><center> <img src="/medic-logo.png" width="250" height="300" >  <center> </div> 
+   <div class="col-md-3"> <center><img src="/IDFbadge.png" width="300" height="300" > <center> </div> 
+   <div class="col-md-3"></div>
+  </div>
+
+   <div class="row">
+   <div class="col-md-3"> <center> <br> <br> <img class="img-responsive" src="/Medical-ArmyIcon.png"  > <center> </div> 
+    <div class="col-md-3">  </div> 
+    <div class="col-md-3">  </div> 
+     <div class="col-md-3"> <center> <br> <br> <img class="img-responsive" src="/command-center.png"  > <center> </div> 
+</div>
+
+ <div class="row">
+   <div class="col-md-3"> <center> <a type="button" class="btn btn-lg btn-default" href="https://firstaidbracelet.herokuapp.com/doctor"> &nbsp; &nbsp; &nbsp; Doctor &nbsp; &nbsp; &nbsp;&nbsp; </a> <center> </div> 
+     <div class="col-md-6"> <center> <a type="button" class="btn btn-lg btn-default" href="https://firstaidbracelet.herokuapp.com/mongo">  DATA BASE SAMPLE  </a> <center> </div> 
+     <div class="col-md-3"> <center> <button type="button" class="btn btn-lg btn-default">Command Center</button> <center> </div> 
+</div>
+
 
 </body>
 </html>
+
+
+
