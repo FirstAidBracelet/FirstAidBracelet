@@ -15,20 +15,23 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
+	  <th>Personal Number</th>
+        <th>First name</th>
+        <th>Last name</th>
         <th>Unit</th>
+		 <th>Division</th>
+		  <th>Rank</th>
 		<th>Status</th>
-      </tr>
+		       </tr>
 	  <ul>
     <% docs.forEach(function(doc) { %>        
     </thead>
     <tbody>
       <tr>
-        <td><%= doc.Name%></td>
-        <td><%= doc.Rank%></td>
-        <td><%= doc.Unit%></td>
-		<td><%= doc.Status%></td>
+        <td><%= doc.personal number%></td>
+        <td><%= doc.first name%></td>
+        <td><%= doc.last name%></td>
+		<td><%= doc.unit%></td>
       </tr>        
 	  <% }); %>
     </tbody>
