@@ -59,8 +59,9 @@ app.get('/', function(request, response) {
 app.get('/doctor', function(request, response) {
   response.render('pages/doctor');
 });
+
 app.get('/main', function (request, response) {
-    response.render('pages/mainPage');
+    response.render('pages/mainpage');
 });
 
 
