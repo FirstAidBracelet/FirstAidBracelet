@@ -31,7 +31,7 @@
     <Content Include="views\pages\db.ejs" />
     <Content Include="views\pages\doctor.ejs" />
     <Content Include="views\pages\index.ejs" />
-    <Content Include="views\pages\mainPage.ejs" />
+    <Content Include="views\pages\mainpage.ejs" />
     <Content Include="views\pages\mongo.ejs" />
     <Content Include="views\partials\header.ejs" />
     <Content Include="views\partials\nav.ejs" />
