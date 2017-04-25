@@ -60,7 +60,7 @@ app.get('/doctor', function(request, response) {
   response.render('pages/doctor');
 });
 app.get('/main', function (request, response) {
-    response.render('pages/main');
+    response.render('pages/mainPage');
 });
 
 
