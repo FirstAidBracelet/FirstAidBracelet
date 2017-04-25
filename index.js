@@ -60,8 +60,8 @@ app.get('/doctor', function(request, response) {
   response.render('pages/doctor');
 });
 
-app.get('/main', function (request, response) {
-    response.render('pages/mainpage');
+app.get('/mainPage', function (request, response) {
+    response.render('pages/mainPage');
 });
 
 
