@@ -21,6 +21,7 @@
     </Compile>
     <Content Include="app.json" />
     <Content Include="package.json" />
+    <Content Include="public\background.png" />
     <Content Include="public\stylesheets\mainPageStyles.css" />
     <Content Include="README.md" />
     <Compile Include="index.js" />
