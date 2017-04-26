@@ -58,16 +58,13 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
-app.get('', function(request, response) {
+app.get('/doctor', function(request, response) {
   response.render('pages/doctor');
 });
 
 app.get('/mainPage', function (request, response) {
     response.render('pages/mainPage');
 });
-
-
-
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
