@@ -47,6 +47,8 @@ app.get('/mongo', function (request, response) {
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
+//app.use(express.static(__dirname + '/views'));
+
 
 // views is directory for all template files
 app.set('views', __dirname + '/views');
@@ -56,13 +58,15 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
-app.get('/doctor', function(request, response) {
+app.get('', function(request, response) {
   response.render('pages/doctor');
 });
 
 app.get('/mainPage', function (request, response) {
     response.render('pages/mainPage');
 });
+
+
 
 
 app.listen(app.get('port'), function() {

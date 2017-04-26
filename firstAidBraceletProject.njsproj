@@ -16,6 +16,9 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="mainPage.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Content Include="app.json" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\mainPageStyles.css" />
@@ -24,14 +27,14 @@
     <Content Include="public\IDFbadge.png" />
     <Content Include="public\lang-logo.png" />
     <Content Include="public\medic-logo.png" />
-    <Content Include="public\track-map.png" />
+    <Content Include="views\pages\track-map.png" />
     <Content Include="public\manDoctor.jpg" />
     <Content Include="public\node.svg" />
     <Content Include="public\stylesheets\main.css" />
     <Content Include="views\pages\db.ejs" />
     <Content Include="views\pages\doctor.ejs" />
     <Content Include="views\pages\index.ejs" />
-    <Content Include="views\pages\mainpage.ejs" />
+    <Content Include="views\pages\mainPage.ejs" />
     <Content Include="views\pages\mongo.ejs" />
     <Content Include="views\partials\header.ejs" />
     <Content Include="views\partials\nav.ejs" />
