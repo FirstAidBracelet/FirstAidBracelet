@@ -19,6 +19,27 @@
             color: white;
         }
 
+.caret-right {
+    float: right;
+    display: inline-block;
+    vertical-align: middle;
+    border-left: 8px solid;
+    border-bottom: 5px solid transparent;
+    border-top: 5px solid transparent;
+    margin-top: 5px;
+    margin-right: -7px;
+}
+
+.dropdown-menu {
+    left: 110px;
+    top: -30px;
+}
+
+.btn {
+    width: 100px;
+}
+    
+
 body {
     background: url('/background.png') center top no-repeat;
 }
