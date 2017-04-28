@@ -78,9 +78,9 @@
   <h2>Chosen Filters</h2>
   <div class="progress">  
    <% mainPage.filters.forEach(function(element) { %>  
-   var barSize = (100/(mainpage.numOfFilters));
-  <div class="progress-bar progress-bar-success" role="progressbar" style="width:<%= mainPage.filtersPrc()%> %">
+  <div class="progress-bar progress-bar-success" role="progressbar" >
       <%= element%>     
+	    <script> document.getElementById("myNumber").style = "width:"+<%= mainPage.filtersPrc%>+"%"; </script>
   </div>
    <% }); %>
 </div>
