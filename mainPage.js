@@ -3,7 +3,9 @@
 var addFilter = function(fltr) {
     filters.push(fltr);
 };
-var filtersPrc = function() { return (100 / filters.length()); }
+var filtersPrc = function() {
+    return 100 / filters.length;
+};
 
 
 var addX = function (value) {

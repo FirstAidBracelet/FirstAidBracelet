@@ -66,12 +66,15 @@ app.get('/doctor', function(request, response) {
 app.get('/mainPage', function(request, response) {
     mainPage.filters.push("one");
     mainPage.filters.push("two");
-    mainPage.filters.push("three"); 
+    mainPage.filters.push("three");
+    console.log('aaaaaaaaaaaaaaaaaa');
     response.render('pages/mainPage', { mainPage: mainPage });
 });
 
 app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+    console.log('Node app is running on port', app.get('port'));
+   
+   
 });
 
 
