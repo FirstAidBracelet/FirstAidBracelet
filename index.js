@@ -67,8 +67,7 @@ app.get('/mainPage', function(request, response) {
     mainPage.filters.push("one");
     mainPage.filters.push("two");
     mainPage.filters.push("three");
-    console.log('aaaaaaaaaaaaaaaaaa');
-    response.render('pages/mainPage', { mainPage: mainPage });
+     response.render('pages/mainPage', { mainPage: mainPage });
 });
 
 app.listen(app.get('port'), function() {
