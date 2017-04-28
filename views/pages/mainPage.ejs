@@ -76,7 +76,12 @@
 <div class="col-md-2"></div>
 <div class="col-md-8"> <div class="container">
   <h2>Chosen Filters</h2>
-  <div class="progress">    
+  <div class="progress">  
+   <% mainPage.filters.forEach(function(element) { %>  
+  <div class="progress-bar progress-bar-success" role="progressbar" style="width:20%">
+      <%= element%>     
+  </div>
+   <% }); %>
 </div>
 </div> 
 </div>

@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var pg = require('pg');
-
+var mainPage = require('./mainPage');
 
 /*
 postgres stuff
@@ -62,8 +62,14 @@ app.get('/doctor', function(request, response) {
   response.render('pages/doctor');
 });
 
-app.get('/mainPage', function (request, response) {
-    response.render('pages/mainPage');
+
+app.get('/mainPage', function(request, response) {
+    mainPage.filters.push("one");
+    mainPage.filters.push("two");
+    mainPage.filters.push("three");
+    mainPage.filters.push("four");
+    mainPage.filters.push("five");
+    response.render('pages/mainPage', { mainPage: mainPage });
 });
 
 app.listen(app.get('port'), function() {
