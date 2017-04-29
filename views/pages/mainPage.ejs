@@ -79,8 +79,8 @@ var filters = ["givati"];
 <div class="col-md-8"> <div class="container">
   <h2>Chosen Filters</h2>
    <ul class="list-inline">
-   <% filters.forEach(function(element) { %>  
- <li class="list-group-item" id="txrt"> <%= element%>  </li>
+   <% mainPage.filters.forEach(function(element) { %>  
+ <li class="list-group-item" > <%= element%>  </li>
    <% }); %>
      </ul>  
    </div>
@@ -89,7 +89,7 @@ var filters = ["givati"];
 </div>
 <div class="col-md-2"></div>
 </div>
-<p id="toFilter"></p>
+
 </body>
 
 
