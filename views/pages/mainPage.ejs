@@ -80,7 +80,7 @@
    <% mainPage.filters.forEach(function(element) { %>  
   <div class="progress-bar progress-bar-success" id="pBar" role="progressbar" style="width:100%" >
       <%= element%>     
-	   <script> document.getElementById("pBar").style = "width:"+"33"+"%"; </script>
+	   <script> document.getElementById("pBar").style = "width:"+  <%= mainPage.filtersPrc() %> +"%"; </script>
   </div>
    <% }); %>
 </div>
