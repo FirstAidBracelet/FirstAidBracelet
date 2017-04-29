@@ -12,6 +12,9 @@
 
 
 <body>
+<script>
+var filters = ["givati"];
+</script>
 <div class="row" >" "  </div>
 <div class="row" >" "  </div>
 <div class="row" >" "  </div>
@@ -76,7 +79,7 @@
 <div class="col-md-8"> <div class="container">
   <h2>Chosen Filters</h2>
    <ul class="list-inline">
-   <% mainPage.filters.forEach(function(element) { %>  
+   <% filters.forEach(function(element) { %>  
  <li class="list-group-item" id="txrt"> <%= element%>  </li>
    <% }); %>
      </ul>  
