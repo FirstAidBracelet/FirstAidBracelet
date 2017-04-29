@@ -1,29 +1,19 @@
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <% include ../partials/header.ejs %>
-  <title>Main Page</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/stylesheets/doctorStyles.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+    <meta charset="utf-8" />
+    <title></title>
 </head>
-
-
-<body>  
+<body>
 
 <?php
 // define variables and set to empty values
-$name = $email = $gender = $comment = $website = "";
+$name = $psw = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $name = test_input($_POST["name"]);
-  $email = test_input($_POST["email"]);
-  $website = test_input($_POST["website"]);
-  $comment = test_input($_POST["comment"]);
-  $gender = test_input($_POST["gender"]);
+  $psw = test_input($_POST["psw"]);
 }
 
 function test_input($data) {
@@ -33,23 +23,6 @@ function test_input($data) {
   return $data;
 }
 ?>
-
-<h2>PHP Form Validation Example</h2>
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
-  Name: <input type="text" name="name">
-  <br><br>
-  E-mail: <input type="text" name="email">
-  <br><br>
-  Website: <input type="text" name="website">
-  <br><br>
-  Comment: <textarea name="comment" rows="5" cols="40"></textarea>
-  <br><br>
-  Gender:
-  <input type="radio" name="gender" value="female">Female
-  <input type="radio" name="gender" value="male">Male
-  <br><br>
-  <input type="submit" name="submit" value="Submit">  
-</form>
 
 <?php
 echo "<h2>Your Input:</h2>";
