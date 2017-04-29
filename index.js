@@ -54,7 +54,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-app.get('/', function(request, response) {
+app.get('/', function (request, response) {
   response.render('pages/index');
 });
 
@@ -62,11 +62,12 @@ app.get('/doctor', function(request, response) {
   response.render('pages/doctor');
 });
 
-
+   mainPage.filters.push("one");
 app.get('/mainPage', function(request, response) {
-    mainPage.filters.push("one");
-    mainPage.filters.push("two");
-    mainPage.filters.push("three");
+ 
+  //  mainPage.filters.push("two");
+  //  mainPage.filters.push("three");
+   
      response.render('pages/mainPage', { mainPage: mainPage });
 });
 

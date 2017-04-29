@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">
 </head>
 
+
 <body>
 
 <div class="row" >" "  </div>
@@ -25,7 +26,7 @@
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Division 
     <span class="caret-right"></span></button>
     <ul class="dropdown-menu">
-      <li><a href="#">Golani</a></li>
+      <li onclick="selectedFilter()" ><a href="#">Golani</a></li>
       <li><a href="#">Givati</a></li>
       <li><a href="#">Nahal</a></li>
        <li><a href="#">Kfir</a></li>
@@ -89,5 +90,9 @@
 </div>
 
 </body>
-
+<script>
+function selectedFilter() {
+  mainPage.addFilter("golani"); 
+}
+</script>
 </html>
