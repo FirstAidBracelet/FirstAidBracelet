@@ -78,10 +78,10 @@
   <h2>Chosen Filters</h2>
   <div class="progress">  
    <% mainPage.filters.forEach(function(element) { %>  
-  <div class="progress-bar progress-bar-success" id:"pBar" role="progressbar" style="width: {{mainPage.filtersPrc()}} %" >
+  <div class="progress-bar progress-bar-success" id="pBar" role="progressbar" style="width:100%" >
       <%= element%>     
-	   </div>
-
+	   <script> document.getElementById("pBar").style = "width:"+"33"+"%"; </script>
+  </div>
    <% }); %>
 </div>
 </div> 
