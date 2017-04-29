@@ -76,13 +76,13 @@
 <div class="col-md-2"></div>
 <div class="col-md-8"> <div class="container">
   <h2>Chosen Filters</h2>
-  <div class="progress">  
+   <ul class="list-inline">
    <% mainPage.filters.forEach(function(element) { %>  
-  <div class="progress-bar progress-bar-success" id="pBar" role="progressbar" style="width:100%" >
-      <%= element%>     
-  </div>
+ <li class="list-group-item"> <%= element%>  </li>
+     </ul>   
+ 
    <% }); %>
-   <script> document.getElementById("pBar").style = "width:"+  <%= mainPage.filtersPrc() %> +"%"; </script>
+   </div>
 </div>
 </div> 
 </div>
