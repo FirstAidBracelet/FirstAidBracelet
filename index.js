@@ -64,9 +64,9 @@ app.get('/doctor', function(request, response) {
 
 
 app.get('/mainPage', function(request, response) {
-    mainPage.filters.push("one");
-    mainPage.filters.push("two");
-    mainPage.filters.push("three");
+  //  mainPage.filters.push("one");
+  //  mainPage.filters.push("two");
+  //  mainPage.filters.push("three");
      response.render('pages/mainPage', { mainPage: mainPage });
 });
 
