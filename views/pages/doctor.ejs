@@ -12,17 +12,18 @@
 </head>
 
 
-<body>
-
-<!-- <% include ../partials/nav.ejs %> -->
+<body>  
 
 <?php
 // define variables and set to empty values
-$uname = $psw = "";
+$name = $email = $gender = $comment = $website = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $uname = test_input($_POST["uname"]);
-  $psw = test_input($_POST["psw"]);
+  $name = test_input($_POST["name"]);
+  $email = test_input($_POST["email"]);
+  $website = test_input($_POST["website"]);
+  $comment = test_input($_POST["comment"]);
+  $gender = test_input($_POST["gender"]);
 }
 
 function test_input($data) {
@@ -33,60 +34,35 @@ function test_input($data) {
 }
 ?>
 
-<h2>Doctor Login</h2>
-
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-  <div class="imgcontainer">
-    <img src="manDoctor.jpg" alt="Avatar" class="Doctor">
-  </div>
-  
-  <div class="container">
-    <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
-
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-        
-    <button type="submit">Login</button>
-    <input type="checkbox" checked="checked"> Remember me
-  </div>
-
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password?</a></span>
-  </div>
+<h2>PHP Form Validation Example</h2>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+  Name: <input type="text" name="name">
+  <br><br>
+  E-mail: <input type="text" name="email">
+  <br><br>
+  Website: <input type="text" name="website">
+  <br><br>
+  Comment: <textarea name="comment" rows="5" cols="40"></textarea>
+  <br><br>
+  Gender:
+  <input type="radio" name="gender" value="female">Female
+  <input type="radio" name="gender" value="male">Male
+  <br><br>
+  <input type="submit" name="submit" value="Submit">  
 </form>
 
 <?php
-  echo $uname;
-  echo "<br>";
-  echo $psw;
-  echo "<br>";
-  
-  var MongoClient = require('mongodb').MongoClient
-    , assert = require('assert');
-
-    // Connection URL
-    var url = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
-
-    // Use connect method to connect to the server
-    MongoClient.connect(url, function(err, db) {
-        assert.equal(null, err);
-    var col = db.collection('users');
-    var isExist = col.findOne( {
-	  $and: [
-	    {type: { $eq: doctor}}
-		{name: { $eq: $uname}}
-		{password: { $eq: $psw}}
-	    ]
-	  }
-	)
-	if (!isExist){
-	echo "FOUND";
-	} else {
-	echo "NOT FOUND";
-	}
->
+echo "<h2>Your Input:</h2>";
+echo $name;
+echo "<br>";
+echo $email;
+echo "<br>";
+echo $website;
+echo "<br>";
+echo $comment;
+echo "<br>";
+echo $gender;
+?>
 
 </body>
 </html>
