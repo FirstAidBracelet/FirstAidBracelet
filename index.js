@@ -62,7 +62,10 @@ app.get('/doctor', function(request, response) {
   response.render('pages/doctor');
 });
 
-   
+app.get('/doctor.php', function (request, response) {
+    response.render('pages/doctor.php');
+});
+
 app.get('/mainPage', function(request, response) {
  
   //  mainPage.filters.push("two");
