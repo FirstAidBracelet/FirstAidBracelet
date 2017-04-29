@@ -14,15 +14,35 @@
 
 <body>
 
-<% include ../partials/nav.ejs %>
+<!-- <% include ../partials/nav.ejs %> -->
+
+<?php
+// define variables and set to empty values
+$name = $email = $gender = $comment = $website = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $name = test_input($_POST["name"]);
+  $email = test_input($_POST["email"]);
+  $website = test_input($_POST["website"]);
+  $comment = test_input($_POST["comment"]);
+  $gender = test_input($_POST["gender"]);
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+?>
 
 <h2>Doctor Login</h2>
 
-<form action="/action_page.php">
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
   <div class="imgcontainer">
     <img src="manDoctor.jpg" alt="Avatar" class="Doctor">
   </div>
-
+  
   <div class="container">
     <label><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="uname" required>
@@ -39,6 +59,37 @@
     <span class="psw">Forgot <a href="#">password?</a></span>
   </div>
 </form>
+
+<?php
+  echo $uname;
+  echo "<br>";
+  echo $psw;
+  echo "<br>";
+  
+  var MongoClient = require('mongodb').MongoClient
+    , assert = require('assert');
+
+    // Connection URL
+    var url = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
+
+    // Use connect method to connect to the server
+    MongoClient.connect(url, function(err, db) {
+        assert.equal(null, err);
+    var col = db.collection('users');
+    var isExist = col.findOne( {
+	  $and: [
+	    {type: { $eq: doctor}}
+		{name: { $eq: $uname}}
+		{password: { $eq: $psw}}
+	    ]
+	  }
+	)
+	if (!isExist){
+	echo "FOUND";
+	} else {
+	echo "NOT FOUND";
+	}
+>
 
 </body>
 </html>
