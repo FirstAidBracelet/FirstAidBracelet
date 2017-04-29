@@ -10,8 +10,21 @@
     <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">
 </head>
 
-
 <body>
+
+
+
+<script>
+var filters = ["givati""];
+</script>
+
+
+
+
+
+
+
+
 
 <div class="row" >" "  </div>
 <div class="row" >" "  </div>
@@ -20,8 +33,7 @@
 <div class="col-md-2"><center>
 <div class="vertical-menu pull-right" >
 <center>
-<h4>Display By</h4>
-  
+<h4>Display By</h4>  
   <div class="dropdown">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Division 
     <span class="caret-right"></span></button>
@@ -78,9 +90,9 @@
 <div class="col-md-8"> <div class="container">
   <h2>Chosen Filters</h2>
    <ul class="list-inline">
-   <% mainPage.filters.forEach(function(element) { %>  
- <li class="list-group-item"> <%= element%>  </li>
-   <% }); %>
+   filters.forEach(function(element) {   
+ <li class="list-group-item" > <%= element%>  </li>
+    }); 
      </ul>  
    </div>
 </div>
@@ -90,9 +102,7 @@
 </div>
 
 </body>
-<script>
-function selectedFilter() {
-  mainPage.addFilter("golani"); 
-}
-</script>
+
+
+
 </html>
