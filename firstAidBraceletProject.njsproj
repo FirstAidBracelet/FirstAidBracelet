@@ -19,6 +19,7 @@
     <Compile Include="mainPage.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="views\pages\filterBarFunctions.js" />
     <Content Include="app.json" />
     <Content Include="package.json" />
     <Content Include="public\background.png" />
