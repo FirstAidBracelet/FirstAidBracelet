@@ -8,13 +8,11 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
     <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">
+	 <script src="filterBarFunctions.js" type="text/javascript"></script> 
 </head>
 
-
 <body>
-<script>
-var filters = ["givati"];
-</script>
+
 <div class="row" >" "  </div>
 <div class="row" >" "  </div>
 <div class="row" >" "  </div>
@@ -27,11 +25,11 @@ var filters = ["givati"];
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Division 
     <span class="caret-right"></span></button>
     <ul class="dropdown-menu">
-      <li onclick="selectedFilter()" ><a href="#">Golani</a></li>
-      <li><a href="#">Givati</a></li>
-      <li><a href="#">Nahal</a></li>
-       <li><a href="#">Kfir</a></li>
-       <li><a href="#">Zanhanim</a></li>
+     <li onclick="selectDivision('Golani')" ><a href="#">Golani</a></li>
+      <li onclick="selectDivision('Givati')" ><a href="#">Givati</a></li>
+      <li onclick="selectDivision('Nahal')"><a href="#">Nahal</a></li>
+      <li onclick="selectDivision('Kfir')"><a href="#">Kfir</a></li>
+      <li onclick="selectDivision('Zanhanim')"><a href="#">Zanhanim</a></li>
     </ul>
   </div>
     <h1></h1>
@@ -39,9 +37,9 @@ var filters = ["givati"];
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Unit 
     <span class="caret-right"></span></button>
     <ul class="dropdown-menu">
-      <li><a href="#">51</a></li>
-      <li><a href="#">Shaked</a></li>
-      <li><a href="#">Bazelet</a></li>
+       <li onclick="selectUnit('51')"><a href="#">51</a></li>
+      <li onclick="selectUnit('Shaked')" ><a href="#">Shaked</a></li>
+      <li onclick="selectUnit('Bazelet')"><a href="#">Bazelet</a></li>
     </ul>
   </div>
     <h1></h1>
@@ -58,10 +56,10 @@ var filters = ["givati"];
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status 
     <span class="caret-right"></span></button>
     <ul class="dropdown-menu">
-      <li><a href="#">Light</a></li>
-      <li><a href="#">Average</a></li>
-      <li><a href="#">Heavy</a></li>
-       <li><a href="#">K.I.A</a></li>
+     <li onclick="selectStatus('Light')"><a href="#">Light</a></li>
+      <li onclick="selectStatus('Average')"><a href="#">Average</a></li>
+      <li onclick="selectStatus('Heavy')"><a href="#">Heavy</a></li>
+      <li onclick="selectStatus('K.I.A')"><a href="#">K.I.A</a></li>
     </ul>
   </div>
   <h1></h1>
@@ -78,10 +76,7 @@ var filters = ["givati"];
 <div class="col-md-2"></div>
 <div class="col-md-8"> <div class="container">
   <h2>Chosen Filters</h2>
-   <ul class="list-inline">
-   <% mainPage.filters.forEach(function(element) { %>  
- <li class="list-group-item" > <%= element%>  </li>
-   <% }); %>
+  <ul id="divisionId" class="list-inline" ></ul>  
      </ul>  
    </div>
 </div>
@@ -91,6 +86,5 @@ var filters = ["givati"];
 </div>
 
 </body>
-
 
 </html>
