@@ -88,14 +88,18 @@
 </body>
 <script>
 
-var divs = [];
+var divisions = [];
+var units = [];
+var locations = [];
+var injuryStatuses = [];
+
 function selectDivision(division) {
-    for (i = 0; i < divs.length; i++) {
-		if (division === divs[i] ){
+    for (i = 0; i < divisions.length; i++) {
+		if (division === divisions[i] ){
 			return;
 		}
 	}
-	divs.push(division);
+	divisions.push(division);
     var myNodelist = document.getElementsByTagName("ul");
     var node = document.createElement("LI");
     var textnode = document.createTextNode(division);
@@ -104,6 +108,12 @@ function selectDivision(division) {
     document.getElementById("divisionId").appendChild(node);
 }
 function selectUnit(unit) {
+    for (i = 0; i < units.length; i++) {
+		if (division === units[i] ){
+			return;
+		}
+	}
+	units.push(unit);
     var myNodelist = document.getElementsByTagName("ul");
     var node = document.createElement("LI");
     var textnode = document.createTextNode(unit);
@@ -112,6 +122,12 @@ function selectUnit(unit) {
     document.getElementById("divisionId").appendChild(node);
 }
 function selectStatus(status) {
+    for (i = 0; i < injuryStatuses.length; i++) {
+		if (division === injuryStatuses[i] ){
+			return;
+		}
+	}
+	injuryStatusess.push(status);
     var myNodelist = document.getElementsByTagName("ul");
     var node = document.createElement("LI");
     var textnode = document.createTextNode(status);
