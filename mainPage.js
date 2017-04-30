@@ -8,9 +8,9 @@ var addFilter = function (fltr) {
 module.exports.addFilter = addFilter;
 module.exports.filters = filters;
 
-*/
 
-    var divisions = [];
+<script>
+var divisions = [];
 var units = [];
 var locations = [];
 var injuryStatuses = [];
@@ -71,3 +71,4 @@ function selectStatus(status) {
     }
     document.getElementById("divisionId").appendChild(node);
 }
+</script>*/
