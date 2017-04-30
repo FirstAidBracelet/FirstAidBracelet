@@ -109,7 +109,7 @@ function selectDivision(division) {
 }
 function selectUnit(unit) {
     for (i = 0; i < units.length; i++) {
-		if (division === units[i] ){
+		if (unit === units[i] ){
 			return;
 		}
 	}
@@ -123,11 +123,11 @@ function selectUnit(unit) {
 }
 function selectStatus(status) {
     for (i = 0; i < injuryStatuses.length; i++) {
-		if (division === injuryStatuses[i] ){
+		if (status === injuryStatuses[i] ){
 			return;
 		}
 	}
-	injuryStatusess.push(status);
+	injuryStatuses.push(status);
     var myNodelist = document.getElementsByTagName("ul");
     var node = document.createElement("LI");
     var textnode = document.createTextNode(status);
