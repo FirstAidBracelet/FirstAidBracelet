@@ -87,7 +87,14 @@
 
 </body>
 <script>
+
+var divs = [];
 function selectDivision(division) {
+    for (i = 0; i < divs.length; i++) {
+		if (division === divs[i] ){
+			return;
+		}
+	}
     var myNodelist = document.getElementsByTagName("ul");
     var node = document.createElement("LI");
     var textnode = document.createTextNode(division);
