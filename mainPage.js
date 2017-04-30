@@ -9,7 +9,7 @@ module.exports.addFilter = addFilter;
 module.exports.filters = filters;
 */
 
-<script>
+
     var divisions = [];
 var units = [];
 var locations = [];
@@ -71,4 +71,3 @@ function selectStatus(status) {
     }
     document.getElementById("divisionId").appendChild(node);
 }
-</script>
