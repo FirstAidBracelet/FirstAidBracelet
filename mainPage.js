@@ -8,7 +8,7 @@ var addFilter = function (fltr) {
 module.exports.addFilter = addFilter;
 module.exports.filters = filters;
 
-
+*/
 
     var divisions = [];
 var units = [];
@@ -71,4 +71,3 @@ function selectStatus(status) {
     }
     document.getElementById("divisionId").appendChild(node);
 }
-*/
