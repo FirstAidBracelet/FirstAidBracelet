@@ -7,7 +7,7 @@ var addFilter = function (fltr) {
 
 module.exports.addFilter = addFilter;
 module.exports.filters = filters;
-*/
+
 
 
     var divisions = [];
@@ -71,3 +71,4 @@ function selectStatus(status) {
     }
     document.getElementById("divisionId").appendChild(node);
 }
+*/
