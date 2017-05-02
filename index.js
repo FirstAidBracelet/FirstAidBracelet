@@ -31,9 +31,6 @@ app.get('/mongo', function (request, response) {
         assert.equal(null, err);
     var col = db.collection('soldiers');
     col.find().toArray(function(err, docs) {
-      /*docs.forEach(function (doc)) {
-        var pri = doc['Rank'];
-      }*/
       response.render('pages/mongo', {docs: docs});
     });
 

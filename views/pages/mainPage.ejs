@@ -31,15 +31,19 @@
 <div class="vertical-menu pull-right" >
 <center>
 <h4>Display By</h4>  
-  <div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Division 
-    <span class="caret-right"></span></button>
+
+<div id="divisionDropdown" class="dropdown">
     <ul class="dropdown-menu">
 	<% divisions.forEach(function(dvsn) { %> 
      <li onclick="selectDivision(' <%= dvsn %> ')" ><a href="#"> <%= dvsn %></a></li>
      <% }); %>  
     </ul>
   </div>
+
+ <button class="btn btn-success btn-md" rel="popover" data-popover-content="#divisionDropdown" >Division</button>
+
+  
+
     <h1></h1>
    <div class="dropdown">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Unit 
@@ -101,6 +105,19 @@ var divisions = [];
 var units = [];
 var locations = [];
 var injuryStatuses = [];
+
+$(function(){
+    $('[rel="popover"]').popover({
+        container: 'body',
+        html: true,
+        content: function () {
+            var clone = $($(this).data('popover-content')).clone(true).removeClass('dropdown');
+            return clone;
+        }
+    }).click(function(e) {
+        e.preventDefault();
+    });
+});
 
 function selectDivision(division) {
     for (i = 0; i < divisions.length; i++) {
