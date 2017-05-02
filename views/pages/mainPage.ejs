@@ -32,8 +32,8 @@
 <center>
 <h4>Display By</h4>  
 
-<div id="divisionDropdown" class="dropdown">
-    <ul class="dropdown-menu">
+<div class="dropdown">
+    <ul id="divisionDropdown" class="dropdown-menu">
 	<% divisions.forEach(function(dvsn) { %> 
      <li onclick="selectDivision(' <%= dvsn %> ')" ><a href="#"> <%= dvsn %></a></li>
      <% }); %>  
@@ -111,7 +111,7 @@ $(function(){
         container: 'body',
         html: true,
         content: function () {
-            var clone = $($(this).data('popover-content')).clone(true).removeClass('dropdown');
+            var clone = $($(this).data('popover-content')).clone(true).removeClass('dropdown-menu');
             return clone;
         }
     }).click(function(e) {
