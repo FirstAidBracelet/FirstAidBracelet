@@ -66,9 +66,9 @@ app.get('/mainPage', function (request, response) {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
       var armyStructure = db.collection('army_structure');
-      armyStructure.find().toArray(function (err, army) {
+      armyStructure.find({ units}).toArray(function (err, army) {
           
-          var unit = army['units'];
+          var unit = army;
             response.render('pages/mainPage', { unit: unit });
       });
       db.close();
