@@ -23,10 +23,7 @@
   </div>
 </nav>  
 
-<div class="row" > <% divisions.forEach(function(d) { %>   
-<%= d %>
- <% }); %>
-</div>
+<div class="row" > " "</div>
 <div class="row" >" "  </div>
 <div class="row" >" "  </div>
 <div class="row" >
@@ -38,11 +35,9 @@
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Division 
     <span class="caret-right"></span></button>
     <ul class="dropdown-menu">
-     <li onclick="selectDivision('Golani')" ><a href="#">Golani</a></li>
-      <li onclick="selectDivision('Givati')" ><a href="#">Givati</a></li>
-      <li onclick="selectDivision('Nahal')"><a href="#">Nahal</a></li>
-      <li onclick="selectDivision('Kfir')"><a href="#">Kfir</a></li>
-      <li onclick="selectDivision('Zanhanim')"><a href="#">Zanhanim</a></li>
+	<% divisions.forEach(function(dvsn) { %> 
+     <li onclick="selectDivision('Golani')" ><a href="#"> <%= dvsn %></a></li>
+     <% }); %>  
     </ul>
   </div>
     <h1></h1>
