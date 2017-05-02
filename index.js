@@ -53,9 +53,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function (request, response) {
-   
-
- // response.render('pages/index');
+   response.render('pages/index');
 });
 
 app.get('/doctor', function(request, response) {
@@ -70,7 +68,7 @@ app.get('/mainPage', function (request, response) {
         var armyStructure = db.collection('army_structure');
         armyStructure.find().toArray(function (err, army) {
            // console.log('Got here', army[0].divisions);
-            response.render('pages/mainPage', { divsns: army[0].divisions });
+            response.render('pages/mainPage', { divisions: army[0].divisions });
         });
         db.close();
     });     
