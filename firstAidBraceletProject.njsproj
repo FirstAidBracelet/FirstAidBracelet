@@ -19,9 +19,6 @@
     <Compile Include="mainPage.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="views\pages\functions.js">
-      <SubType>Code</SubType>
-    </Compile>
     <Content Include="app.json" />
     <Content Include="package.json" />
     <Content Include="public\background.png" />

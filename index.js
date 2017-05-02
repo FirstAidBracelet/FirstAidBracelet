@@ -2,6 +2,9 @@ var express = require('express');
 var app = express();
 var pg = require('pg');
 var mainPage = require('./mainPage');
+var mongoUrl = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
+var MongoClient = require('mongodb').MongoClient
+    , assert = require('assert');
 
 /*
 postgres stuff
@@ -22,14 +25,9 @@ app.get('/db', function (request, response) {
 
 //mongodb stuff
 app.get('/mongo', function (request, response) {
-  var MongoClient = require('mongodb').MongoClient
-    , assert = require('assert');
-
-    // Connection URL
-    var url = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
-
-    // Use connect method to connect to the server
-    MongoClient.connect(url, function(err, db) {
+  
+      // Use connect method to connect to the server
+    MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
     var col = db.collection('soldiers');
     col.find().toArray(function(err, docs) {
@@ -63,12 +61,18 @@ app.get('/doctor', function(request, response) {
 });
 
    
-app.get('/mainPage', function(request, response) {
- 
-  //  mainPage.filters.push("two");
-  //  mainPage.filters.push("three");
-   
-     response.render('pages/mainPage', { mainPage: mainPage });
+app.get('/mainPage', function (request, response) {
+    
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+      var armyStructure = db.collection('army_structure');
+      armyStructure.find().toArray(function (err, army) {
+          console.log('the army is');
+            response.render('pages/mainPage', { army: army });
+      });
+    });
+      
+    db.close();
 });
 
 app.listen(app.get('port'), function() {
