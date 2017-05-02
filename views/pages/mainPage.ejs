@@ -31,49 +31,42 @@
 <div class="vertical-menu pull-right" >
 <center>
 <h4>Display By</h4>  
-
 <div class="dropdown">
-Select unit
     <ul id="divisionDropdown" class="dropdown-menu">
 	<% divisions.forEach(function(dvsn) { %> 
 	 <a href="#" class="list-group-item" onclick="selectDivision(' <%= dvsn %> ')"><%= dvsn %></a>
      <% }); %>  
     </ul>
   </div>
-
- <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#divisionDropdown" type="button" data-trigger="focus"  >Unit <span class="caret-right"></span></button>
-  
-
-    <h1></h1>
+ <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#divisionDropdown" type="button" data-trigger="focus" >Division <span class="caret-right"></span></button>
+     <h1></h1>
    <div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Unit 
-    <span class="caret-right"></span></button>
-    <ul class="dropdown-menu">
+    <ul id="unitDropdown" class="dropdown-menu">
       <% units.forEach(function(unt) { %> 
-     <li onclick="selectUnit(' <%= unt %> ')" ><a href="#"> <%= unt %></a></li>
+     <a href="#" class="list-group-item" onclick="selectUnit(' <%= unt %> ')"><%= unt %></a>
      <% }); %>  
     </ul>
   </div>
+   <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#unitDropdown" type="button" data-trigger="focus" >Unit <span class="caret-right"></span></button>
+
     <h1></h1>
-  <div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Location 
-    <span class="caret-right"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="#">Some location</a></li>
-      <li><a href="#">Some other locaion</a></li>
+  <div class="dropdown">    
+    <ul id="locationDropdown" class="dropdown-menu">
+	<a href="#" class="list-group-item">Some location</a>
+	<a href="#" class="list-group-item">Location location</a>
     </ul>
   </div>
+     <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#locationDropdown" type="button" data-trigger="focus" >Location <span class="caret-right"></span></button>
   <h1></h1>
-  <div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status 
-    <span class="caret-right"></span></button>
-    <ul class="dropdown-menu">
-     <li onclick="selectStatus('Light')"><a href="#">Light</a></li>
-      <li onclick="selectStatus('Average')"><a href="#">Average</a></li>
-      <li onclick="selectStatus('Heavy')"><a href="#">Heavy</a></li>
-      <li onclick="selectStatus('K.I.A')"><a href="#">K.I.A</a></li>
+ <div class="dropdown">
+      <ul id="statusDropdown" class="dropdown-menu">
+	<a href="#" class="list-group-item" onclick="selectStatus('Light')">Light</a>
+	<a href="#" class="list-group-item" onclick="selectStatus('Average')" style="background-color:#ff7733">Average</a>
+	<a href="#" class="list-group-item" onclick="selectStatus('Heavy')" style="background-color:#ff0066">Heavy</a>
+	<a href="#" class="list-group-item" onclick="selectStatus('K.I.A')" style="background-color:red">K.I.A</a>
     </ul>
   </div>
+       <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus" >Status <span class="caret-right"></span></button>
   <h1></h1>
    <a href="#">DISPLAY</a>
   <h1></h1>
