@@ -23,9 +23,9 @@
   </div>
 </nav>  
 
-<div class="row" >  
-<%= unts %>
-  
+<div class="row" > <% army.forEach(function(ar) { %>   
+<%= ar.units%>
+  <% }); %>
 </div>
 <div class="row" >" "  </div>
 <div class="row" >" "  </div>
