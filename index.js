@@ -67,12 +67,10 @@ app.get('/mainPage', function (request, response) {
         assert.equal(null, err);
       var armyStructure = db.collection('army_structure');
       armyStructure.find().toArray(function (err, army) {
-          console.log('the army is');
             response.render('pages/mainPage', { army: army });
       });
-    });
-      
-    db.close();
+      db.close();
+    });     
 });
 
 app.listen(app.get('port'), function() {
