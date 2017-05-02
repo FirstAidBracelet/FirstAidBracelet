@@ -36,7 +36,7 @@
     <span class="caret-right"></span></button>
     <ul class="dropdown-menu">
 	<% divisions.forEach(function(dvsn) { %> 
-     <li onclick="selectDivision(<%= dvsn %>)" ><a href="#"> <%= dvsn %></a></li>
+     <li onclick="selectDivision(' <%= dvsn %> ')" ><a href="#"> <%= dvsn %></a></li>
      <% }); %>  
     </ul>
   </div>
