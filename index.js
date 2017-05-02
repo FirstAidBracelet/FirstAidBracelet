@@ -67,7 +67,7 @@ app.get('/mainPage', function (request, response) {
         assert.equal(null, err);
         var armyStructure = db.collection('army_structure');
         armyStructure.find().toArray(function (err, army) {
-            response.render('pages/mainPage', { divisions: army[0].divisions });
+            response.render('pages/mainPage', { divisions: army[0].divisions , units: army[0].units  });
         });
         db.close();
     });     

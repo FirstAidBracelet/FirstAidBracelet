@@ -45,9 +45,9 @@
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Unit 
     <span class="caret-right"></span></button>
     <ul class="dropdown-menu">
-       <li onclick="selectUnit('51')"><a href="#">51</a></li>
-      <li onclick="selectUnit('Shaked')" ><a href="#">Shaked</a></li>
-      <li onclick="selectUnit('Bazelet')"><a href="#">Bazelet</a></li>
+      <% units.forEach(function(unt) { %> 
+     <li onclick="selectUnit(' <%= unt %> ')" ><a href="#"> <%= unt %></a></li>
+     <% }); %>  
     </ul>
   </div>
     <h1></h1>
