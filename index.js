@@ -53,7 +53,9 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function (request, response) {
-  response.render('pages/index');
+   
+
+ // response.render('pages/index');
 });
 
 app.get('/doctor', function(request, response) {
@@ -65,13 +67,12 @@ app.get('/mainPage', function (request, response) {
     
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-      var armyStructure = db.collection('army_structure');
-      armyStructure.find({ units}).toArray(function (err, army) {
-          
-          var unit = army;
-            response.render('pages/mainPage', { unit: unit });
-      });
-      db.close();
+        var armyStructure = db.collection('army_structure');
+        armyStructure.find().toArray(function (err, army) {
+           // console.log('Got here', army[0].divisions);
+            response.render('pages/mainPage', { divsns: army[0].divisions });
+        });
+        db.close();
     });     
 });
 
