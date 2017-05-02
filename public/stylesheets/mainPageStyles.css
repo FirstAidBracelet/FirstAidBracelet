@@ -38,7 +38,9 @@
 .btn {
     width: 100px;
 }
-    
+.popover-content {
+    background-color: #1B9CC0;
+}
 
 body {
     background: url('/background.png') center top no-repeat;
