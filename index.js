@@ -31,7 +31,8 @@ app.get('/mongo', function (request, response) {
         var soldiers = db.collection('soldiers');
         var docs;
         var config = db.collection('configurations');
-    soldiers.find().toArray(function(err, docs) {
+        soldiers.find().toArray(function (err, res) {
+            docs = res;
         });
     response.render('pages/mongo', { docs: docs });
 
