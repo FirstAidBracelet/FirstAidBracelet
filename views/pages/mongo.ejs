@@ -26,7 +26,10 @@
   <table class="table">
     <thead> 
 	<tr>
-	     
+	         <% soldiers_table.forEach(function(column) { %>  
+		   <td><%= column%></td>	     		   
+         </tr>
+		 <% }); %>
    </thead>
 	  <ul>
     <% docs.forEach(function(doc) { %>           
