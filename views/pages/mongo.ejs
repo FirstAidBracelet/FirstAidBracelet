@@ -24,13 +24,19 @@
 <div class="container">
   <h2><center> Soldiers Database <center></h2>         
   <table class="table">
-   <% soldiers_table.forEach(function(column) { %>  
+
+ 
+     
+
+    <% config.find().toArray(function(err, docs) { %>
+   <% docs[0].soldiers_table.forEach(function(column) { %>  
     <thead> 
 	<tr>
 	        
 		   <td><%= column%></td>	     		   
          </tr>
 		 <% }); %>
+		    <% }); %>
    </thead>
 	  <ul>
     <% docs.forEach(function(doc) { %>           

@@ -23,35 +23,18 @@ app.get('/db', function (request, response) {
 });
 
 
-
-
-
-app.get('/mongo', function (request, response) { 
+app.get('/mongo', function (request, response) {
+  
+      // Use connect method to connect to the server
     MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
-        var config = db.collection('configurations');
-        config.find().toArray(function (err, cnfg) {
-            openDbWithSoldiersAndFilters(cnfg);        
-    });
-    db.close();
+        var sldrs = db.collection('soldiers');
+        var config = db.collection('configuations');
+        response.render('pages/mongo', { sldrs: sldrs, config: config });
+    
+   // db.close();
     });
 });
-function openDbWithSoldiersAndFilters(param) {
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-       var sldrs = db.collection('soldiers');
-       sldrs.find().toArray(function (err, sld) {
-           console.log('Paramteters ', param[0].soldiers_table);
-           console.log('soldiers', sld[0]);
-           app.get('/mongo', function (request, response) {
-               response.render('pages/mongo', { docs: sld, soldiers_table: param[0].soldiers_table, filters: param[0].filters });
-           });
-        });
-        db.close();
-    });
-}
-
-
 
 
 app.set('port', (process.env.PORT || 5000));
@@ -64,21 +47,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-
-
-
-
 app.get('/', function (request, response) {
-    
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        var config = db.collection('configurations');
-        config.find().toArray(function (err, config) {
-            openDbWithSoldiersAndFilters(config);
-        });
-       // db.close();
-    });
-    
    response.render('pages/index');
 });
 
