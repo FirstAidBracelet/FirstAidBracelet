@@ -28,11 +28,12 @@ app.get('/mongo', function (request, response) {
       // Use connect method to connect to the server
     MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
-        var sldrs = db.collection('soldiers');
-        var config = db.collection('configuations');
-        response.render('pages/mongo', { sldrs: sldrs, config: config });
-    
-   // db.close();
+    var col = db.collection('soldiers');
+    col.find().toArray(function(err, docs) {
+      response.render('pages/mongo', {docs: docs});
+    });
+
+    db.close();
     });
 });
 

@@ -24,22 +24,31 @@
 <div class="container">
   <h2><center> Soldiers Database <center></h2>         
   <table class="table">
-
- 
-     
-
-    <% config.find().toArray(function(err, docs) { %>
-   <% docs[0].soldiers_table.forEach(function(column) { %>  
-    <thead> 
-	<tr>
-	        
-		   <td><%= column%></td>	     		   
-         </tr>
-		 <% }); %>
-		    <% }); %>
-   </thead>
+    <thead>
+      <tr>
+	  <th>Personal Number</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Unit</th>
+		 <th>Division</th>
+		  <th>Rank</th>
+		<th>Status</th>
+		       </tr>
 	  <ul>
-  
+    <% docs.forEach(function(doc) { %>        
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= doc.personal_number%></td>
+        <td><%= doc.first_name%></td>
+        <td><%= doc.last_name%></td>
+		<td><%= doc.unit%></td>
+		<td><%= doc.division%></td>
+		<td><%= doc.rank%></td>
+		<td><%= doc.injury_stat%></td>
+      </tr>        
+	  <% }); %>
+    </tbody>
   </table>
   </ul>
 </div>
