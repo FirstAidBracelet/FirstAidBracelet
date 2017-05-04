@@ -30,8 +30,8 @@ app.get('/mongo', function (request, response) {
     MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
         var config = db.collection('configurations');
-        config.find().toArray(function (err, config) {
-            openDbWithSoldiersAndFilters(config);        
+        config.find().toArray(function (err, cnfg) {
+            openDbWithSoldiersAndFilters(cnfg);        
     });
     db.close();
     });
