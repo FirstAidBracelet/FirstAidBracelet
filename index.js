@@ -23,22 +23,31 @@ app.get('/db', function (request, response) {
 });
 
 
-app.get('/mongo', function (request, response) {
-  
-      // Use connect method to connect to the server
+
+
+
+app.get('/mongo', function (request, response) { 
     MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
-        var soldiers = db.collection('soldiers');
         var config = db.collection('configurations');
-        config.find().toArray(function (err, conf) {
-      
-                response.render('pages/mongo', {  soldiers_table: conf[0].soldiers_table, filters: conf[0].filters });
-       
+        config.find().toArray(function (err, config) {
+            openDbWithSoldiersAndFilters(config);        
     });
-
     db.close();
     });
 });
+function openDbWithSoldiersAndFilters(param) {
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        sldrs = db.collection('soldiers');
+        sldrs.find().toArray(function (err, sld) {
+            response.render('pages/mongo', { docs: docs, soldiers_table: param[0].soldiers_table, filters: param[0].filters });
+            db.close();
+        });
+    });
+}
+
+
 
 
 app.set('port', (process.env.PORT || 5000));
@@ -51,7 +60,14 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+
+
+
+
 app.get('/', function (request, response) {
+    
+    
+    
    response.render('pages/index');
 });
 
