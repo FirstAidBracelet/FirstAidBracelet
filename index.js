@@ -31,9 +31,9 @@ app.get('/mongo', function (request, response) {
         var soldiers = db.collection('soldiers');
         var config = db.collection('configurations');
         soldiers.find().toArray(function (err, docs) {
-            config.find().toArray(function (err2, conf) {
-                response.render('pages/mongo', { docs: docs, soldiers_table: conf[0].soldiers_table, filters: conf[0].filters });
-            });
+      
+                response.render('pages/mongo', {  soldiers_table: conf[0].soldiers_table, filters: conf[0].filters });
+       
     });
 
     db.close();
