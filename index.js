@@ -41,7 +41,7 @@ function openDbWithSoldiersAndFilters(param) {
         assert.equal(null, err);
         sldrs = db.collection('soldiers');
         sldrs.find().toArray(function (err, sld) {
-            response.render('pages/mongo', { docs: docs, soldiers_table: param[0].soldiers_table, filters: param[0].filters });
+            response.render('pages/mongo', { docs: sld, soldiers_table: param[0].soldiers_table, filters: param[0].filters });
             db.close();
         });
     });
