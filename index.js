@@ -39,7 +39,7 @@ app.get('/mongo', function (request, response) {
 function openDbWithSoldiersAndFilters(param) {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        sldrs = db.collection('soldiers');
+       var sldrs = db.collection('soldiers');
         sldrs.find().toArray(function (err, sld) {
           //  console.log('Paramteters ', param[0].soldiers_table);
           //  console.log('soldiers', sld[0]);
@@ -76,7 +76,7 @@ app.get('/', function (request, response) {
         config.find().toArray(function (err, config) {
             openDbWithSoldiersAndFilters(config);
         });
-        db.close();
+       // db.close();
     });
     
    response.render('pages/index');
