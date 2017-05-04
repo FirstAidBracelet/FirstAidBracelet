@@ -40,12 +40,12 @@ function openDbWithSoldiersAndFilters(param) {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
        var sldrs = db.collection('soldiers');
-        sldrs.find().toArray(function (err, sld) {
-          //  console.log('Paramteters ', param[0].soldiers_table);
-          //  console.log('soldiers', sld[0]);
-
-            response.render('pages/mongo', { docs: sld, soldiers_table: param[0].soldiers_table, filters: param[0].filters });
-           
+       sldrs.find().toArray(function (err, sld) {
+           console.log('Paramteters ', param[0].soldiers_table);
+           console.log('soldiers', sld[0]);
+           app.get('/mongo', function (request, response) {
+               response.render('pages/mongo', { docs: sld, soldiers_table: param[0].soldiers_table, filters: param[0].filters });
+           });
         });
         db.close();
     });
