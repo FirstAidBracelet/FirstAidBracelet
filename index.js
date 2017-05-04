@@ -41,9 +41,13 @@ function openDbWithSoldiersAndFilters(param) {
         assert.equal(null, err);
         sldrs = db.collection('soldiers');
         sldrs.find().toArray(function (err, sld) {
+          //  console.log('Paramteters ', param[0].soldiers_table);
+          //  console.log('soldiers', sld[0]);
+
             response.render('pages/mongo', { docs: sld, soldiers_table: param[0].soldiers_table, filters: param[0].filters });
-            db.close();
+           
         });
+        db.close();
     });
 }
 
@@ -66,7 +70,14 @@ app.set('view engine', 'ejs');
 
 app.get('/', function (request, response) {
     
-    
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        var config = db.collection('configurations');
+        config.find().toArray(function (err, config) {
+            openDbWithSoldiersAndFilters(config);
+        });
+        db.close();
+    });
     
    response.render('pages/index');
 });
