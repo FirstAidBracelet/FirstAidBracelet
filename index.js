@@ -29,11 +29,14 @@ app.get('/mongo', function (request, response) {
     MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
         var soldiers = db.collection('soldiers');
-       
         var config = db.collection('configurations');
-        var docs = soldiers.find().toArray();
-        response.render('pages/mongo', { docs: docs });
-         //db.close();
+        soldiers.find().toArray(function (err, docs) {
+            config.find().toArray(function (err2, conf) {
+                response.render('pages/mongo', { docs: docs , conf: conf });
+            }) 
+    });
+
+    db.close();
     });
 });
 
