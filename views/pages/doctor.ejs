@@ -28,6 +28,7 @@
 
 
 <script>
+var arr = <%= docs>;
 function validateForm() {
 	var login = document.forms["loginForm"];
     var uname = login["uname"].value;
@@ -38,7 +39,7 @@ function validateForm() {
 	}
 	alert("before");
 	return false;
-	var doc = <%docs%>.find(checkDoc);
+	var doc = arr.find(checkDoc);
 	alert("after");
 	if (doc){
 		alert("FOUND");
