@@ -36,12 +36,20 @@ function validateForm() {
        alert("All fields must be filled out");
 	   return false;
 	}
+	var doc = docs.find(checkDoc);
+	if (doc){
+		alert("FOUND");
+	}
+}
+
+function checkDoc(doc) {
+	return doc.type == "doctor";
 }
 </script>
 
 <h2>Doctor Login</h2>
 
-<form name="loginForm" method="post" action="/db" onsubmit="return validateForm()">
+<form name="loginForm" action="#" onsubmit="return validateForm()">
   <div class="imgcontainer">
     <img src="manDoctor.jpg" alt="Avatar" class="Doctor">
   </div>

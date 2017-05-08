@@ -54,14 +54,7 @@ app.get('/', function (request, response) {
 });
 
 app.get('/doctor', function (request, response) {
-        response.render('pages/doctor');
-});
-
-app.post('/db', function (request, response) {
     var MongoClient = require('mongodb').MongoClient
-    response.render('pages/db');
-    /*var MongoClient = require('mongodb').MongoClient
->>>>>>> 1962029fc6d12d56aa10e23c176ee50fea9df765
         , assert = require('assert');
 
     // Connection URL
@@ -71,17 +64,18 @@ app.post('/db', function (request, response) {
     MongoClient.connect(url, function (err, db) {
         assert.equal(null, err);
         var col = db.collection('users');
-        var user = col.findOne({ type: 'bigfoot' });
-        if (user == null) {
-            response.render('pages/doctor');
-        }
-        else {
-            response.render('pages/db', { loginForm: loginForm });
-        }
+        col.find.toArray(function (err, docs) {
+            response.render('pages/doctor', { docs: docs });
+        });
         db.close();
-    });*/
-
+    });
 });
+
+app.post('/db', function (request, response) {
+    var MongoClient = require('mongodb').MongoClient
+    response.render('pages/db');
+});
+
 app.get('/mainPage', function(request, response) {
  
   //  mainPage.filters.push("two");
