@@ -31,7 +31,7 @@ app.get('/admin', function (request, response) {
         assert.equal(null, err);
     var col = db.collection('equipment');
     col.find().toArray(function(err, docs) {
-      response.render('pages/admin', {docs: docs});
+      response.render('pages/admin', {docs: docs}, {col: col});
     });
 
     db.close();
