@@ -37,7 +37,7 @@ function validateForm() {
 		return false;
 	}
 	var user = col.findOne({type: "doctor", user: uname, password: psw});
-	if (user = null) {
+	if (user == null) {
 		alert("Wrong username/password");
 		return false;
 	}
