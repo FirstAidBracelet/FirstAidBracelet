@@ -73,7 +73,7 @@ app.post('/db', function (request, response) {
             response.render('pages/doctor');
         }
         else {
-            response.render('pages/db', { user: user });
+            response.render('pages/db', { loginForm: loginForm });
         }
         db.close();
     });
