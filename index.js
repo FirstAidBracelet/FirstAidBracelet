@@ -57,8 +57,8 @@ app.get('/doctor', function (request, response) {
         response.render('pages/doctor');
 });
 
-app.post('/doctor.php', function (request, response) {
-    response.render('pages/doctor.php');
+//app.post('/doctor.php', function (request, response) {
+//   response.render('pages/doctor.php');
 
 app.post('/db', function (request, response) {
     response.render('pages/db');
