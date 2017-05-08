@@ -37,7 +37,7 @@ function validateForm() {
 	   return false;
 	}
 	alert("before");
-	var doc = %docs.find(checkDoc);
+	var doc = <%docs%>.find(checkDoc);
 	alert("after");
 	if (doc){
 		alert("FOUND");
