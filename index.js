@@ -86,7 +86,6 @@ app.get('/doctor.php', function (request, response) {
     response.render('pages/doctor.php');
 });
 
-HEAD
 app.get('/mainPage', function(request, response) {
  
   //  mainPage.filters.push("two");
