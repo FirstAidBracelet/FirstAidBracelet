@@ -22,7 +22,14 @@
   </div>
 </nav>  
 
-
+<div class="dropdown">
+    <h2><center> Treatments <center></h2>  
+    <ul id="treatments" class="dropdown-menu">
+        <% docs.forEach(function(doc) { %> 
+        <a href="#" data-toggle="popover" class="list-group-item" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png width='183' height='249' />"> <%= doc.name%> </a>
+        <% }); %>  
+    </ul>
+</div>
 
 </body>
 </html>
