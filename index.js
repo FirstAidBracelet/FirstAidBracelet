@@ -31,7 +31,7 @@ app.get('/admin', function (request, response) {
         assert.equal(null, err);
     var col = db.collection('equipment');
     col.find().toArray(function(err, docs) {
-      response.render('pages/admin', {docs: docs}, {col: col});
+      response.render('pages/admin', {docs: docs});
     });
 
     db.close();
@@ -58,8 +58,7 @@ app.get('/doctor', function (request, response) {
 });
 
 app.post('/db', function (request, response) {
-    response.render('pages/db', { loginForm: loginForm });
-    /*var MongoClient = require('mongodb').MongoClient
+    var MongoClient = require('mongodb').MongoClient
         , assert = require('assert');
 
     // Connection URL
@@ -77,7 +76,7 @@ app.post('/db', function (request, response) {
             response.render('pages/db', { loginForm: loginForm });
         }
         db.close();
-    });*/
+    });
 });
 
 app.get('/mainPage', function(request, response) {
