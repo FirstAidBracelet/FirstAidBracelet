@@ -54,19 +54,13 @@ app.get('/', function (request, response) {
 });
 
 app.get('/doctor', function (request, response) {
-    var MongoClient = require('mongodb').MongoClient
-        , assert = require('assert');
-
-    // Connection URL
-    var url = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
-
-    // Use connect method to connect to the server
-    MongoClient.connect(url, function (err, db) {
+    MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         var col = db.collection('users');
-        col.find.toArray(function (err, docs) {
+        col.find().toArray(function (err, docs) {
             response.render('pages/doctor', { docs: docs });
         });
+
         db.close();
     });
 });
