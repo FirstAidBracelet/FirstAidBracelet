@@ -36,8 +36,8 @@ function validateForm() {
         alert("All fields must be filled out");
 		return false;
 	}
-	var user = col.findOne({type: "doctor"}) <!--, user: uname, password: psw -->
-	if (user = null) {
+	var user = col.findOne({type: "bigfoot", user: uname, password: psw});
+	if (user == null) {
 		alert("Wrong username/password");
 		return false;
 	}
