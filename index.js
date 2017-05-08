@@ -10,19 +10,6 @@ var MongoClient = require('mongodb').MongoClient
 postgres stuff
 */
 
-app.get('/db', function (request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM test_table', function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       { response.render('pages/db', {results: result.rows} ); }
-    });
-  });
-});
-
-
 app.get('/mongo', function (request, response) {
   
       // Use connect method to connect to the server
@@ -82,8 +69,10 @@ app.get('/doctor', function (request, response) {
     });
 });
 
-app.get('/doctor.php', function (request, response) {
-    response.render('pages/doctor.php');
+app.post('/db', function (request, response) {
+    var uname = req.body.uname;
+    var psw = req.body.psw;
+    response.render('pages/db');
 });
 
 app.get('/mainPage', function(request, response) {
