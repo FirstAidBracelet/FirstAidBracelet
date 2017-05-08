@@ -16,9 +16,27 @@
 
 <!-- <% include ../partials/nav.ejs %> -->
 
+<script>
+function validateForm() {
+	var login = document.forms["loginForm"];
+    var uname = login["uname"].value;
+	var psw = login["psw"].value;
+	if (uname == "" || psw == "") {
+        alert("All fields must be filled out");
+		return false;
+	}
+	var user = col.findOne({type: "doctor"}) <!--, user: uname, password: psw -->
+	if (user = null) {
+		alert("Wrong username/password");
+		return false;
+	}
+	return true;
+}
+</script>
+
 <h2>Doctor Login</h2>
 
-<form method="post" action="/doctor.php">
+<form name="loginForm" method="post" action="/index.ejs" onsubmit="return validateForm()">
   <div class="imgcontainer">
     <img src="manDoctor.jpg" alt="Avatar" class="Doctor">
   </div>

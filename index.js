@@ -58,8 +58,20 @@ app.get('/', function (request, response) {
   response.render('pages/index');
 });
 
-app.get('/doctor', function(request, response) {
-  response.render('pages/doctor');
+app.get('/doctor', function (request, response) {
+    var MongoClient = require('mongodb').MongoClient
+    , assert = require('assert');
+
+    // Connection URL
+    var url = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
+
+    // Use connect method to connect to the server
+    MongoClient.connect(url, function (err, db) {
+        assert.equal(null, err);
+        var col = db.collection('users');
+        response.render('pages/doctor', { col: col });
+        db.close();
+    });
 });
 
 app.get('/doctor.php', function (request, response) {
