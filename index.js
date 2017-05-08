@@ -54,8 +54,12 @@ app.get('/', function (request, response) {
 });
 
 app.get('/doctor', function (request, response) {
+        response.render('pages/doctor');
+});
+
+app.post('/db', function (request, response) {
     var MongoClient = require('mongodb').MongoClient
-    , assert = require('assert');
+        , assert = require('assert');
 
     // Connection URL
     var url = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
@@ -64,13 +68,15 @@ app.get('/doctor', function (request, response) {
     MongoClient.connect(url, function (err, db) {
         assert.equal(null, err);
         var col = db.collection('users');
-        response.render('pages/doctor', { col: col });
+        var user = col.findOne({ type: 'bigfoot' });
+        if (user == null) {
+            response.render('pages/doctor');
+        }
+        else {
+            response.render('pages/db', { loginForm: loginForm });
+        }
         db.close();
     });
-});
-
-app.post('/db', function (request, response) {
-    response.render('pages/db');
 });
 
 app.get('/mainPage', function(request, response) {
