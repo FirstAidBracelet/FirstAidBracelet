@@ -70,8 +70,6 @@ app.get('/doctor', function (request, response) {
 });
 
 app.post('/db', function (request, response) {
-    var uname = req.body.uname;
-    var psw = req.body.psw;
     response.render('pages/db');
 });
 
