@@ -72,7 +72,9 @@ app.post('/db', function (request, response) {
         if (user == null) {
             response.render('pages/doctor');
         }
-        response.render('pages/db');
+        else {
+            response.render('pages/db', { user: user });
+        }
         db.close();
     });
 });
