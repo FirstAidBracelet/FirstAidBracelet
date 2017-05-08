@@ -7,9 +7,20 @@
 <body>
 
 <h2>YOU DID IT</h2>
-<% if (document.forms["loginForm"] != null) { %>
+
+<script>
+function validateForm() {
+	var login = document.forms["loginForm"];
+    var uname = login["uname"].value;
+	var psw = login["psw"].value;
+    alert("All fields must be filled out");
+}
+</script>
+
+<button onClick = "validateForm()">HELL</button>
+<!-- <% if (loginForm != null) { %>
 	<h2>HI</h2>
-<% } %>
+<% } %> -->
 
 </body>
 </html>
