@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-  <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">  
 </head>
 
 <body>
@@ -23,19 +22,19 @@
 </nav>  
 
 <div class="container">
-  <h2><center> Treatments <center></h2>  
-  <ul class="list-group">       
-  <% docs.forEach(function(doc) { %>
-     <a href="#" data-toggle="popover" class="list-group-item" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png width='183' height='249' />"> <%= doc.name%> </a>
-  });
-  </ul>
-
+    <h2>Treatments</h2>  
+    <ul id="treatments" class="list-group">
+        <% docs.forEach(function(doc) { %> 
+        <a href="#" data-toggle="popover" class="list-group-item" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png width='183' height='249' />"> <%= doc.name%> </a>
+        <% }); %>  
+    </ul>
 </div>
 
 <script>
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();   
 });
+</script> 
 
 </body>
 </html>
