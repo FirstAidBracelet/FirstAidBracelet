@@ -36,7 +36,9 @@ function validateForm() {
        alert("All fields must be filled out");
 	   return false;
 	}
+	alert("before");
 	var doc = docs.find(checkDoc);
+	alert("after");
 	if (doc){
 		alert("FOUND");
 	}
