@@ -1,11 +1,8 @@
-﻿<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE HTML>  
+<html>
 <head>
-    <meta charset="utf-8" />
-    <title></title>
 </head>
-<body>
+<body>  
 
 <?php
 // define variables and set to empty values
@@ -24,19 +21,20 @@ function test_input($data) {
 }
 ?>
 
-echo "You Did Something";
+<h2>PHP Form Validation Example</h2>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+  Name: <input type="text" name="name">
+  <br><br>
+  PSW: <input type="password" name="psw">
+  <br><br>
+  <input type="submit" name="submit" value="Submit">  
+</form>
 
 <?php
 echo "<h2>Your Input:</h2>";
 echo $name;
 echo "<br>";
-echo $email;
-echo "<br>";
-echo $website;
-echo "<br>";
-echo $comment;
-echo "<br>";
-echo $gender;
+echo $psw;
 ?>
 
 </body>

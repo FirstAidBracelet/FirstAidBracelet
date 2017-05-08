@@ -57,8 +57,14 @@ app.get('/doctor', function (request, response) {
         response.render('pages/doctor');
 });
 
+app.post('/doctor.php', function (request, response) {
+    response.render('pages/doctor.php');
+
 app.post('/db', function (request, response) {
     var MongoClient = require('mongodb').MongoClient
+    response.render('pages/db');
+    /*var MongoClient = require('mongodb').MongoClient
+>>>>>>> 1962029fc6d12d56aa10e23c176ee50fea9df765
         , assert = require('assert');
 
     // Connection URL
@@ -76,9 +82,9 @@ app.post('/db', function (request, response) {
             response.render('pages/db', { loginForm: loginForm });
         }
         db.close();
-    });
-});
+    });*/
 
+});
 app.get('/mainPage', function(request, response) {
  
   //  mainPage.filters.push("two");
