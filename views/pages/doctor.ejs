@@ -36,12 +36,13 @@ function validateForm() {
         alert("All fields must be filled out");
 		return false;
 	}
-	var user = col.findOne({type: "bigfoot", user: uname, password: psw});
+	var user = col.findOne({type: "bigfoot"});
 	if (user == null) {
 		alert("Wrong username/password");
 		return false;
 	}
-	return true;
+	alert("Reach the end");
+	return false;
 }
 </script>
 
@@ -59,12 +60,12 @@ function validateForm() {
     <label><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
         
-    <input type="button" value="Login">
+    <input type="submit" value="Login">
     <input type="checkbox" checked="checked"> Remember me
   </div>
 
   <div class="container" style="background-color:#f1f1f1">
-    <button type="submit" class="cancelbtn">Cancel</button>
+    <button type="button" class="cancelbtn">Cancel</button>
     <span class="psw">Forgot <a href="#">password?</a></span>
   </div>
 </form>
