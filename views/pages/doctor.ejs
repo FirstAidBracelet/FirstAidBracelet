@@ -29,20 +29,20 @@
 
 <script>
 function validateForm() {
+	alert("HAAAHAAAHAAA");
+	return false;
 	var login = document.forms["loginForm"];
     var uname = login["uname"].value;
 	var psw = login["psw"].value;
 	if (uname == "" || psw == "") {
-        alert("All fields must be filled out");
-		return false;
+       alert("All fields must be filled out");
+	   return false;
 	}
-	var user = col.findOne({type: "bigfoot"});
+	var user = col.findOne({type: 'bigfoot'});
 	if (user == null) {
 		alert("Wrong username/password");
 		return false;
 	}
-	alert("Reach the end");
-	return false;
 }
 </script>
 
@@ -55,10 +55,10 @@ function validateForm() {
 
   <div class="container">
     <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname">
+    <input type="text" placeholder="Enter Username" name="uname" required>
 
     <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw">
+    <input type="password" placeholder="Enter Password" name="psw" required>
         
     <input type="submit" value="Login">
     <input type="checkbox" checked="checked"> Remember me
