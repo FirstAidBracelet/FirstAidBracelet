@@ -36,11 +36,13 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="row">
-  <h2><center> Treatments <center></h2>         
+<div class="container">
+  <h2><center> Treatments <center></h2>  
+  <ul class="list-group">       
   <% docs.forEach(function(doc) { %>
-     <a href="#" data-toggle="popover" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png width='183' height='249' />"> <%= doc.name%> </a>
+     <li class="list-group-item"> <a href="#" data-toggle="popover" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png width='183' height='249' />"> <%= doc.name%> </a> </li> 
   });
+  </ul>
 
 </div>
 
