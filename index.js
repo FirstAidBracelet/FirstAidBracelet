@@ -31,7 +31,7 @@ app.get('/admin', function (request, response) {
         assert.equal(null, err);
     var col = db.collection('equipment');
     col.find().toArray(function(err, docs) {
-      response.render('pages/admin', {docs: docs}, {col: col});
+      response.render('pages/admin', {docs: docs});
     });
 
     db.close();
@@ -61,8 +61,10 @@ app.get('/doctor', function (request, response) {
 //   response.render('pages/doctor.php');
 
 app.post('/db', function (request, response) {
+    var MongoClient = require('mongodb').MongoClient
     response.render('pages/db');
     /*var MongoClient = require('mongodb').MongoClient
+>>>>>>> 1962029fc6d12d56aa10e23c176ee50fea9df765
         , assert = require('assert');
 
     // Connection URL
@@ -81,8 +83,8 @@ app.post('/db', function (request, response) {
         }
         db.close();
     });*/
-});
 
+});
 app.get('/mainPage', function(request, response) {
  
   //  mainPage.filters.push("two");
