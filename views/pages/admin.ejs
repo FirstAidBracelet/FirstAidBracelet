@@ -27,7 +27,7 @@
 <div class="container">
   <a href="#" data-toggle="popover" data-img="/Medical-ArmyIcon.png">Image1</a>
   <a class="btn" rel="popover" data-img="/Medical-ArmyIcon.png">Image2</a>
-  <a href="#" data-toggle="popover" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/Medical-ArmyIcon.png />"> HERE</a>
+  <a href="#" data-toggle="popover" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png width='183' height='249' />"> HERE</a>
 </div>
 
 <script>
@@ -37,24 +37,13 @@ $(document).ready(function(){
 </script>
 
 <div class="container">
-  <h2><center> Treatments <center></h2>         
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Image</th>
-      </tr>
-    <ul>
-    <% docs.forEach(function(doc) { %>        
-    </thead>
-    <tbody>
-      <tr>
-        <td><%= doc.name%></td>
-      </tr>        
-    <% }); %>
-    </tbody>
-  </table>
+  <h2><center> Treatments <center></h2>  
+  <ul class="list-group">       
+  <% docs.forEach(function(doc) { %>
+     <li class="list-group-item"> <a href="#" data-toggle="popover" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png width='183' height='249' />"> <%= doc.name%> </a> </li> 
+  });
   </ul>
+
 </div>
 
 
