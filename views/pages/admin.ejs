@@ -51,7 +51,7 @@ $(document).ready(function(){
 
 <script>
 function myFunction() {
-    document.getElementById("printableArea").innerHTML =  document.getElementById("name").value;
+    document.getElementById("printableArea").innerHTML = document.getElementById("name").value;
     db.collection('equipment').insertOne({
       item: "canvas",
       qty: 100,
