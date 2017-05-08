@@ -2,6 +2,9 @@ var express = require('express');
 var app = express();
 var pg = require('pg');
 var mainPage = require('./mainPage');
+var mongoUrl = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
+var MongoClient = require('mongodb').MongoClient
+    , assert = require('assert');
 
 /*
 postgres stuff
@@ -20,22 +23,13 @@ app.get('/db', function (request, response) {
 });
 
 
-//mongodb stuff
 app.get('/mongo', function (request, response) {
-  var MongoClient = require('mongodb').MongoClient
-    , assert = require('assert');
-
-    // Connection URL
-    var url = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
-
-    // Use connect method to connect to the server
-    MongoClient.connect(url, function(err, db) {
+  
+      // Use connect method to connect to the server
+    MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
     var col = db.collection('soldiers');
     col.find().toArray(function(err, docs) {
-      /*docs.forEach(function (doc)) {
-        var pri = doc['Rank'];
-      }*/
       response.render('pages/mongo', {docs: docs});
     });
 
@@ -55,7 +49,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function (request, response) {
-  response.render('pages/index');
+   response.render('pages/index');
 });
 
 app.get('/doctor', function (request, response) {
@@ -78,12 +72,25 @@ app.get('/doctor.php', function (request, response) {
     response.render('pages/doctor.php');
 });
 
+HEAD
 app.get('/mainPage', function(request, response) {
  
   //  mainPage.filters.push("two");
   //  mainPage.filters.push("three");
    
      response.render('pages/mainPage', { mainPage: mainPage });
+});
+   
+app.get('/mainPage', function (request, response) {
+    
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        var armyStructure = db.collection('army_structure');
+        armyStructure.find().toArray(function (err, army) {
+            response.render('pages/mainPage', { divisions: army[0].divisions , units: army[0].units  });
+        });
+        db.close();
+    });
 });
 
 app.listen(app.get('port'), function() {

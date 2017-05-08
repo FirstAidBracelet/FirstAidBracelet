@@ -7,15 +7,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-    <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">
+    <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">	
 </head>
 
-
 <body>
-<script>
-var filters = ["givati"];
-</script>
-<div class="row" >" "  </div>
+<div class="row" > </div>
 <div class="row" >" "  </div>
 <div class="row" >" "  </div>
 <div class="row" >
@@ -23,47 +19,42 @@ var filters = ["givati"];
 <div class="vertical-menu pull-right" >
 <center>
 <h4>Display By</h4>  
-  <div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Division 
-    <span class="caret-right"></span></button>
-    <ul class="dropdown-menu">
-      <li onclick="selectedFilter()" ><a href="#">Golani</a></li>
-      <li><a href="#">Givati</a></li>
-      <li><a href="#">Nahal</a></li>
-       <li><a href="#">Kfir</a></li>
-       <li><a href="#">Zanhanim</a></li>
+<div class="dropdown">
+    <ul id="divisionDropdown" class="dropdown-menu">
+	<% divisions.forEach(function(dvsn) { %> 
+	 <a href="#" class="list-group-item" onclick="selectDivision(' <%= dvsn %> ')"><%= dvsn %></a>
+     <% }); %>  
     </ul>
   </div>
-    <h1></h1>
+ <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#divisionDropdown" type="button" data-trigger="focus" >Division <span class="caret-right"></span></button>
+     <h1></h1>
    <div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Unit 
-    <span class="caret-right"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="#">51</a></li>
-      <li><a href="#">Shaked</a></li>
-      <li><a href="#">Bazelet</a></li>
+    <ul id="unitDropdown" class="dropdown-menu">
+      <% units.forEach(function(unt) { %> 
+     <a href="#" class="list-group-item" onclick="selectUnit(' <%= unt %> ')"><%= unt %></a>
+     <% }); %>  
     </ul>
   </div>
+   <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#unitDropdown" type="button" data-trigger="focus" >Unit <span class="caret-right"></span></button>
+
     <h1></h1>
-  <div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Location 
-    <span class="caret-right"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="#">Some location</a></li>
-      <li><a href="#">Some other locaion</a></li>
+  <div class="dropdown">    
+    <ul id="locationDropdown" class="dropdown-menu">
+	<a href="#" class="list-group-item">Some location</a>
+	<a href="#" class="list-group-item">Location location</a>
     </ul>
   </div>
+     <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#locationDropdown" type="button" data-trigger="focus" >Location <span class="caret-right"></span></button>
   <h1></h1>
   <div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status 
-    <span class="caret-right"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="#">Light</a></li>
-      <li><a href="#">Average</a></li>
-      <li><a href="#">Heavy</a></li>
-       <li><a href="#">K.I.A</a></li>
+      <ul id="statusDropdown" class="dropdown-menu">
+	<a href="#" class="list-group-item" onclick="selectStatus('Light')">Light</a>
+	<a href="#" class="list-group-item" onclick="selectStatus('Average')" style="background-color:#ff7733">Average</a>
+	<a href="#" class="list-group-item" onclick="selectStatus('Heavy')" style="background-color:#ff0066">Heavy</a>
+	<a href="#" class="list-group-item" onclick="selectStatus('K.I.A')" style="background-color:red">K.I.A</a>
     </ul>
   </div>
+       <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus" >Status <span class="caret-right"></span></button>
   <h1></h1>
    <a href="#">DISPLAY</a>
   <h1></h1>
@@ -78,19 +69,107 @@ var filters = ["givati"];
 <div class="col-md-2"></div>
 <div class="col-md-8"> <div class="container">
   <h2>Chosen Filters</h2>
-   <ul class="list-inline">
-   <% mainPage.filters.forEach(function(element) { %>  
- <li class="list-group-item" > <%= element%>  </li>
-   <% }); %>
+  <ul id="divisionId" class="list-inline" ></ul>  
      </ul>  
    </div>
 </div>
-</div> 
-</div>
 <div class="col-md-2"></div>
+</div> 
+ <div class="row">
+ <div class="col-md-1"></div>
+ <div class="col-md-10">
+ <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://firstaidbracelet.herokuapp.com/">First Aid Bracelet</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="https://firstaidbracelet.herokuapp.com/mainPage"> mainPageFilter</a></li>
+    </ul>
+  </div>    
+</nav>
 </div>
-
+<div class="col-md-1"></div>
+  </div>
 </body>
 
+<script >
+
+var divisions = [];
+var units = [];
+var locations = [];
+var injuryStatuses = [];
+
+$(function(){
+    $('[rel="popover"]').popover({
+        container: 'body',
+        html: true,
+        content: function () {
+            var clone = $($(this).data('popover-content')).clone(true).removeClass('dropdown-menu');
+            return clone;
+        }
+    }).click(function(e) {
+        e.preventDefault();
+    });
+});
+
+function selectDivision(division) {
+    for (i = 0; i < divisions.length; i++) {
+		if (division === divisions[i] ){
+			return;
+		}
+	}
+	divisions.push(division);
+    var myNodelist = document.getElementsByTagName("ul");
+    var node = document.createElement("LI");
+    var textnode = document.createTextNode(division);
+    node.appendChild(textnode);
+    node.style.backgroundColor = "yellow";
+    document.getElementById("divisionId").appendChild(node);
+}
+function selectUnit(unit) {
+    for (i = 0; i < units.length; i++) {
+		if (unit === units[i] ){
+			return;
+		}
+	}
+	units.push(unit);
+    var myNodelist = document.getElementsByTagName("ul");
+    var node = document.createElement("LI");
+    var textnode = document.createTextNode(unit);
+    node.appendChild(textnode);
+    node.style.backgroundColor = "#a64dff";
+    document.getElementById("divisionId").appendChild(node);
+}
+function selectStatus(status) {
+    for (i = 0; i < injuryStatuses.length; i++) {
+		if (status === injuryStatuses[i] ){
+			return;
+		}
+	}
+	injuryStatuses.push(status);
+    var myNodelist = document.getElementsByTagName("ul");
+    var node = document.createElement("LI");
+    var textnode = document.createTextNode(status);
+    node.appendChild(textnode);
+
+    switch (status) {
+        case "K.I.A":
+            node.style.backgroundColor = "red";
+            break;
+        case "Heavy":
+            node.style.backgroundColor = " #ff0066";
+            break;
+        case "Average":
+            node.style.backgroundColor = "#ff7733";
+            break;
+        case "Light":
+            node.style.backgroundColor = "whilte";
+            break;
+    }
+    document.getElementById("divisionId").appendChild(node);
+}
+
+</script>
 
 </html>

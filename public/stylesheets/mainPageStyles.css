@@ -38,7 +38,10 @@
 .btn {
     width: 100px;
 }
-    
+.popover-content {
+    background-color: #1B9CC0;
+    text-align: center;
+}
 
 body {
     background: url('/background.png') center top no-repeat;
