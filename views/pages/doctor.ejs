@@ -29,8 +29,6 @@
 
 <script>
 function validateForm() {
-	alert("HAAAHAAAHAAA");
-	return false;
 	var login = document.forms["loginForm"];
     var uname = login["uname"].value;
 	var psw = login["psw"].value;
@@ -38,6 +36,8 @@ function validateForm() {
        alert("All fields must be filled out");
 	   return false;
 	}
+	alert("HAAAHAAAHAAA");
+	return false;
 	var user = col.findOne({type: 'bigfoot'});
 	if (user == null) {
 		alert("Wrong username/password");
