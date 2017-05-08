@@ -36,7 +36,24 @@ $(document).ready(function(){
 });
 </script> 
 
+<h1> Insert new item </h1>
 
+<div id="printableArea">
+      <h1></h1>
+</div>
+
+<form onsubmit="myFunction()">
+  Enter name of item: <input type="text" name="fname" id="name">
+  Enter type of item: <input type="text" name="fname" id="type">
+  Enter id of item: <input type="text" name="fname" id="item_id">
+  <input type="submit" value="Submit">
+</form>
+
+<script>
+function myFunction() {
+    document.getElementById("printableArea").innerHTML =  document.getElementById("name").value;
+}
+</script>
 
 </body>
 </html>
