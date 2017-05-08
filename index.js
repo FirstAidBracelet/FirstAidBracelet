@@ -57,9 +57,6 @@ app.get('/doctor', function (request, response) {
         response.render('pages/doctor');
 });
 
-app.get('/doctor.php', function (request, response) {
-   response.render('pages/doctor.php');
-
 app.post('/db', function (request, response) {
     var MongoClient = require('mongodb').MongoClient
     response.render('pages/db');
