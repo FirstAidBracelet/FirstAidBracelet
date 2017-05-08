@@ -32,8 +32,7 @@ var arr = <%= docs%>;
 </script>
 <script>
 function validateForm() {
-	alert("before");
-	return false;
+	alert("0");
 	var login = document.forms["loginForm"];
     var uname = login["uname"].value;
 	var psw = login["psw"].value;
@@ -41,10 +40,9 @@ function validateForm() {
        alert("All fields must be filled out");
 	   return false;
 	}
-	alert("before");
-	return false;
+	alert("1");
 	var doc = arr.find(checkDoc);
-	alert("after");
+	alert("2");
 	if (doc){
 		alert("FOUND");
 	}
