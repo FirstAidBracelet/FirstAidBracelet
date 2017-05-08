@@ -57,8 +57,11 @@ app.get('/doctor', function (request, response) {
         response.render('pages/doctor');
 });
 
+app.post('/doctor.php', function (request, response) {
+    response.render('pages/doctor.php');
+
 app.post('/db', function (request, response) {
-    response.render('pages/db', { loginForm: loginForm });
+    response.render('pages/db');
     /*var MongoClient = require('mongodb').MongoClient
         , assert = require('assert');
 
