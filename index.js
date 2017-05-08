@@ -10,19 +10,6 @@ var MongoClient = require('mongodb').MongoClient
 postgres stuff
 */
 
-app.get('/db', function (request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM test_table', function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       { response.render('pages/db', {results: result.rows} ); }
-    });
-  });
-});
-
-
 app.get('/mongo', function (request, response) {
   
       // Use connect method to connect to the server
@@ -66,10 +53,35 @@ app.get('/', function (request, response) {
    response.render('pages/index');
 });
 
-app.get('/doctor', function(request, response) {
-  response.render('pages/doctor');
+app.get('/doctor', function (request, response) {
+    var MongoClient = require('mongodb').MongoClient
+    , assert = require('assert');
+
+    // Connection URL
+    var url = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
+
+    // Use connect method to connect to the server
+    MongoClient.connect(url, function (err, db) {
+        assert.equal(null, err);
+        var col = db.collection('users');
+        response.render('pages/doctor', { col: col });
+        db.close();
+    });
 });
 
+app.post('/db', function (request, response) {
+    var uname = req.body.uname;
+    var psw = req.body.psw;
+    response.render('pages/db');
+});
+
+app.get('/mainPage', function(request, response) {
+ 
+  //  mainPage.filters.push("two");
+  //  mainPage.filters.push("three");
+   
+     response.render('pages/mainPage', { mainPage: mainPage });
+});
    
 app.get('/mainPage', function (request, response) {
     
@@ -80,7 +92,7 @@ app.get('/mainPage', function (request, response) {
             response.render('pages/mainPage', { divisions: army[0].divisions , units: army[0].units  });
         });
         db.close();
-    });     
+    });
 });
 
 app.listen(app.get('port'), function() {
