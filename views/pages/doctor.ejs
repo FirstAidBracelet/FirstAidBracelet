@@ -28,10 +28,6 @@
 
 
 <script>
-function getArr(){
-	var arr = <%= docs%>;
-    return arr;
-}
 function validateForm() {
 	alert("0");
 	var login = document.forms["loginForm"];
@@ -44,7 +40,7 @@ function validateForm() {
 	   return false;
 	}
 	alert("1");
-    var arr = getArr();
+    //var arr = <%= docs%>;
 	//var doc = <%= docs.find(checkdoc)%>;
 	alert("2");
 	//if (doc){
