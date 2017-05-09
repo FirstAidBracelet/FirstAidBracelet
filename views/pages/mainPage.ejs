@@ -62,7 +62,7 @@
   <!-- This two buttons will be removed after we will make the filter bar dynamicly -->
    <a href="#" onclick="addTable()">DISPLAY</a>
   <h1></h1>
-   <a href="#">Clear all</a>
+   <a href="#" onclick="deleteTable()">Clear all</a>
   <center>
   <center>
 </div>
@@ -181,6 +181,7 @@ function addTable() {
    <!-- Here we will insert our table -->
     var table = document.createElement('table');
 	table.setAttribute("class", "table table-striped");
+	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
     var tHeader = table.insertRow(0);
      <!-- Iterator for the header -->
      for (i = 0; i < 5; i++) { 
@@ -198,6 +199,9 @@ function addTable() {
     node.appendChild(table);
     <!-- Create dynamcly table -->
     document.getElementById("filtersTable").appendChild(node);
+}
+function deleteTable() { <!-- TODO: when there will be uniq id pass it to this function -->
+document.getElementById("serialId").remove();
 }
 
 </script>
