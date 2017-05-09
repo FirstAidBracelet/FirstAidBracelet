@@ -70,13 +70,6 @@ app.post('/db', function (request, response) {
     response.render('pages/db');
 });
 
-app.get('/mainPage', function(request, response) {
- 
-  //  mainPage.filters.push("two");
-  //  mainPage.filters.push("three");
-   
-     response.render('pages/mainPage', { mainPage: mainPage });
-});
    
 app.get('/mainPage', function (request, response) {
     
