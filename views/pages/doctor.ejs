@@ -38,26 +38,12 @@ function validateForm() {
 	   return false;
 	}
 	alert("1");
-    //var arr = <%= docs%>;
-	//var doc = <%= docs.find(checkdoc)%>;
-	alert("2");
-	//if (doc){
-		alert("FOUND");
-	//}
 }
-
-//function checkDoc(<%doc%>){
-//	return <%doc.type == "doctor"%>;
-//}
 </script>
 
 <h2>Doctor Login</h2>
 
 <form name="loginForm" action = "/db" method = "post" onsubmit="return validateForm()">
-  <div class="imgcontainer">
-    <img src="manDoctor.jpg" alt="Avatar" class="Doctor">
-  </div>
-
   <div class="container">
     <label><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="uname" required>
@@ -66,12 +52,6 @@ function validateForm() {
     <input type="password" placeholder="Enter Password" name="psw" required>
         
     <input type="button" onClick = "validateForm()" value="Login">
-    <input type="checkbox" checked="checked"> Remember me
-  </div>
-
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password?</a></span>
   </div>
 </form>
 
