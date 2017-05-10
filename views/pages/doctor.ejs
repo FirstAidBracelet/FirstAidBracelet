@@ -38,11 +38,11 @@ function validateForm() {
 	   return false;
 	}
 	alert("1");
-	<% if (docs) { %>
-		<h1>docs is here!</h1>
-	<% } else { %>
-		<h1>Boohoo no docs!</h1>
-	<% } %>
+	if (<% docs %>) {
+		alert("docs is here!");
+	} else {
+		alert("BOOHOO");
+	}
 }
 </script>
 
