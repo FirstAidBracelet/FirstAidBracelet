@@ -23,7 +23,7 @@ app.get('/mongo', function (request, response) {
     db.close();
     });
 });
-
+<!--
 app.get('/admin', function (request, response) {
   
       // Use connect method to connect to the server
@@ -31,8 +31,20 @@ app.get('/admin', function (request, response) {
         assert.equal(null, err);
     var col = db.collection('equipment');
     col.find().toArray(function(err, docs) {
-      response.render('pages/admin', {docs: docs}, {db: db});
+      response.render('pages/admin', {docs: docs});
     });
+
+    db.close();
+    });
+});
+-->
+app.get('/admin', function (request, response) {
+  
+      // Use connect method to connect to the server
+    MongoClient.connect(mongoUrl, function(err, db) {
+        assert.equal(null, err);
+    var col = db.collection('equipment');
+    response.render('pages/admin', {col: col});
 
     db.close();
     });

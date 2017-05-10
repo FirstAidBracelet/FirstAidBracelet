@@ -23,7 +23,7 @@
   </div>
 </nav>  
 
-<!-- shows the database Treatments (name and picture) -->
+<!-- shows the database Treatments (name and picture)
 <div class="container">
     <h2>Treatments</h2>  
     <ul id="treatments" class="list-group">
@@ -38,7 +38,7 @@ $(document).ready(function(){
     $('[data-toggle="popover"]').popover();   
 });
 </script> 
-
+ -->
 
 <!-- Database Treatments in MongoDB -->
 <h1> Insert new item </h1>
@@ -60,7 +60,7 @@ $(document).ready(function(){
 <script>
 function myFunction() {
     document.getElementById("printableArea").innerHTML = document.getElementById("name").value;
-	db.collection('equipment').insertOne({
+	col.insertOne({
 		  item: "canvas",
 		  qty: 100,
 		  tags: ["cotton"],
