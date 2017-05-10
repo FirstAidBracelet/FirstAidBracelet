@@ -90,9 +90,13 @@ app.get('/mainPage', function (request, response) {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         var armyStructure = db.collection('army_structure');
+        var config = db.collection('configurations');
+        var tmparmy;
         armyStructure.find().toArray(function (err, army) {
-            response.render('pages/mainPage', { divisions: army[0].divisions , units: army[0].units  });
+            tmparmy = army;
+           // response.render('pages/mainPage', { divisions: army[0].divisions , units: army[0].units  });
         });
+        response.render('pages/mainPage', { divisions: tmparmy[0].divisions, units: tmparmy[0].units  });
         db.close();
     });
 });
