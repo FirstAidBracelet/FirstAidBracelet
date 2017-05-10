@@ -71,10 +71,9 @@ app.get('/doctor', function (request, response) {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         var col = db.collection('users');
-        response.render('pages/doctor', { col: col });
-        //col.find().toArray(function (err, docs) {
-        //    response.render('pages/doctor', { docs: docs });
-        //});
+        col.find().toArray(function (err, docs) {
+            response.render('pages/doctor', { docs: docs });
+        });
 
         db.close();
     });

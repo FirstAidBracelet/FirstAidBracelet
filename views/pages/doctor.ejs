@@ -38,9 +38,11 @@ function validateForm() {
 	   return false;
 	}
 	alert("1");
-	var user = <%- col.findOne( {type: "doctor"}); %>
-	if (user){
-		alert("2");
+	<% docs.forEach(function(doc) { %>
+	<% if (doc.type == "doctor" && doc.user == uname && doc.password == psw) {%>
+		alert("yes");
+	} else {	
+		alert("no");
 	}
 }
 </script>
