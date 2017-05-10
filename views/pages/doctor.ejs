@@ -29,7 +29,6 @@
 
 <script>
 function validateForm() {
-	alert("0");
 	var login = document.forms["loginForm"];
     var uname = login["uname"].value;
 	var psw = login["psw"].value;
@@ -37,9 +36,10 @@ function validateForm() {
        alert("All fields must be filled out");
 	   return false;
 	}
-	alert("1");
 	<% docs.forEach(function(doc) { %>
-		alert("docs is here!");
+		<% if (doc.type == "doctor") { %>
+			alert("docs is here!");
+		<% } %>
 	<% }); %>
 }
 </script>
