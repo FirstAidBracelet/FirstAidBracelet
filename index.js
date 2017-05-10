@@ -23,7 +23,7 @@ app.get('/mongo', function (request, response) {
     db.close();
     });
 });
-<!--
+/*
 app.get('/admin', function (request, response) {
   
       // Use connect method to connect to the server
@@ -37,7 +37,7 @@ app.get('/admin', function (request, response) {
     db.close();
     });
 });
--->
+*/
 app.get('/admin', function (request, response) {
   
       // Use connect method to connect to the server
