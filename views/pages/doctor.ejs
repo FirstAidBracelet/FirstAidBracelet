@@ -38,8 +38,10 @@ function validateForm() {
 	   return false;
 	}
 	alert("1");
-	var arr = <%- docs%>;
-	alert("2");
+	var user = <%- col.findOne( {type: "doctor"}); %>
+	if (user){
+		alert("2");
+	}
 }
 </script>
 
