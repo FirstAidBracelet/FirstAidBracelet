@@ -38,11 +38,9 @@ function validateForm() {
 	   return false;
 	}
 	alert("1");
-	<% if (docs) { %>
+	<% docs.forEach(function(doc) { %>
 		alert("docs is here!");
-	<% } else { %>
-		alert("BOOHOO");
-	<% } %>
+	<% }); %>
 }
 </script>
 
