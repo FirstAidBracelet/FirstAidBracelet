@@ -9,6 +9,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 </head>
 
+
+<!-- top of the page, bootstrap navigation bar -->
 <body>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -21,6 +23,7 @@
   </div>
 </nav>  
 
+<!-- shows the database Treatments (name and picture) -->
 <div class="container">
     <h2>Treatments</h2>  
     <ul id="treatments" class="list-group">
@@ -36,12 +39,16 @@ $(document).ready(function(){
 });
 </script> 
 
+
+<!-- Database Treatments in MongoDB -->
 <h1> Insert new item </h1>
 
+<!-- Debug-->
 <div id="printableArea">
       <h1></h1>
 </div>
 
+<!-- adding all the fields to Database -->
 <form onsubmit="myFunction()">
   Entername of item: <input type="text" name="fname" id="name">
   type: <input type="text" name="fname" id="type">
@@ -49,10 +56,19 @@ $(document).ready(function(){
   <input type="submit" value="Submit">
 </form>
 
+<!-- Debug -->
 <script>
 function myFunction() {
     document.getElementById("printableArea").innerHTML = document.getElementById("name").value;
-    
+	db.collection('equipment').insertOne({
+		  item: "canvas",
+		  qty: 100,
+		  tags: ["cotton"],
+		  size: { h: 28, w: 35.5, uom: "cm" }
+	})
+	.then(function(result) {
+		  // process result
+	})    
 
 }
 </script>
