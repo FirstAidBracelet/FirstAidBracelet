@@ -54,9 +54,11 @@ app.get('/', function (request, response) {
 });
 
 app.get('/doctor', function (request, response) {
+
+    // Use connect method to connect to the server
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        var col = db.collection('users');
+        var col = db.collection('equipment');
         col.find().toArray(function (err, docs) {
             response.render('pages/doctor', { docs: docs });
         });
@@ -70,13 +72,6 @@ app.post('/db', function (request, response) {
     response.render('pages/db');
 });
 
-app.get('/mainPage', function(request, response) {
- 
-  //  mainPage.filters.push("two");
-  //  mainPage.filters.push("three");
-   
-     response.render('pages/mainPage', { mainPage: mainPage });
-});
    
 app.get('/mainPage', function (request, response) {
     

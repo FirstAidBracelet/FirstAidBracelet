@@ -19,8 +19,11 @@
 <div class="vertical-menu pull-right" >
 <center>
 <h4>Display By</h4>  
+<!-- This is the Filters side Bar container, in future he will be built dynamicly -->
+<!-- Every element in the container is a dropdown menu of filter values -->
 <div class="dropdown">
     <ul id="divisionDropdown" class="dropdown-menu">
+	<!-- Every dropdown is created by template iterator which builds list from the value we pass fom back-end -->
 	<% divisions.forEach(function(dvsn) { %> 
 	 <a href="#" class="list-group-item" onclick="selectDivision(' <%= dvsn %> ')"><%= dvsn %></a>
      <% }); %>  
@@ -56,21 +59,21 @@
   </div>
        <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus" >Status <span class="caret-right"></span></button>
   <h1></h1>
-   <a href="#">DISPLAY</a>
+  <!-- This two buttons will be removed after we will make the filter bar dynamicly -->
+   <a href="#" onclick="addTable()">DISPLAY</a>
   <h1></h1>
-   <a href="#">Clear all</a>
+   <a href="#" onclick="deleteTable()">Clear all</a>
   <center>
   <center>
 </div>
-</div><div class="col-md-10"><center><h1></h1><center></div>
+</div><div class="col-md-10"><center><ul id="filtersTable" class="list-inline" > </ul><center></div>
 </div>
 
 <div class="row">
 <div class="col-md-2"></div>
 <div class="col-md-8"> <div class="container">
   <h2>Chosen Filters</h2>
-  <ul id="divisionId" class="list-inline" ></ul>  
-     </ul>  
+  <ul id="divisionId" class="list-inline" ></ul>    
    </div>
 </div>
 <div class="col-md-2"></div>
@@ -94,12 +97,12 @@
 </body>
 
 <script >
-
+<!-- local variables to manipulate chosen data in real time (not sure if we will need in future) -->
 var divisions = [];
 var units = [];
 var locations = [];
 var injuryStatuses = [];
-
+<!-- function that creates the popover that related with the "popover" keyword -->
 $(function(){
     $('[rel="popover"]').popover({
         container: 'body',
@@ -112,7 +115,7 @@ $(function(){
         e.preventDefault();
     });
 });
-
+<!-- Implementation of on click functions of the filters bar -->
 function selectDivision(division) {
     for (i = 0; i < divisions.length; i++) {
 		if (division === divisions[i] ){
@@ -168,6 +171,37 @@ function selectStatus(status) {
             break;
     }
     document.getElementById("divisionId").appendChild(node);
+}
+<!-- Dynamic Table builder to represent the filtered information -->
+<!-- need to think about parameters to pass -->
+function addTable() {
+
+<!-- Here we create Dynamicly linear list -->
+   var node = document.createElement("LI");
+   <!-- Here we will insert our table -->
+    var table = document.createElement('table');
+	table.setAttribute("class", "table table-striped");
+	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
+    var tHeader = table.insertRow(0);
+     <!-- Iterator for the header -->
+     for (i = 0; i < 5; i++) { 
+	 tHeader.setAttribute("style","font-weight: bold");
+     tHeader.insertCell(i).innerHTML =  "row"+ i + " ";
+}
+     <!-- Iterator for the columns which are soldiers properties -->
+     for (j = 1; j < 5; j++) {       
+      var tHeader = table.insertRow(j);
+        for (k = 0; k < 5; k++) { 
+      tHeader.insertCell(k).innerHTML = "col" + k + " ";
+    }
+    }
+    <!-- Now insert the Tabe to the dynamic row -->
+    node.appendChild(table);
+    <!-- Create dynamcly table -->
+    document.getElementById("filtersTable").appendChild(node);
+}
+function deleteTable() { <!-- TODO: when there will be uniq id pass it to this function -->
+document.getElementById("serialId").remove();
 }
 
 </script>

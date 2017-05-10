@@ -29,6 +29,7 @@
 
 <script>
 function validateForm() {
+	alert("0");
 	var login = document.forms["loginForm"];
     var uname = login["uname"].value;
 	var psw = login["psw"].value;
@@ -36,26 +37,15 @@ function validateForm() {
        alert("All fields must be filled out");
 	   return false;
 	}
-	alert("before");
-	var doc = docs.find(checkDoc);
-	alert("after");
-	if (doc){
-		alert("FOUND");
-	}
-}
-
-function checkDoc(doc) {
-	return doc.type == "doctor";
+	alert("1");
+	var arr = <%- docs%>;
+	alert("2");
 }
 </script>
 
 <h2>Doctor Login</h2>
 
-<form name="loginForm" action="#" onsubmit="return validateForm()">
-  <div class="imgcontainer">
-    <img src="manDoctor.jpg" alt="Avatar" class="Doctor">
-  </div>
-
+<form name="loginForm" action = "/db" method = "post" onsubmit="return validateForm()">
   <div class="container">
     <label><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="uname" required>
@@ -63,13 +53,7 @@ function checkDoc(doc) {
     <label><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
         
-    <input type="submit" value="Login">
-    <input type="checkbox" checked="checked"> Remember me
-  </div>
-
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password?</a></span>
+    <input type="button" onClick = "validateForm()" value="Login">
   </div>
 </form>
 
