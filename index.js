@@ -62,9 +62,6 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function (request, response) {
-
-
-
    response.render('pages/index');
 });
 
@@ -89,16 +86,28 @@ app.post('/db', function (request, response) {
 
    
 app.get('/mainPage', function (request, response) {
-    
+    var army = [];
+   // var configs = [];
+    // MongoClient.connect(mongoUrl, function (err, db) {
+    //    assert.equal(null, err);
+    //var armyStructure = db.collection('army_structure');
+    //var config = db.collection('configurations');
+
+    //armyStructure.find().toArray(function (err, army) {
+    //    response.render('pages/mainPage', { divisions: army[0].divisions , units: army[0].units  });
+    //});
+    //db.close();
+    //   });
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        var armyStructure = db.collection('army_structure');
-        var config = db.collection('configurations');
-
-        armyStructure.find().toArray(function (err, army) {
-            response.render('pages/mainPage', { divisions: army[0].divisions , units: army[0].units  });
+        db.collection('army_structure').find().forEach(function (doc, err) {
+            army.push(doc);
+        }, function () {
+            db.collection('configurations').find().forEach(function (configs, err) {
+                response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters });
+                db.close();
+            });
         });
-        db.close();
     });
 });
 
