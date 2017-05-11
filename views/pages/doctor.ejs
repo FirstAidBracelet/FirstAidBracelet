@@ -37,7 +37,8 @@ function validateForm() {
 	   return false;
 	}
 	<% docs.forEach(function(doc) { %>
-		<% if (doc.type == "doctor" && doc.user == %> uname <% ) { %>
+		<% if (doc.type == "doctor") { %>
+			var check_uname = <%- doc.user %>;
 			alert("docs is here!");
 		<% } %>
 	<% }); %>
