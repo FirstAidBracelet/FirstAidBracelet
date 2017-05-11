@@ -98,10 +98,11 @@ app.get('/mainPage', function (request, response) {
                 configs.push(cnfs);  
             }, function () {
                 db.collection('soldiers').find().forEach(function (sld, err) {
-                    soldiers.push(sld);
-                    response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters , soldiers: soldiers });
+                    soldiers.push(sld);     
+                }, function () {
+                    response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters, soldiers: soldiers });
                     db.close();
-                });            
+                    });            
             });
         });
     });
