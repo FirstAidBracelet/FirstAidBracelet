@@ -88,25 +88,20 @@ app.post('/db', function (request, response) {
 app.get('/mainPage', function (request, response) {
     var army = [];
     var configs = [];
-    // MongoClient.connect(mongoUrl, function (err, db) {
-    //    assert.equal(null, err);
-    //var armyStructure = db.collection('army_structure');
-    //var config = db.collection('configurations');
-
-    //armyStructure.find().toArray(function (err, army) {
-    //    response.render('pages/mainPage', { divisions: army[0].divisions , units: army[0].units  });
-    //});
-    //db.close();
-    //   });
+    var soldiers = [];
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('army_structure').find().forEach(function (doc, err) {
             army.push(doc);
         }, function () {
             db.collection('configurations').find().forEach(function (cnfs, err) {
-                configs.push(cnfs);
-                response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters });
-                db.close();
+                configs.push(cnfs);  
+            }, function () {
+                db.collection('soldiers').find().forEach(function (sld, err) {
+                    soldiers.push(sld);
+                    response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters , soldiers: soldiers });
+                    db.close();
+                });            
             });
         });
     });
@@ -114,9 +109,5 @@ app.get('/mainPage', function (request, response) {
 
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
-   
-   
+    
 });
-
-
-
