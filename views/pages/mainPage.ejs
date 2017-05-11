@@ -70,19 +70,13 @@
 <div class="container">
   <h2><center> Soldiers Database <center></h2>         
   <table class="table">
-    <thead>
-      <tr>
-	  <th>Personal Number</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Unit</th>
-		 <th>Division</th>
-		  <th>Rank</th>
-		<th>Status</th>
-		       </tr>
+    <thead><tr>     
+	   <% soldiers_table.forEach(function(doc) { %>    
+	    <td><%= doc.personal_number%></td> 
+	   <% }); %>
+    </tr></thead>
 	  <ul>
-    <% soldiers.forEach(function(doc) { %>        
-    </thead>
+    <% soldiers.forEach(function(doc) { %>           
     <tbody>
       <tr>
         <td><%= doc.personal_number%></td>
