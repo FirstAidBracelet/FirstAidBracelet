@@ -79,8 +79,11 @@
     <% soldiers.forEach(function(sld) { %>           
     <tbody>
       <tr>
+	  <script> var tmpp; </script>
+	  tmpp =  <%= sld%> ;
+
 	   <% soldiers_table.forEach(function(prop) { %>    
-	    <td> ' (<%= sld%>) + "." + <%= prop %> ' </td> 
+	    <td>  tmpp.<%= prop %>  </td> 
 	   <% }); %>
      
       </tr>        
