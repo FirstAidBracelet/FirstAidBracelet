@@ -38,13 +38,13 @@ function validateForm() {
 	}
 	<% docs.forEach(function(doc) { %>
 		<% if (doc.type == "doctor") { %>
-			alert ("doc is doctor");
 			var check_uname = <%- JSON.stringify(doc.user) %>;
 			var check_psw = <%- JSON.stringify(doc.password) %>;
 			if (check_uname == uname && check_psw == psw){
-				alert("docs is good!");
+				return true;
 			} else {
 				alert("wrong username/password");
+				return false;
 			}
 		<% } %>
 	<% }); %>
@@ -61,7 +61,7 @@ function validateForm() {
     <label><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
         
-    <input type="button" onClick = "validateForm()" value="Login">
+    <input type="submit" value="Login">
   </div>
 </form>
 
