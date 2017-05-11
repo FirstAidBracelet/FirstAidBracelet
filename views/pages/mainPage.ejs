@@ -78,12 +78,10 @@
 	  <ul>
     <% soldiers.forEach(function(sld) { %>           
     <tbody>
-      <tr>
-	  
+      <tr>  
 	   <% soldiers_table.forEach(function(prop) { %>    
-	    <td> <%=  sld.<%= prop %> %>  </td> 
-	   <% }); %>
-     
+	    <td> <%=  sld.first_name %>  </td> 
+	   <% }); %>    
       </tr>        
 	  <% }); %>
     </tbody>
