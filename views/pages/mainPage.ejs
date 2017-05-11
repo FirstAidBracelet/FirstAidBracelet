@@ -72,20 +72,16 @@
   <table class="table">
     <thead><tr>     
 	   <% soldiers_table.forEach(function(doc) { %>    
-	    <td><%= doc %></td> 
+	    <th> <%= doc %> </th> 
 	   <% }); %>
     </tr></thead>
 	  <ul>
-    <% soldiers.forEach(function(doc) { %>           
+    <% soldiers.forEach(function(sld) { %>           
     <tbody>
       <tr>
-        <td><%= doc.personal_number%></td>
-        <td><%= doc.first_name%></td>
-        <td><%= doc.last_name%></td>
-		<td><%= doc.unit%></td>
-		<td><%= doc.division%></td>
-		<td><%= doc.rank%></td>
-		<td><%= doc.injury_stat%></td>
+	   <% soldiers_table.forEach(function(prop) { %>    
+	    <td>  <%= sld%>.<%= prop %> </td> 
+	   <% }); %>     
       </tr>        
 	  <% }); %>
     </tbody>
