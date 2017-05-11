@@ -87,7 +87,7 @@ app.post('/db', function (request, response) {
    
 app.get('/mainPage', function (request, response) {
     var army = [];
-   // var configs = [];
+    var configs = [];
     // MongoClient.connect(mongoUrl, function (err, db) {
     //    assert.equal(null, err);
     //var armyStructure = db.collection('army_structure');
@@ -103,7 +103,8 @@ app.get('/mainPage', function (request, response) {
         db.collection('army_structure').find().forEach(function (doc, err) {
             army.push(doc);
         }, function () {
-            db.collection('configurations').find().forEach(function (configs, err) {
+            db.collection('configurations').find().forEach(function (cnfs, err) {
+                configs.push(cnfs);
                 response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters });
                 db.close();
             });
