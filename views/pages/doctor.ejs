@@ -38,8 +38,11 @@ function validateForm() {
 	}
 	<% docs.forEach(function(doc) { %>
 		<% if (doc.type == "doctor") { %>
-			var check_uname = <%= doc.user %>;
-			alert("docs is here!");
+			alert ("doc is doctor");
+			var check_uname = <%- JSON.stringify(doc.user) %>;
+			if (check_uname == uname){
+				alert("docs is good!");
+			}
 		<% } %>
 	<% }); %>
 }
