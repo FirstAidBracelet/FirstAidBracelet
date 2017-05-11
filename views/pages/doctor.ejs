@@ -40,8 +40,11 @@ function validateForm() {
 		<% if (doc.type == "doctor") { %>
 			alert ("doc is doctor");
 			var check_uname = <%- JSON.stringify(doc.user) %>;
-			if (check_uname == uname){
+			var check_psw = <%- JSON.stringify(doc.password) %>;
+			if (check_uname == uname && check_psw == psw){
 				alert("docs is good!");
+			} else {
+				alert("wrong username/password");
 			}
 		<% } %>
 	<% }); %>
