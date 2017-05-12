@@ -214,14 +214,7 @@ function addTable(sldrs) {
 
      <!-- Iterator for the columns which are soldiers properties -->
 	  
-     for (j = 1; j < sldrs.length ; j++) {       
-      var tHeader = table.insertRow(j);
-        for (k = 0; k < sldrs.lenght ; k++) { 
-      tHeader.insertCell(k).innerHTML = "col" + k + " ";
-    }
-    }
-
-
+    
 
     <!-- Now insert the Tabe to the dynamic row -->
     node.appendChild(table);
