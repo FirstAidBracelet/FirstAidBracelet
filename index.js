@@ -117,6 +117,22 @@ app.get('/mainPage', function (request, response) {
         });
     });
 });
+app.get('/get-soldiers', function (req, res, next) {
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        var result =  [];
+        db.collection('soldiers').find({ "injury_stat": "kia" }).forEach(function (sld, err) {
+            result.push(sld);
+        }, function () {
+            db.close();
+                response.render('pages/mainPage', { soldiers: result });
+                
+            }); 
+    });
+});
+
+
+
 
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));

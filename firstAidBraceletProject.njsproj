@@ -28,9 +28,6 @@
     <Compile Include="index.js" />
     <Content Include="public\IDFbadge.png" />
     <Content Include="public\medic-logo.png" />
-    <Content Include="public\track-map.png" />
-    <Content Include="public\manDoctor.jpg" />
-    <Content Include="public\node.svg" />
     <Content Include="public\stylesheets\main.css" />
     <Content Include="views\pages\db.ejs" />
     <Content Include="views\pages\doctor.ejs" />
