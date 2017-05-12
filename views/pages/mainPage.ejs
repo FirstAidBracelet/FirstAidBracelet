@@ -71,7 +71,7 @@
        <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus" >Status <span class="caret-right"></span></button>
   <h1></h1>
   <!-- This two buttons will be removed after we will make the filter bar dynamicly -->
-   <a href="#" onclick="buildSoldiersTable(' <%=soldiers%> ')">DISPLAY</a>
+   <a href="#" onclick="addTable(' <% =soldiers %> ')">DISPLAY</a>
   <h1></h1>
    <a href="#" onclick="deleteTable()">Clear all</a>
   <center>
@@ -195,7 +195,8 @@ function selectStatus(status) {
 }
 <!-- Dynamic Table builder to represent the filtered information -->
 <!-- need to think about parameters to pass -->
-function addTable() {
+
+function addTable(sldrs) {
 
 <!-- Here we create Dynamicly linear list -->
    var node = document.createElement("LI");
@@ -205,17 +206,23 @@ function addTable() {
 	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
     var tHeader = table.insertRow(0);
      <!-- Iterator for the header -->
-     for (i = 0; i < 5; i++) { 
-	 tHeader.setAttribute("style","font-weight: bold");
-     tHeader.insertCell(i).innerHTML =  "row"+ i + " ";
-}
+     
+ <% soldiers_table.forEach(function(doc) { %>    
+  tHeader.setAttribute("style","font-weight: bold");
+     tHeader.insertCell(i).innerHTML =  <%= doc %> ;
+	   	   <% }); %>
+
      <!-- Iterator for the columns which are soldiers properties -->
-     for (j = 1; j < 5; j++) {       
+	  
+     for (j = 1; j < sldrs.length ; j++) {       
       var tHeader = table.insertRow(j);
-        for (k = 0; k < 5; k++) { 
+        for (k = 0; k < sldrs.lenght ; k++) { 
       tHeader.insertCell(k).innerHTML = "col" + k + " ";
     }
     }
+
+
+
     <!-- Now insert the Tabe to the dynamic row -->
     node.appendChild(table);
     <!-- Create dynamcly table -->
@@ -224,28 +231,6 @@ function addTable() {
 function deleteTable() { <!-- TODO: when there will be uniq id pass it to this function -->
 document.getElementById("serialId").remove();
 }
-function buildSoldiersTable(soldrs){
-
-<!-- just for check -- >
-soldrs.pop();
-soldrs.pop();
-soldrs.pop();
-
-<!-- -------------- -- >
-
-var table = document.getElementById("soldiersTable");
-	 var i = 1;
-	 var j = 0;
-    <% soldrs.forEach(function(sld) { %>           
-      var tRow =  table.insertRow(i);
-	  i++;
-	  j=0;
-	
-           
-	  <% }); %>  
-
-}
-
 
 </script>
 
