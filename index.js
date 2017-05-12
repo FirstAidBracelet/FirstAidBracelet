@@ -46,13 +46,12 @@ app.post('/admin', function (request, response) {
       // Use connect method to connect to the server
     MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
-    var equipmentDB = db.collection('equipment');
-    
+
     console.log(request.body);
 
-    equipmentDB.insertOne({
+    db.collection('equipment').insertOne({
           item: "canvas",
-          qty: 100,=
+          qty: 100,
           tags: ["cotton"],
           size: { h: 28, w: 35.5, uom: "cm" }
     })
