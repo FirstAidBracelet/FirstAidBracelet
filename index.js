@@ -60,28 +60,6 @@ app.post('/admin', function (request, response) {
     });
 });
 
-/*
-app.put('/quotes', (req, res) => {
-    MongoClient.connect(mongoUrl, function(err, db) {
-        assert.equal(null, err);
-          db.collection('equipment')
-          .insertOne({name: 'Yoda'}, {
-            $set: {
-              name: req.body.name,
-              quote: req.body.quote
-            }
-          }, {
-            sort: {_id: -1},
-            upsert: true
-          }, (err, result) => {
-            if (err) return res.send(err)
-            res.send(result)
-          })
-
-    });
-})
-*/
-
 
 app.set('port', (process.env.PORT || 5000));
 
