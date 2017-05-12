@@ -210,12 +210,12 @@ function addTable(sldrs) {
 	 var i = 0 ;
 	  <% soldiers_table.forEach(function(doc) { %>   
 	 tHeader.setAttribute("style","font-weight: bold");
+	  tHeader.setAttribute("allign","center");
      tHeader.insertCell(i).innerHTML = " <%= doc %> ";
 	 i++;
 	  <% }); %>
 
-     <!-- Iterator for the columns which are soldiers properties -->
-     
+     <!-- Iterator for the columns which are soldiers properties -->  
 	 var j = 1;      
 	 var k = 0;
 	 <% soldiers.forEach(function(sold) { %>   
@@ -227,7 +227,6 @@ function addTable(sldrs) {
 		   <% }); %>
 		   k = 0 ;
 		<% }); %>
-
 		
     <!-- Now insert the Tabe to the dynamic row -->
     node.appendChild(table);
@@ -237,8 +236,6 @@ function addTable(sldrs) {
 function deleteTable() { <!-- TODO: when there will be uniq id pass it to this function -->
 document.getElementById("serialId").remove();
 }
-
-
 
 </script>
 
