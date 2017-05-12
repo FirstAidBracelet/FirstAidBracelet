@@ -66,7 +66,34 @@
   <center>
   <center>
 </div>
-</div><div class="col-md-10"><center><ul id="filtersTable" class="list-inline" > </ul><center></div>
+</div><div class="col-md-10"><center>
+<div class="container">
+  <h2><center> Soldiers Database <center></h2>         
+  <table class="table">
+    <thead><tr>     
+	   <% soldiers_table.forEach(function(doc) { %>    
+	    <th> <%= doc %> </th> 
+	   <% }); %>
+    </tr></thead>
+	  <ul>
+    <% soldiers.forEach(function(sld) { %>           
+    <tbody>
+      <tr>  
+	      
+	    <td><%= sld.personal_number%></td>
+        <td><%= sld.first_name%></td>
+        <td><%= sld.last_name%></td>
+		<td><%= sld.unit%></td>
+		<td><%= sld.division%></td>
+		<td><%= sld.rank%></td>
+		<td><%= sld.injury_stat%></td>
+	     
+      </tr>        
+	  <% }); %>
+    </tbody>
+  </table>
+  </ul>
+</div><center></div>
 </div>
 
 <div class="row">

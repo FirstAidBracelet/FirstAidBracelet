@@ -29,7 +29,6 @@
 
 <script>
 function validateForm() {
-	alert("0");
 	var login = document.forms["loginForm"];
     var uname = login["uname"].value;
 	var psw = login["psw"].value;
@@ -37,21 +36,28 @@ function validateForm() {
        alert("All fields must be filled out");
 	   return false;
 	}
-	alert("1");
-	var arr = <%- docs%>;
-	alert("2");
+	<% docs.forEach(function(doc) { %>
+		<% if (doc.type == "doctor") { %>
+			var check_uname = <%- JSON.stringify(doc.user) %>;
+			var check_psw = <%- JSON.stringify(doc.password) %>;
+			if (check_uname == uname && check_psw == psw){
+				return true;
+			} else {
+				alert("wrong username/password");
+				return false;
+			}
+		<% } %>
+	<% }); %>
 }
 </script>
-
-<% if (docs) { %>
-  <h1>docs is here!</h1>
-<% } else { %>
-  <h1>Boohoo no docs!</h1>
-<% } %>
 
 <h2>Doctor Login</h2>
 
 <form name="loginForm" action = "/db" method = "post" onsubmit="return validateForm()">
+<div class="imgcontainer">
+    <img src="/doctor-clipart-doctor.png" alt="Avatar" class="avatar">
+  </div>
+
   <div class="container">
     <label><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="uname" required>
@@ -59,7 +65,7 @@ function validateForm() {
     <label><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
         
-    <input type="button" onClick = "validateForm()" value="Login">
+    <input type="submit" value="Login">
   </div>
 </form>
 

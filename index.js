@@ -86,7 +86,7 @@ app.get('/doctor', function (request, response) {
     // Use connect method to connect to the server
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        var col = db.collection('equipment');
+        var col = db.collection('users');
         col.find().toArray(function (err, docs) {
             response.render('pages/doctor', { docs: docs });
         });
@@ -102,22 +102,29 @@ app.post('/db', function (request, response) {
 
    
 app.get('/mainPage', function (request, response) {
-    
+    var army = [];
+    var configs = [];
+    var soldiers = [];
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        var armyStructure = db.collection('army_structure');
-        armyStructure.find().toArray(function (err, army) {
-            response.render('pages/mainPage', { divisions: army[0].divisions , units: army[0].units  });
+        db.collection('army_structure').find().forEach(function (doc, err) {
+            army.push(doc);
+        }, function () {
+            db.collection('configurations').find().forEach(function (cnfs, err) {
+                configs.push(cnfs);  
+            }, function () {
+                db.collection('soldiers').find().forEach(function (sld, err) {
+                    soldiers.push(sld);     
+                }, function () {
+                    response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters, soldiers: soldiers });
+                    db.close();
+                    });            
+            });
         });
-        db.close();
     });
 });
 
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
-   
-   
+    
 });
-
-
-
