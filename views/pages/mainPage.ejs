@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>Main Page</title>
@@ -11,7 +11,18 @@
 </head>
 
 <body>
-<div class="row" > </div>
+<div class="row" >
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://firstaidbracelet.herokuapp.com/">First Aid Bracelet</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="https://firstaidbracelet.herokuapp.com/mainPage"> mainPageFilter</a></li>
+    </ul>
+  </div>    
+</nav>
+</div>
 <div class="row" >" "  </div>
 <div class="row" >" "  </div>
 <div class="row" >
@@ -63,58 +74,44 @@
    <a href="#" onclick="addTable()">DISPLAY</a>
   <h1></h1>
    <a href="#" onclick="deleteTable()">Clear all</a>
-  <center>
-  <center>
 </div>
-</div><div class="col-md-10"><center>
-<div class="container">
-  <h2><center> Soldiers Database <center></h2>         
-  <table class="table table-striped">
-    <thead><tr>     
-	   <% soldiers_table.forEach(function(doc) { %>    
-	    <th> <%= doc %> </th> 
-	   <% }); %>
-    </tr></thead>
-	  <ul>
-	  <tbody>
-    <% soldiers.forEach(function(sld) { %>           
-      <tr> 
-	  <% soldiers_table.forEach(function(tbl) { %>    
-	   <td> <%= sld[tbl] %> </td>
-	   <% }); %>
-      </tr>        
-	  <% }); %>
-    </tbody>
-  </table>
-  </ul>
-</div><center></div>
 </div>
 
-<div class="row">
-<div class="col-md-2"></div>
-<div class="col-md-8"> <div class="container">
-  <h2>Chosen Filters</h2>
-  <ul id="divisionId" class="list-inline" ></ul>    
-   </div>
-</div>
-<div class="col-md-2"></div>
-</div> 
- <div class="row">
- <div class="col-md-1"></div>
- <div class="col-md-10">
- <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="https://firstaidbracelet.herokuapp.com/">First Aid Bracelet</a>
+<div class="col-md-10"><center>
+   <div class="container">
+      <h2><center> Soldiers Database <center></h2>         
+      <table id="soldiersTable" class="table table-striped">
+       <thead><tr>     
+	        <% soldiers_table.forEach(function(doc) { %>    
+	        <th> <%= doc %> </th> 
+	       <% }); %>
+       </tr></thead>  
+	     <tbody>
+            <% soldiers.forEach(function(sld) { %>           
+               <tr> 
+	              <% soldiers_table.forEach(function(tbl) { %>    
+	              <td> <%= sld[tbl] %> </td>
+	               <% }); %>
+              </tr>        
+	       <% }); %>
+         </tbody>
+      </table>
     </div>
-    <ul class="nav navbar-nav">
-      <li><a href="https://firstaidbracelet.herokuapp.com/mainPage"> mainPageFilter</a></li>
-    </ul>
-  </div>    
-</nav>
-</div>
-<div class="col-md-1"></div>
-  </div>
+   <center>
+ </div>
+
+
+
+<div class="row">
+  <div class="col-md-1"></div> 
+  <div class="col-md-11">
+  <h1><center>Chosed Filters <center></h1>
+     <div class="container">
+       <center>  <ul id="filtersTable" class="list-inline" ></ul>    <center>
+     </div>
+   </div> 
+</div> 
+  
 </body>
 
 <script >
@@ -176,6 +173,7 @@ function selectStatus(status) {
     var node = document.createElement("LI");
     var textnode = document.createTextNode(status);
     node.appendChild(textnode);
+
     switch (status) {
         case "K.I.A":
             node.style.backgroundColor = "red";
@@ -193,7 +191,7 @@ function selectStatus(status) {
     document.getElementById("divisionId").appendChild(node);
 }
 <!-- Dynamic Table builder to represent the filtered information -->
-<!-- need to think about parameters to pass -->
+
 function addTable() {
 
 <!-- Here we create Dynamicly linear list -->
@@ -228,10 +226,12 @@ function addTable() {
     <!-- Now insert the Tabe to the dynamic row -->
     node.appendChild(table);
     <!-- Create dynamcly table -->
-    document.getElementById("divisionId").appendChild(node);
+    document.getElementById("filtersTable").appendChild(node);
 }
 function deleteTable() { <!-- TODO: when there will be uniq id pass it to this function -->
 document.getElementById("serialId").remove();
 }
+
 </script>
+
 </html>
