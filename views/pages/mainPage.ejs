@@ -207,9 +207,9 @@ function addTable() {
 	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
     var tHeader = table.insertRow(0);
      <!-- Iterator for the header -->
-     for (i = 0; i < 5; i++) { 
+     for (i = 0; i < soldiers_table.length; i++) { 
 	 tHeader.setAttribute("style","font-weight: bold");
-     tHeader.insertCell(i).innerHTML =  "row"+ i + " ";
+     tHeader.insertCell(i).innerHTML = <%= soldiers_table[i] %>;
 }
      <!-- Iterator for the columns which are soldiers properties -->
      for (j = 1; j < 5; j++) {       
