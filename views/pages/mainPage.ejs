@@ -71,7 +71,7 @@
        <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus" >Status <span class="caret-right"></span></button>
   <h1></h1>
   <!-- This two buttons will be removed after we will make the filter bar dynamicly -->
-   <a href="#" onclick="addTable()">DISPLAY</a>
+   <a href="#" onclick="addTable(' <%= soldiers %> ')">DISPLAY</a>
   <h1></h1>
    <a href="#" onclick="deleteTable()">Clear all</a>
   <center>
@@ -197,7 +197,7 @@ function selectStatus(status) {
 }
 <!-- Dynamic Table builder to represent the filtered information -->
 <!-- need to think about parameters to pass -->
-function addTable() {
+function addTable(sldrs) {
 
 <!-- Here we create Dynamicly linear list -->
    var node = document.createElement("LI");
@@ -206,15 +206,13 @@ function addTable() {
 	table.setAttribute("class", "table table-striped");
 	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
     var tHeader = table.insertRow(0);
-     <!-- Iterator for the header -->
-     
+     <!-- Iterator for the header --> 
 	 var i = 0 ;
 	  <% soldiers_table.forEach(function(doc) { %>   
 	 tHeader.setAttribute("style","font-weight: bold");
-     tHeader.insertCell(i).innerHTML = " <%= doc %> ";
+     tHeader.insertCell(i).innerHTML = " <%= doc %> " + sldrs.length;
 	 i++;
 	  <% }); %>
-
 
      <!-- Iterator for the columns which are soldiers properties -->
      for (j = 1; j < 5; j++) {       
