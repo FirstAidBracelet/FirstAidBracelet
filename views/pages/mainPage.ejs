@@ -209,7 +209,7 @@ function addTable() {
      <!-- Iterator for the header -->
      for (i = 0; i < soldiers_table.length; i++) { 
 	 tHeader.setAttribute("style","font-weight: bold");
-     tHeader.insertCell(i).innerHTML = <%= soldiers_table[i] %>;
+     tHeader.insertCell(i).innerHTML =  "row"+ i + " ";
 }
      <!-- Iterator for the columns which are soldiers properties -->
      for (j = 1; j < 5; j++) {       
