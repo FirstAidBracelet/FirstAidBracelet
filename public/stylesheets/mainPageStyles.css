@@ -44,5 +44,5 @@
 }
 
 html {
-    background: url('/background.png') center top no-repeat;
+    background-image: url('/background.png');
 }
