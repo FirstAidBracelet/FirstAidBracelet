@@ -122,9 +122,10 @@ app.get('/get-soldiers', function (req, res, next) {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('soldiers').find({ "injury_stat": "kia" }).forEach(function (sld, err) {
+            assert.equal(null, err);
             result.push(sld);
         }, function () {
-                response.render('pages/mainPage', { res: result });
+                response.render('pages/mainPage');
                 db.close();
             }); 
     });
