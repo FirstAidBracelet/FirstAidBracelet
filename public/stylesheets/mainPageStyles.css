@@ -43,6 +43,6 @@
     text-align: center;
 }
 
-body {
+html {
     background: url('/background.png') center top no-repeat;
 }
