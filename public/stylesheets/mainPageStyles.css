@@ -43,8 +43,19 @@
     text-align: center;
 }
 
-body {
-    background: url('/background.png') center top no-repeat;
+body, html {
+    height: 100%;
+    margin: 0;
+   }
+.bg {
+    /* The image used */
+    background-image: url("/background.png");
     opacity: 0.5;
     filter: alpha(opacity=50);
+    /* Full height */
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
