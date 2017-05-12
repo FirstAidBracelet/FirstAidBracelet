@@ -224,7 +224,30 @@ function addTable() {
 function deleteTable() { <!-- TODO: when there will be uniq id pass it to this function -->
 document.getElementById("serialId").remove();
 }
+function buildSoldiersTable(soldrs){
 
+<!-- just for check -- >
+soldrs.pop();
+soldrs.pop();
+soldrs.pop();
+
+<!-- -------------- -- >
+
+var table = document.getElementById("soldiersTable");
+	 var i = 1;
+	 var j = 0;
+    <% soldrs.forEach(function(sld) { %>           
+      var tRow =  table.insertRow(i);
+	  i++;
+	  j=0;
+	  <% soldiers_table.forEach(function(tbl) { %>    
+	   tRow.insertCell(j) =  <%= sld[tbl] %> ;
+	   j++;
+	   <% }); %>
+           
+	  <% }); %>  
+
+}
 
 
 </script>
