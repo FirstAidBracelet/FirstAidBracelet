@@ -222,6 +222,7 @@ function addTable(sldrs) {
       var tHeader = table.insertRow(j);
 	  j++;
          <% soldiers_table.forEach(function(tbl) { %> 
+		 tHeader.setAttribute('style','text-align:center;');
 		  tHeader.insertCell(k).innerHTML = " <%= sold[tbl] %> ";
 		  k++;
 		   <% }); %>
