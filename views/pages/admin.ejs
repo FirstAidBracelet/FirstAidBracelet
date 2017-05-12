@@ -23,7 +23,8 @@
   </div>
 </nav>  
 
-<!-- shows the database Treatments (name and picture)
+<!-- shows the database Treatments (name and picture)-->
+
 <div class="container">
     <h2>Treatments</h2>  
     <ul id="treatments" class="list-group">
@@ -33,12 +34,13 @@
     </ul>
 </div>
 
+
 <script>
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();   
 });
 </script> 
- -->
+
 
 <!-- Database Treatments in MongoDB -->
 <h1> Insert new item </h1>
@@ -49,26 +51,18 @@ $(document).ready(function(){
 </div>
 
 <!-- adding all the fields to Database -->
-<form onsubmit="myFunction()">
-  Entername of item: <input type="text" name="fname" id="name">
-  type: <input type="text" name="fname" id="type">
-  id: <input type="text" name="fname" id="item_id">
-  <input type="submit" value="Submit">
+<form action="/admin" method="POST" onsubmit="myFunction()">
+  Enter name of item: <input type="text" name="name" placeholder="name" id="name">
+  type: <input type="text" name="type" id="type">
+  id: <input type="text" name="itemId" id="itemId">
+  <button type="submit">Submit</button>
 </form>
 
 <!-- Debug -->
 <script>
 function myFunction() {
-    document.getElementById("printableArea").innerHTML = document.getElementById("name").value;
-	col.insertOne({
-		  item: "canvas",
-		  qty: 100,
-		  tags: ["cotton"],
-		  size: { h: 28, w: 35.5, uom: "cm" }
-	})
-	.then(function(result) {
-		  // process result
-	})    
+  document.getElementById("printableArea").innerHTML = document.getElementById("name").value;
+	   
 
 }
 </script>

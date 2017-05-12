@@ -5,7 +5,9 @@ var mainPage = require('./mainPage');
 var mongoUrl = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
 var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
+var bodyParser= require('body-parser');
 
+app.use(bodyParser.urlencoded({extended: true}));
 /*
 postgres stuff
 */
@@ -23,28 +25,42 @@ app.get('/mongo', function (request, response) {
     db.close();
     });
 });
-/*
+
 app.get('/admin', function (request, response) {
   
       // Use connect method to connect to the server
     MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
-    var col = db.collection('equipment');
-    col.find().toArray(function(err, docs) {
-      response.render('pages/admin', {docs: docs});
-    });
-
+    var equipmentDB = db.collection('equipment');
+    equipmentDB.find().toArray(
+        function(err, docs) {
+            response.render('pages/admin', {docs: docs});
+        }
+    );
     db.close();
     });
 });
-*/
-app.get('/admin', function (request, response) {
+
+app.post('/admin', function (request, response) {
   
       // Use connect method to connect to the server
     MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
-    var col = db.collection('equipment');
-    response.render('pages/admin', {col: col});
+    var equipmentDB = db.collection('equipment');
+    
+    console.log(request.body);
+
+    equipmentDB.insertOne({
+          item: "canvas",
+          qty: 100,=
+          tags: ["cotton"],
+          size: { h: 28, w: 35.5, uom: "cm" }
+    })
+    .then(function(result) {
+          // process result
+    }) 
+
+    
 
     db.close();
     });
