@@ -236,7 +236,13 @@ soldrs.pop();
 var table = document.getElementById("soldiersTable");
 	 var i = 1;
 	 var j = 0;
-   
+    <% soldrs.forEach(function(sld) { %>           
+      var tRow =  table.insertRow(i);
+	  i++;
+	  j=0;
+	
+           
+	  <% }); %>  
 
 }
 
