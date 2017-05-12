@@ -117,19 +117,19 @@ app.get('/mainPage', function (request, response) {
         });
     });
 });
-app.get('/get-soldiers', function (req, res, next) {
-    var result = [];
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        db.collection('soldiers').find({ "injury_stat": "kia" }).forEach(function (sld, err) {
-            assert.equal(null, err);
-            result.push(sld);
-        }, function () {
-            res.render('pages/mainPage', { s: result });
-                db.close();
-            }); 
-    });
-});
+//app.get('/get-soldiers', function (req, res, next) {
+//    var result = [];
+//    MongoClient.connect(mongoUrl, function (err, db) {
+//        assert.equal(null, err);
+//        db.collection('soldiers').find({ "injury_stat": "kia" }).forEach(function (sld, err) {
+//            assert.equal(null, err);
+//            result.push(sld);
+//        }, function () {
+//            res.render('pages/mainPage');
+//                db.close();
+//            }); 
+//    });
+//});
 
 
 
