@@ -43,19 +43,4 @@
     text-align: center;
 }
 
-body, html {
-    height: 100%;
-    margin: 0;
-   }
-.bg {
-    /* The image used */
-    background-image: url("/background.png");
-    opacity: 0.3;
-    filter: alpha(opacity=50);
-    /* Full height */
-    height: 100%;
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+
