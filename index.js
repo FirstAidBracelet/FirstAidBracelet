@@ -124,9 +124,8 @@ app.get('/get-soldiers', function (req, res, next) {
         db.collection('soldiers').find({ "injury_stat": "kia" }).forEach(function (sld, err) {
             result.push(sld);
         }, function () {
-            db.close();
-                response.render('pages/mainPage', { soldiers: result });
-                
+                response.render('pages/mainPage', { res: result });
+                db.close();
             }); 
     });
 });
