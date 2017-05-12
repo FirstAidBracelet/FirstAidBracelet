@@ -76,16 +76,15 @@
 	   <% }); %>
     </tr></thead>
 	  <ul>
+	  <tbody>
     <% soldiers.forEach(function(sld) { %>           
-    <tbody>
       <tr> 
 	  <% soldiers_table.forEach(function(tbl) { %>    
 	   <td> <%= sld[tbl] %> </td>
 	   <% }); %>
       </tr>        
-	   </tbody>
 	  <% }); %>
-   
+    </tbody>
   </table>
   </ul>
 </div><center></div>
