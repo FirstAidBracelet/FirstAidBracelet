@@ -210,17 +210,25 @@ function addTable(sldrs) {
 	 var i = 0 ;
 	  <% soldiers_table.forEach(function(doc) { %>   
 	 tHeader.setAttribute("style","font-weight: bold");
-     tHeader.insertCell(i).innerHTML = " <%= doc %> " + sldrs.length;
+     tHeader.insertCell(i).innerHTML = " <%= doc %> ";
 	 i++;
 	  <% }); %>
 
      <!-- Iterator for the columns which are soldiers properties -->
-     for (j = 1; j < 5; j++) {       
+     
+	 var j = 1;      
+	 var k = 0;
+	 <% sldrs.forEach(function(sold) { %>   
       var tHeader = table.insertRow(j);
-        for (k = 0; k < 5; k++) { 
-      tHeader.insertCell(k).innerHTML = "col" + k + " ";
-    }
-    }
+	  j++;
+         <% soldiers_table.forEach(function(tbl) { %> 
+		  tHeader.insertCell(k).innerHTML = " <%= sold[tbl] %> ";
+		  k++;
+		   <% }); %>
+		   k = 0 ;
+		<% }); %>
+
+		
     <!-- Now insert the Tabe to the dynamic row -->
     node.appendChild(table);
     <!-- Create dynamcly table -->
