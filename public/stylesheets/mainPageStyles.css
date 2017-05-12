@@ -43,6 +43,8 @@
     text-align: center;
 }
 
-html {
-    background-image: url('/background.png');
+body {
+    background: url('/background.png') center top no-repeat;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
 }
