@@ -125,7 +125,7 @@ app.get('/get-soldiers', function (req, res, next) {
             assert.equal(null, err);
             result.push(sld);
         }, function () {
-                response.render('pages/mainPage');
+            res.render('pages/mainPage', { soldiers: result });
                 db.close();
             }); 
     });
