@@ -74,43 +74,41 @@
    <a href="#" onclick="addTable()">DISPLAY</a>
   <h1></h1>
    <a href="#" onclick="deleteTable()">Clear all</a>
-  <center>
-  <center>
 </div>
-</div><div class="col-md-10"><center>
-<div class="container">
-  <h2><center> Soldiers Database <center></h2>         
-  <table id="soldiersTable" class="table table-striped">
-    <thead><tr>     
-	   <% soldiers_table.forEach(function(doc) { %>    
-	    <th> <%= doc %> </th> 
-	   <% }); %>
-    </tr></thead>
-	  <ul>
-	  <tbody>
-    <% soldiers.forEach(function(sld) { %>           
-      <tr> 
-	  <% soldiers_table.forEach(function(tbl) { %>    
-	   <td> <%= sld[tbl] %> </td>
-	   <% }); %>
-      </tr>        
-	  <% }); %>
-    </tbody>
-  </table>
-  </ul>
-</div><center></div>
 </div>
-</div> 
-</div> 
+
+<div class="col-md-10"><center>
+   <div class="container">
+      <h2><center> Soldiers Database <center></h2>         
+      <table id="soldiersTable" class="table table-striped">
+       <thead><tr>     
+	        <% soldiers_table.forEach(function(doc) { %>    
+	        <th> <%= doc %> </th> 
+	       <% }); %>
+       </tr></thead>
+	  
+	     <tbody>
+            <% soldiers.forEach(function(sld) { %>           
+               <tr> 
+	              <% soldiers_table.forEach(function(tbl) { %>    
+	              <td> <%= sld[tbl] %> </td>
+	               <% }); %>
+              </tr>        
+	       <% }); %>
+         </tbody>
+      </table>
+  
+</div>
+</div>
+
 
 <div class="row">
-<div class="col-md-1"></div> 
-<div class="col-md-10">
-   <div class="container">
-       <ul id="filtersTable" class="list-inline" ></ul>    
-   </div>
-</div>
-<div class="col-md-1"></div>
+  <div class="col-md-1"></div> 
+  <div class="col-md-10">
+     <div class="container">
+         <ul id="filtersTable" class="list-inline" ></ul>    
+     </div>
+  </div>
 </div> 
  
 </body>
