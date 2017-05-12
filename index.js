@@ -47,23 +47,40 @@ app.post('/admin', function (request, response) {
     MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
 
-    console.log(request.body);
-
     db.collection('equipment').insertOne({
-          item: "canvas",
-          qty: 100,
-          tags: ["cotton"],
-          size: { h: 28, w: 35.5, uom: "cm" }
+          equipment_id: request.body.itemId,
+          name: request.body.name,
+          type: request.body.type
     })
     .then(function(result) {
           // process result
     }) 
 
-    
-
     db.close();
     });
 });
+
+/*
+app.put('/quotes', (req, res) => {
+    MongoClient.connect(mongoUrl, function(err, db) {
+        assert.equal(null, err);
+          db.collection('equipment')
+          .insertOne({name: 'Yoda'}, {
+            $set: {
+              name: req.body.name,
+              quote: req.body.quote
+            }
+          }, {
+            sort: {_id: -1},
+            upsert: true
+          }, (err, result) => {
+            if (err) return res.send(err)
+            res.send(result)
+          })
+
+    });
+})
+*/
 
 
 app.set('port', (process.env.PORT || 5000));

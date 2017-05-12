@@ -45,26 +45,15 @@ $(document).ready(function(){
 <!-- Database Treatments in MongoDB -->
 <h1> Insert new item </h1>
 
-<!-- Debug-->
-<div id="printableArea">
-      <h1></h1>
-</div>
-
-<!-- adding all the fields to Database -->
-<form action="/admin" method="POST" onsubmit="myFunction()">
+<!-- adding all the fields to Database posts back to index.js, where we are adding 
+the item to the database using MongoDB's functions-->
+<form action="/admin" method="POST">
   Enter name of item: <input type="text" name="name" placeholder="name" id="name">
-  type: <input type="text" name="type" id="type">
-  id: <input type="text" name="itemId" id="itemId">
+  type: <input type="text" name="type" id="type" placeholder="type">
+  id: <input type="text" name="itemId" id="itemId" placeholder="identification">
   <button type="submit">Submit</button>
 </form>
 
-<!-- Debug -->
-<script>
-function myFunction() {
-  document.getElementById("printableArea").innerHTML = document.getElementById("name").value;
-	   
-
-}
 </script>
 
 </body>
