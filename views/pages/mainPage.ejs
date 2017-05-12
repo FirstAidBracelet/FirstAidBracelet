@@ -209,8 +209,8 @@ function addTable(sldrs) {
      <!-- Iterator for the header --> 
 	 var i = 0 ;
 	  <% soldiers_table.forEach(function(doc) { %>   
-	 tHeader.setAttribute("style","font-weight: bold");
-	  tHeader.setAttribute("allign","center");
+	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
+	  
      tHeader.insertCell(i).innerHTML = " <%= doc %> ";
 	 i++;
 	  <% }); %>
