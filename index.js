@@ -64,7 +64,7 @@ app.post('/admin', function (request, response) {
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname));
+//app.use(express.static(__dirname + '/views'));
 
 
 // views is directory for all template files
@@ -118,9 +118,9 @@ app.get('/mainPage', function (request, response) {
     });
 });
 app.get('/get-soldiers', function (req, res, next) {
+    var result = [];
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        var result =  [];
         db.collection('soldiers').find({ "injury_stat": "kia" }).forEach(function (sld, err) {
             result.push(sld);
         }, function () {
