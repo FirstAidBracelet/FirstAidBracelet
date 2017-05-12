@@ -71,7 +71,7 @@
   <h2><center> Soldiers Database <center></h2>         
   <table class="table">
     <thead><tr>     
-	   <% soldierFields.forEach(function(doc) { %>    
+	   <% soldiers_table.forEach(function(doc) { %>    
 	    <th> <%= doc %> </th> 
 	   <% }); %>
     </tr></thead>
@@ -79,9 +79,12 @@
     <% soldiers.forEach(function(sld) { %>           
     <tbody>
       <tr>  
-	    <td >   </td> 
-		
-	   <% }); %>    
+	      
+	    <td> <%= sld. <% soldiers_table.forEach(function(prop) { %>
+		<%=prop%>
+		 <% }); %> 
+		</td> 
+	     
       </tr>        
 	  <% }); %>
     </tbody>
@@ -123,10 +126,6 @@ var divisions = [];
 var units = [];
 var locations = [];
 var injuryStatuses = [];
-var soldierFields = <%= soldiers_table %>;
-
-
-
 <!-- function that creates the popover that related with the "popover" keyword -->
 $(function(){
     $('[rel="popover"]').popover({
