@@ -97,8 +97,9 @@ app.post('/db', function (request, response) {
 
 var army = [];
 var configs = [];
-var soldiers = [];
 app.get('/mainPage', function (request, response) {    
+    filtersArray = [];
+    var soldiers = [];
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('army_structure').find().forEach(function (doc, err) {
@@ -141,7 +142,6 @@ app.get('/get-soldiers/:filter/:value', function (req, res, next) {
     });
 
   });
-
 
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
