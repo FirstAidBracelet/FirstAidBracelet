@@ -7,6 +7,7 @@ var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
 var bodyParser= require('body-parser');
 
+
 app.use(bodyParser.urlencoded({extended: true}));
 /*
 postgres stuff
@@ -117,13 +118,20 @@ app.get('/mainPage', function (request, response) {
     });
 });
 
-
+var filtersArray = []; // array that stores the filters for the AND operation
 app.get('/get-soldiers/:filter/:value', function (req, res, next) {
+    var fltr = { [req.params.filter]: req.params.value }; // Check if there is no duplicated filters
+    for (var i = 0; i < filtersArray.length; i++) {
+        if (Object.keys(filtersArray[i])[0] == Object.keys(fltr)[0] && filtersArray[i][Object.keys(filtersArray[i])[0]] == fltr[Object.keys(fltr)[0]]) {
+           return;
+        }
+    }
+      filtersArray.push(fltr); 
     var result = [];
       console.log('value is', req.params.value);
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        db.collection('soldiers').find({ [req.params.filter] : req.params.value }).forEach(function (sld, err) {
+        db.collection('soldiers').find({ $and: filtersArray }).forEach(function (sld, err) {
             assert.equal(null, err);
             result.push(sld);
         }, function () {
@@ -132,18 +140,7 @@ app.get('/get-soldiers/:filter/:value', function (req, res, next) {
             }); 
     });
 
-    //soldiers.forEach(function (sldr) {
-    //    if (sldr.injury_stat == req.params.filter) { 
-    //        console.log('soldierr: ', sldr.first_name);
-    //        result.push(sldr);
-    //        console.log('soldierr: ', result.length);
-    //    }
-    //}, function () {
-    //    res.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters, soldiers: result });
-    //});
-});
-
-
+  });
 
 
 app.listen(app.get('port'), function() {

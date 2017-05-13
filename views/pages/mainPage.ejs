@@ -36,7 +36,7 @@
     <ul id="divisionDropdown" class="dropdown-menu">
 	<!-- Every dropdown is created by template iterator which builds list from the value we pass fom back-end -->
 	<% divisions.forEach(function(dvsn) { %> 
-	 <a href="#" class="list-group-item" onclick="selectDivision(' <%= dvsn %> ')"><%= dvsn %></a>
+	 <a href="/get-soldiers/division/Givati" class="list-group-item" onclick="selectDivision(' <%= dvsn %> ')"><%= dvsn %></a>
      <% }); %>  
     </ul>
   </div>
