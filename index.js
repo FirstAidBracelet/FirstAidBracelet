@@ -98,6 +98,8 @@ app.post('/db', function (request, response) {
 var army = [];
 var configs = [];
 app.get('/mainPage', function (request, response) {    
+    army = [];
+    configs = [];
     filtersArray = [];
     var soldiers = [];
     MongoClient.connect(mongoUrl, function (err, db) {
