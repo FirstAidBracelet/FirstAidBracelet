@@ -94,11 +94,10 @@ app.post('/db', function (request, response) {
     response.render('pages/db');
 });
 
-   
-app.get('/mainPage', function (request, response) {
-    var army = [];
-    var configs = [];
-    var soldiers = [];
+var army = [];
+var configs = [];
+var soldiers = [];
+app.get('/mainPage', function (request, response) {    
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('army_structure').find().forEach(function (doc, err) {
@@ -110,26 +109,38 @@ app.get('/mainPage', function (request, response) {
                 db.collection('soldiers').find().forEach(function (sld, err) {
                     soldiers.push(sld);     
                 }, function () {
-                    response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters, soldiers: soldiers });
                     db.close();
+                    response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters, soldiers: soldiers });                   
                     });            
             });
         });
     });
 });
-app.get('/get-soldiers', function (req, res, next) {
+
+
+app.get('/get-soldiers/:filter/:value', function (req, res, next) {
     var result = [];
+      console.log('value is', req.params.value);
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        db.collection('soldiers').find({ "injury_stat": "kia" }).forEach(function (sld, err) {
+        db.collection('soldiers').find({ [req.params.filter] : req.params.value }).forEach(function (sld, err) {
             assert.equal(null, err);
             result.push(sld);
         }, function () {
-           // res.render('pages/mainPage');
-            res.send('hello wolrds');
-                db.close();
+            db.close();
+            res.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters, soldiers: result });                  
             }); 
     });
+
+    //soldiers.forEach(function (sldr) {
+    //    if (sldr.injury_stat == req.params.filter) { 
+    //        console.log('soldierr: ', sldr.first_name);
+    //        result.push(sldr);
+    //        console.log('soldierr: ', result.length);
+    //    }
+    //}, function () {
+    //    res.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters, soldiers: result });
+    //});
 });
 
 
