@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>Main Page</title>
@@ -25,97 +25,103 @@
 </div>
 <div class="row" >" "  </div>
 <div class="row" >" "  </div>
-<div class="row" >
-<div class="col-md-2"><center>
-<div class="vertical-menu pull-right" >
-<center>
-<h4>Display By</h4>  
-<!-- This is the Filters side Bar container, in future he will be built dynamicly -->
-<!-- Every element in the container is a dropdown menu of filter values -->
-<div class="dropdown">
-    <ul id="divisionDropdown" class="dropdown-menu">
-	<!-- Every dropdown is created by template iterator which builds list from the value we pass fom back-end -->
-	<% divisions.forEach(function(dvsn) { %> 
-	 <a href="/get-soldiers/division/<%= dvsn %>" class="list-group-item" onclick="selectDivision(' <%= dvsn %> ')"><%= dvsn %></a>
-     <% }); %>  
-    </ul>
-  </div>
- <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#divisionDropdown" type="button" data-trigger="focus" >Division <span class="caret-right"></span></button>
-     <h1></h1>
-   <div class="dropdown">
-    <ul id="unitDropdown" class="dropdown-menu">
-      <% units.forEach(function(unt) { %> 
-     <a href="/get-soldiers/unit/<%= unt %>" class="list-group-item" onclick="selectUnit(' <%= unt %> ')"><%= unt %></a>
-     <% }); %>  
-    </ul>
-  </div>
-   <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#unitDropdown" type="button" data-trigger="focus" >Unit <span class="caret-right"></span></button>
-
-    <h1></h1>
-  <div class="dropdown">    
-    <ul id="locationDropdown" class="dropdown-menu"> <!-- still dont know how to lsear wth location this is for future -->
-	<a href="#" class="list-group-item">Some location</a>
-	<a href="#" class="list-group-item">Location location</a>
-    </ul>
-  </div>
-     <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#locationDropdown" type="button" data-trigger="focus" >Location <span class="caret-right"></span></button>
-  <h1></h1>
-  <div class="dropdown">
-      <ul id="statusDropdown" class="dropdown-menu">
-	<a href="/get-soldiers/injury_stat/light" class="list-group-item" onclick="selectStatus('Light')">Light</a>
-	<a href="/get-soldiers/injury_stat/average" class="list-group-item" onclick="selectStatus('Average')" style="background-color:#ff7733">Average</a>
-	<a href="/get-soldiers/injury_stat/heavy" class="list-group-item" onclick="selectStatus('Heavy')" style="background-color:#ff0066">Heavy</a>
-	<a href="/get-soldiers/injury_stat/kia" class="list-group-item" onclick="selectStatus('K.I.A')" style="background-color:red">K.I.A</a>
-    </ul>
-  </div>
-       <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus" >Status <span class="caret-right"></span></button>
-  <h1></h1>
-  <!-- This two buttons will be removed after we will make the filter bar dynamicly -->
-   <a href="#" onclick="addTable()">DISPLAY</a>
-  <h1></h1>
-   <a href="/mainPage" onclick="deleteTable()">Clear all</a>
-</div>
-</div>
-
-<div class="col-md-10"><center>
-   <div class="container">
-      <h2><center> Soldiers Database <center></h2>         
-      <table class="table table-striped">
-       <thead><tr>     
-	        <% soldiers_table.forEach(function(doc) { %>    
-	        <th> <%= doc %> </th> 
-	       <% }); %>
-       </tr></thead>  
-	     <tbody>
-            <% soldiers.forEach(function(sld) { %>           
-               <tr> 
-	              <% soldiers_table.forEach(function(tbl) { %>    
-	              <td> <%= sld[tbl] %> </td>
-	               <% }); %>
-              </tr>        
-	       <% }); %>
-         </tbody>
-      </table>
+<div class="row">
+        <div class="col-md-2">
+            <center>
+                <div class="vertical-menu pull-right">
+                    <h4>Display By</h4>
+                    <!-- This is the Filters side Bar container, in future he will be built dynamicly -->
+                    <!-- Every element in the container is a dropdown menu of filter values -->
+                    <div class="dropdown">
+                        <ul id="divisionDropdown" class="dropdown-menu">
+                            <!-- Every dropdown is created by template iterator which builds list from the value we pass fom back-end -->
+                            <% divisions.forEach(function(dvsn) { %>
+                            <a href="/get-soldiers/division/<%= dvsn %>" class="list-group-item" onclick="selectDivision(' <%= dvsn %> ')"><%= dvsn %></a>
+                            <% }); %>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#divisionDropdown" type="button" data-trigger="focus">Division <span class="caret-right"></span></button>
+                    <h1></h1>
+                    <div class="dropdown">
+                        <ul id="unitDropdown" class="dropdown-menu">
+                            <% units.forEach(function(unt) { %>
+                            <a href="/get-soldiers/unit/<%= unt %>" class="list-group-item" onclick="selectUnit(' <%= unt %> ')"><%= unt %></a>
+                            <% }); %>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#unitDropdown" type="button" data-trigger="focus">Unit <span class="caret-right"></span></button>
+                    <h1></h1>
+                    <div class="dropdown">
+                        <ul id="locationDropdown" class="dropdown-menu">
+                            <!-- still dont know how to lsear wth location this is for future -->
+                            <a href="#" class="list-group-item">Some location</a>
+                            <a href="#" class="list-group-item">Location location</a>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#locationDropdown" type="button" data-trigger="focus">Location <span class="caret-right"></span></button>
+                    <h1></h1>
+                    <div class="dropdown">
+                        <ul id="statusDropdown" class="dropdown-menu">
+                            <a href="/get-soldiers/injury_stat/light" class="list-group-item" onclick="selectStatus('Light')">Light</a>
+                            <a href="/get-soldiers/injury_stat/average" class="list-group-item" onclick="selectStatus('Average')" style="background-color:#ff7733">Average</a>
+                            <a href="/get-soldiers/injury_stat/heavy" class="list-group-item" onclick="selectStatus('Heavy')" style="background-color:#ff0066">Heavy</a>
+                            <a href="/get-soldiers/injury_stat/kia" class="list-group-item" onclick="selectStatus('K.I.A')" style="background-color:red">K.I.A</a>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
+                    <h1></h1>
+                    <!-- This two buttons will be removed after we will make the filter bar dynamicly -->
+                    <a href="#" onclick="addTable()">DISPLAY</a>
+                    <h1></h1>
+                    <a href="/mainPage" onclick="deleteTable()">Clear all</a>
+                </div>
+            </center>
+        </div>
+        <div class="col-md-10">
+            <center>
+                <div class="container">
+                    <center>
+                        <h2> Soldiers Database </h2>
+                    </center>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <% soldiers_table.forEach(function(doc) { %>
+                                <th> <%= doc %> </th>
+                                <% }); %>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% soldiers.forEach(function(sld) { %>
+                            <tr>
+                                <% soldiers_table.forEach(function(tbl) { %>
+                                <td> <%= sld[tbl] %> </td>
+                                <% }); %>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </center>
+            <div class="container">
+                <center>  <ul id="filtersTable" class="list-inline"></ul> </center>
+            </div>
+        </div>
     </div>
-   <center> 
-    <div class="container">
-       <center>  <ul id="filtersTable" class="list-inline" ></ul>    <center>
-     </div> 
- </div>
 
 <div class="row">
   <div class="col-md-1"></div> 
   <div class="col-md-11">
-  <h1><center>Chosed Filters <center></h1>
-     <div class="container">
-       <center>  <ul id="divisionId" class="list-inline" ></ul>    <center>
-     </div>
-   </div> 
+      <center><h1>Chosed Filters </h1></center>
+    <div class="container">
+        <center>  <ul id="divisionId" class="list-inline"></ul> </center>
+    </div>
+</div> 
 </div> 
   
 </body>
 
-<script >
+<script>
 <!-- local variables to manipulate chosen data in real time (not sure if we will need in future) -->
 var divisions = [];
 var units = [];

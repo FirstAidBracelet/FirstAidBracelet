@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>Database</title>
@@ -13,44 +13,45 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="https://firstaidbracelet.herokuapp.com/">First Aid Bracelet</a>
+      <a class="navbar-brand" href="/">First Aid Bracelet</a>
     </div>
     <ul class="nav navbar-nav">
-      <li><a href="https://firstaidbracelet.herokuapp.com/mongo"> Database</a></li>
+      <li><a href="/mongo"> Database</a></li>
     </ul>
   </div>
 </nav>  
 
 <div class="container">
-  <h2><center> Soldiers Database <center></h2>         
-  <table class="table">
-    <thead>
-      <tr>
-	  <th>Personal Number</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Unit</th>
-		 <th>Division</th>
-		  <th>Rank</th>
-		<th>Status</th>
-		       </tr>
-	  <ul>
-    <% docs.forEach(function(doc) { %>        
-    </thead>
-    <tbody>
-      <tr>
-        <td><%= doc.personal_number%></td>
-        <td><%= doc.first_name%></td>
-        <td><%= doc.last_name%></td>
-		<td><%= doc.unit%></td>
-		<td><%= doc.division%></td>
-		<td><%= doc.rank%></td>
-		<td><%= doc.injury_stat%></td>
-      </tr>        
-	  <% }); %>
-    </tbody>
-  </table>
-  </ul>
+    <center><h2> Soldiers Database </h2></center>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Personal Number</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Unit</th>
+                        <th>Division</th>
+                        <th>Rank</th>
+                        <th>Status</th>
+                    </tr>
+                    <ul>
+                        <% docs.forEach(function(doc) { %>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><%= doc.personal_number%></td>
+                        <td><%= doc.first_name%></td>
+                        <td><%= doc.last_name%></td>
+                        <td><%= doc.unit%></td>
+                        <td><%= doc.division%></td>
+                        <td><%= doc.rank%></td>
+                        <td><%= doc.injury_stat%></td>
+                    </tr>
+                    <% }); %>
+                    </ul>
+                </tbody>
+            </table>
+            
 </div>
 </body>
 </html>
