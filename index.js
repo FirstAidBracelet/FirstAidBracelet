@@ -52,8 +52,9 @@ app.post('/admin', function (request, response) {
           name: request.body.name,
           type: request.body.type
     })
+
     .then(function(result) {
-          // process result
+        response.redirect('/')
     }) 
 
     db.close();

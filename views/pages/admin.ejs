@@ -12,6 +12,9 @@
 
 <!-- top of the page, bootstrap navigation bar -->
 <body>
+
+<div class="row">
+
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -34,25 +37,32 @@
     </ul>
 </div>
 
+</div>
 
 <script>
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();   
 });
+</script>
+
+<div class="row">
 
 <!-- Database Treatments in MongoDB -->
 <h1> Insert new item </h1>
 
 <!-- adding all the fields to Database posts back to index.js, where we are adding 
-the item to the database using MongoDB's functions-->
-<form action="/admin" method="POST" target="_blank">
-  Please enter: <input type="text" name="name" placeholder="name" id="name">
+the item to the database using MongoDB functions -->
+
+
+<form action="/admin" method="POST" onsubmit="">
+  Enter here: 
+  <input type="text" name="name" placeholder="name" id="name">
   <input type="text" name="type" id="type" placeholder="type">
   <input type="text" name="itemId" id="itemId" placeholder="identification">
-  <button type="submit">Submit</button>
+  <button type="submit">Submit</button> 
 </form>
 
-</script>
+</div>
 
 </body>
 </html>
