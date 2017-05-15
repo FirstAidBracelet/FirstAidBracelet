@@ -54,7 +54,7 @@ app.post('/admin', function (request, response) {
     })
 
     .then(function(result) {
-        response.redirect('/')
+        response.redirect('/admin')
     }) 
 
     db.close();
