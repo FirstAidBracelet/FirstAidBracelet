@@ -50,18 +50,23 @@ the item to the database using MongoDB functions -->
 
 <!-- shows the database Treatments (name and picture)-->
 
+<div class="row">
+<
 <div class="container">
-    <h2>Treatments</h2>  
+    <h2>Treatments</h2> 
+    <div class="col-md-1"></div> 
+    <div class="col-md-5">
     <ul id="treatments" class="list-group">
         <% docs.forEach(function(doc) { %> 
         <a href="#" data-toggle="popover" class="list-group-item" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png />"> <%= doc.name%>  <%= doc.type%>   <%= doc.equipment_id%> </a>
         <% }); %>  
     </ul>
+    </div>
 </div>
 
 </div>
 
-<div class="row"><h1>""</h1></div>
+<div class="row"><h1></h1></div>
 <div class="row">""</div>
 <div class="row">""</div>
 
