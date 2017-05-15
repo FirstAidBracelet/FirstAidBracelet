@@ -48,12 +48,12 @@ $(document).ready(function(){
 the item to the database using MongoDB functions -->
 
 
-<form action="/admin" method="POST">
+<form action="/admin" method="POST" onsubmit="">
   Enter here: 
   <input type="text" name="name" placeholder="name" id="name">
   <input type="text" name="type" id="type" placeholder="type">
   <input type="text" name="itemId" id="itemId" placeholder="identification">
-  <a type="submit" href="/admin">Submit</a>
+  <button type="submit">Submit</button>
 </form>
 
 </body>

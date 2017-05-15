@@ -52,8 +52,12 @@ app.post('/admin', function (request, response) {
           name: request.body.name,
           type: request.body.type
     })
+
     .then(function(result) {
-          // process result
+        db.collection('equipment').find().toArray(
+        function(err, docs) {
+            response.render('pages/admin', {docs: docs});
+        }
     }) 
 
     db.close();
