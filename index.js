@@ -98,11 +98,24 @@ app.post('/db', function (request, response) {
         response.render('pages/db', { user: user });
     }
     else {
-        response.render('pages/admin', { user: user });
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            var equipmentDB = db.collection('equipment');
+            equipmentDB.find().toArray(
+                function (err, docs) {
+                    response.render('pages/admin', { docs: docs, user: user});
+                }
+            );
+            db.close();
+        });
     }
 });
 
-app.get('\db', function (request, response) {
+app.get('/map', function (request, response) {
+    response.render('pages/map');
+});
+
+app.get('/db', function (request, response) {
     response.render('pages/index');
 });
 

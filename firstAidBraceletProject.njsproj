@@ -31,6 +31,9 @@
     <Content Include="views\pages\index.ejs" />
     <Content Include="views\pages\mainPage.ejs" />
     <Content Include="views\pages\mongo.ejs" />
+    <Content Include="views\pages\map.ejs">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="views\partials\header.ejs" />
     <Content Include="views\partials\nav.ejs" />
   </ItemGroup>
