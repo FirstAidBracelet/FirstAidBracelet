@@ -6,7 +6,22 @@
 
 <body>
 
-<h2>YOU DID IT</h2>
+<h2>Welcome <%= user %></h2>
+
+<form name="addUser" action = "/addUser" method = "post">
+    <label><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="user" required>
+
+    <label><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required><br>
+
+	<input type="radio" name="type" value="doctor" checked>Doctor<br>
+	<input type="radio" name="type" value="agam">Agam<br>
+	
+	<input type="hidden" name="currentUser" value=<%=user%>>
+
+    <input type="submit" value="Add">
+</form>
 
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
-  <title>Main Page</title>
+  <title>Login</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/stylesheets/doctorStyles.css">
@@ -32,26 +32,25 @@ function validateForm() {
 	var login = document.forms["loginForm"];
     var uname = login["uname"].value;
 	var psw = login["psw"].value;
+	var type = login["type"].value;
 	if (uname == "" || psw == "") {
        alert("All fields must be filled out");
 	   return false;
 	}
 	<% docs.forEach(function(doc) { %>
-		<% if (doc.type == "doctor") { %>
-			var check_uname = <%- JSON.stringify(doc.user) %>;
-			var check_psw = <%- JSON.stringify(doc.password) %>;
-			if (check_uname == uname && check_psw == psw){
-				return true;
-			} else {
-				alert("wrong username/password");
-				return false;
-			}
-		<% } %>
+		var check_type = <%- JSON.stringify(doc.type) %>;
+		var check_uname = <%- JSON.stringify(doc.user) %>;
+		var check_psw = <%- JSON.stringify(doc.password) %>;
+		if (check_type == type && check_uname == uname && check_psw == psw){
+			return true;
+		}
 	<% }); %>
+	alert("wrong username/password");
+	return false;
 }
 </script>
 
-<h2>Doctor Login</h2>
+<h2>Login</h2>
 
 <form name="loginForm" action = "/db" method = "post" onsubmit="return validateForm()">
 <div class="imgcontainer">
@@ -64,6 +63,9 @@ function validateForm() {
 
     <label><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
+
+	<input type="radio" name="type" value="doctor" checked>Doctor<br>
+	<input type="radio" name="type" value="agam">Agam<br>
         
     <input type="submit" value="Login">
   </div>

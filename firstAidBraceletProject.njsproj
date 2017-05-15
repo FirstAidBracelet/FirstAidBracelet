@@ -27,7 +27,7 @@
     <Content Include="public\medic-logo.png" />
     <Content Include="public\stylesheets\main.css" />
     <Content Include="views\pages\db.ejs" />
-    <Content Include="views\pages\doctor.ejs" />
+    <Content Include="views\pages\login.ejs" />
     <Content Include="views\pages\index.ejs" />
     <Content Include="views\pages\mainPage.ejs" />
     <Content Include="views\pages\mongo.ejs" />
