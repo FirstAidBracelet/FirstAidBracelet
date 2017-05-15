@@ -75,14 +75,14 @@ app.get('/', function (request, response) {
    response.render('pages/index');
 });
 
-app.get('/doctor', function (request, response) {
+app.get('/login', function (request, response) {
 
     // Use connect method to connect to the server
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         var col = db.collection('users');
         col.find().toArray(function (err, docs) {
-            response.render('pages/doctor', { docs: docs });
+            response.render('pages/login', { docs: docs });
         });
 
         db.close();
@@ -90,8 +90,33 @@ app.get('/doctor', function (request, response) {
 });
 
 app.post('/db', function (request, response) {
-    var MongoClient = require('mongodb').MongoClient
-    response.render('pages/db');
+    var login = request.body;
+    var user = login.uname;
+    var type = login.type;
+    if (type == "doctor") {
+        response.render('pages/db', { user: user });
+    }
+    else {
+        response.render('pages/admin', { user: user });
+    }
+});
+
+app.get('\db', function (request, response) {
+    response.render('pages/index');
+});
+
+app.post('/addUser', function (request, response) {
+    var form = request.body;
+    var user = form.currentUser;
+    delete form.currentUser;
+    //console.log(form);
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        db.collection('users').save(form, function (err, result) {
+            if (err) return console.log(err);
+        });
+    });
+    response.render('pages/db', { user: user });
 });
 
 var army = [];
