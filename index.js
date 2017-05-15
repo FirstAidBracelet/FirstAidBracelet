@@ -54,10 +54,7 @@ app.post('/admin', function (request, response) {
     })
 
     .then(function(result) {
-        /*db.collection('equipment').find().toArray(
-        function(err, docs) {
-            response.render('pages/admin', {docs: docs});
-        }*/
+        response.redirect('/')
     }) 
 
     db.close();
