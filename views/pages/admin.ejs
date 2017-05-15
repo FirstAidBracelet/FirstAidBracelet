@@ -26,18 +26,52 @@
   </div>
 </nav>  
 
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <!-- Database Treatments in MongoDB -->
+  <div class="col-md-1">
+  <h1> Insert new item </h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-10">
+  <!-- adding all the fields to Database posts back to index.js, where we are adding 
+  the item to the database using MongoDB functions -->
+
+
+  <form action="/admin" method="POST">
+    Enter here: 
+    <input type="text" name="name" placeholder="name" id="name">
+    <input type="text" name="type" id="type" placeholder="type">
+    <input type="text" name="itemId" id="itemId" placeholder="identification">
+    <button type="submit">Submit</button> 
+  </form>
+
+  </div>
+</div>
+
 <!-- shows the database Treatments (name and picture)-->
 
+<div class="row">
+<
 <div class="container">
-    <h2>Treatments</h2>  
+    <h2>Treatments</h2> 
+    <div class="col-md-1"></div> 
+    <div class="col-md-10">
     <ul id="treatments" class="list-group">
         <% docs.forEach(function(doc) { %> 
-        <a href="#" data-toggle="popover" class="list-group-item" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png />"> <%= doc.name%> </a>
+        <a href="#" data-toggle="popover" class="list-group-item" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png />"> <%= doc.name%>  <%= doc.type%>   <%= doc.equipment_id%> </a>
         <% }); %>  
     </ul>
+    </div>
 </div>
 
 </div>
+
+<div class="row"><h1></h1></div>
+<div class="row">""</div>
+<div class="row">""</div>
 
 <script>
 $(document).ready(function(){
@@ -45,24 +79,6 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="row">
-
-<!-- Database Treatments in MongoDB -->
-<h1> Insert new item </h1>
-
-<!-- adding all the fields to Database posts back to index.js, where we are adding 
-the item to the database using MongoDB functions -->
-
-
-<form action="/admin" method="POST" onsubmit="">
-  Enter here: 
-  <input type="text" name="name" placeholder="name" id="name">
-  <input type="text" name="type" id="type" placeholder="type">
-  <input type="text" name="itemId" id="itemId" placeholder="identification">
-  <button type="submit">Submit</button> 
-</form>
-
-</div>
 
 </body>
 </html>
