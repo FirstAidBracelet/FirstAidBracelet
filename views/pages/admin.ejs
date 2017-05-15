@@ -28,11 +28,11 @@
 
 
 <div class="row">
-<div class="col-md-1"></div>
-<div class="col-md-5">
+
 <!-- Database Treatments in MongoDB -->
 <h1> Insert new item </h1>
-
+<div class="col-md-1"></div>
+<div class="col-md-5">
 <!-- adding all the fields to Database posts back to index.js, where we are adding 
 the item to the database using MongoDB functions -->
 
@@ -55,7 +55,7 @@ the item to the database using MongoDB functions -->
 <div class="container">
     <h2>Treatments</h2> 
     <div class="col-md-1"></div> 
-    <div class="col-md-5">
+    <div class="col-md-10">
     <ul id="treatments" class="list-group">
         <% docs.forEach(function(doc) { %> 
         <a href="#" data-toggle="popover" class="list-group-item" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png />"> <%= doc.name%>  <%= doc.type%>   <%= doc.equipment_id%> </a>
