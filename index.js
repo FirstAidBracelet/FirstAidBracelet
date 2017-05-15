@@ -54,10 +54,10 @@ app.post('/admin', function (request, response) {
     })
 
     .then(function(result) {
-        db.collection('equipment').find().toArray(
+        /*db.collection('equipment').find().toArray(
         function(err, docs) {
             response.render('pages/admin', {docs: docs});
-        }
+        }*/
     }) 
 
     db.close();
