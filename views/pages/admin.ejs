@@ -30,11 +30,12 @@
 <div class="row">
   <div class="col-md-1"></div>
   <!-- Database Treatments in MongoDB -->
-  <div class="col-md-1">
-  <h1> Insert new item </h1>
+  <div class="col-md-3">
+    <h1> Insert new item </h1>
   </div>
 </div>
 <div class="row">
+  <div class="col-md-2"></div>
   <div class="col-md-10">
   <!-- adding all the fields to Database posts back to index.js, where we are adding 
   the item to the database using MongoDB functions -->
@@ -56,14 +57,43 @@
 <div class="row">
 <
 <div class="container">
-    <h2>Treatments</h2> 
-    <div class="col-md-1"></div> 
-    <div class="col-md-10">
-    <ul id="treatments" class="list-group">
-        <% docs.forEach(function(doc) { %> 
-        <a href="#" data-toggle="popover" class="list-group-item" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png />"> <%= doc.name%>  <%= doc.type%>   <%= doc.equipment_id%> </a>
-        <% }); %>  
-    </ul>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <!-- Database Treatments in MongoDB -->
+      <div class="col-md-1">
+        <h1>Treatments</h1>
+      </div>
+    </div>
+ 
+    <div class="row">
+      <div class="col-md-2"></div> 
+      <div class="col-md-6">
+      <!-- <ul id="treatments" class="list-group">
+          <% docs.forEach(function(doc) { %> 
+          <a href="#" data-toggle="popover" class="list-group-item" data-html="true" data-content="<img src='https://firstaidbracelet.herokuapp.com/medic-logo.png />">    Name:<%= doc.name%>    Type:<%= doc.type%>    Id:<%= doc.equipment_id%> </a>
+          <% }); %>  
+      </ul> -->
+
+      <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Id</th>
+                </tr>
+             </thead>  
+             <tbody>
+                <% docs.forEach(function(doc) { %>
+                <tr>
+                    <td><%= doc.name%> </td>
+                    <td><%= doc.type%> </td>
+                    <td><%= doc.equipment_id%> </td>
+                </tr>
+                  <% }); %>
+              </tbody>          
+      </table>
+
+      </div>
     </div>
 </div>
 
