@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/stylesheets/doctorStyles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 
@@ -20,9 +20,6 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="/">First Aid Bracelet</a>
     </div>
-    <ul class="nav navbar-nav">
-      <li><a href="/doctor">Doctor Login</a></li>
-    </ul>
   </div>
 </nav>  
 
@@ -30,7 +27,7 @@
 <script>
 function validateForm() {
 	var login = document.forms["loginForm"];
-    var uname = login["uname"].value;
+    var uname = login["currentUser"].value;
 	var psw = login["psw"].value;
 	var type = login["type"].value;
 	if (uname == "" || psw == "") {
@@ -45,28 +42,34 @@ function validateForm() {
 			return true;
 		}
 	<% }); %>
-	alert("wrong username/password");
+	alert("wrong username/password/user type");
 	return false;
 }
 </script>
 
-<h2>Login</h2>
+<div class="jumbotron">
+	<center><h1>  Login <br> </h1></center>
+</div>
 
-<form name="loginForm" action = "/db" method = "post" onsubmit="return validateForm()">
-<div class="imgcontainer">
-    <img src="/doctor-clipart-doctor.png" alt="Avatar" class="avatar">
-  </div>
+<form name="loginForm" action = "/logged" method = "post" onsubmit="return validateForm()">
+	<div class="imgcontainer">
+		<img src="/cas-padlock-icon.png" alt="Login" class="avatar">
+	</div>
 
   <div class="container">
     <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+    <input type="text" placeholder="Enter Username" name="currentUser" required>
 
     <label><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
 
-	<input type="radio" name="type" value="doctor" checked>Doctor<br>
-	<input type="radio" name="type" value="agam">Agam<br>
-        
+	<div class="radio">
+		<input type="radio" name="type" value="doctor" checked>Doctor<br>
+	</div>
+	<div class="radio">
+		<input type="radio" name="type" value="agam">Agam<br>
+    </div> 
+	
     <input type="submit" value="Login">
   </div>
 </form>

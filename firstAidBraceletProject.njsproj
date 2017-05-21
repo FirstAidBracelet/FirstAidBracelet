@@ -16,6 +16,9 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="views\pages\admin_main.ejs">
+      <SubType>Code</SubType>
+    </Compile>
     <Content Include="app.json" />
     <Content Include="package.json" />
     <Content Include="public\background.png" />

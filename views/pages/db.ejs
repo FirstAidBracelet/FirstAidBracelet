@@ -6,7 +6,23 @@
 
 <body>
 
-<h2>Welcome <%= user %></h2>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">First Aid Bracelet</a>
+    </div>
+    <ul class="nav navbar-nav">
+		<form name="loginForm" action = "/logged" method = "post">
+			<input type="hidden" name="currentUser" value=<%=user%>>
+			<input type="hidden" name="type" value=<%=type%>>
+			<button class="btn btn-default navbar-btn" type="submit">Admin Page</button>
+        </form>
+    </ul>
+  </div>
+</nav>  
+
+<div class="container" style="background-image: url('/background.png'); background-repeat: no-repeat ; background-position: center ">
+	<center><h1>  Add User </h1></center>
 
 <form name="addUser" action = "/addUser" method = "post">
     <label><b>Username</b></label>
@@ -19,6 +35,7 @@
 	<input type="radio" name="type" value="agam">Agam<br>
 	
 	<input type="hidden" name="currentUser" value=<%=user%>>
+	<input type="hidden" name="type" value=<%=type%>>
 
     <input type="submit" value="Add">
 </form>

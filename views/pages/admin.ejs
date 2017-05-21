@@ -21,7 +21,11 @@
       <a class="navbar-brand" href="/">First Aid Bracelet</a>
     </div>
     <ul class="nav navbar-nav">
-      <li><a href="/admin">Admin Page</a></li>
+      <form name="loginForm" action = "/logged" method = "post">
+			<input type="hidden" name="currentUser" value=<%=user%>>
+			<input type="hidden" name="type" value=<%=type%>>
+			<button class="btn btn-default navbar-btn" type="submit">Admin Page</button>
+        </form>
     </ul>
   </div>
 </nav>  
