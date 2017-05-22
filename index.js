@@ -147,7 +147,8 @@ app.post('/addUser', function (request, response) {
 
 var army = [];
 var configs = [];
-app.get('/mainPage', function (request, response) {    
+
+app.get('/mainPage', function (request, response) {
     army = [];
     configs = [];
     filtersArray = [];
@@ -158,30 +159,30 @@ app.get('/mainPage', function (request, response) {
             army.push(doc);
         }, function () {
             db.collection('configurations').find().forEach(function (cnfs, err) {
-                configs.push(cnfs);  
+                configs.push(cnfs);
             }, function () {
                 db.collection('soldiers').find().forEach(function (sld, err) {
-                    soldiers.push(sld);     
+                    soldiers.push(sld);
                 }, function () {
                     db.close();
-                    response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters, soldiers: soldiers });                   
-                    });            
+                    response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters, soldiers: soldiers });
+                });
             });
         });
     });
 });
 
+
 var filtersArray = []; // array that stores the filters for the AND operation
-app.get('/get-soldiers/:filter/:value', function (req, res, next) {
+app.post('/get-soldiers/:filter/:value', function (req, res) {
+    var result = [];
     var fltr = { [req.params.filter]: req.params.value }; // Check if there is no duplicated filters
     for (var i = 0; i < filtersArray.length; i++) {
         if (Object.keys(filtersArray[i])[0] == Object.keys(fltr)[0] && filtersArray[i][Object.keys(filtersArray[i])[0]] == fltr[Object.keys(fltr)[0]]) {
-           return;
+            return;
         }
     }
-      filtersArray.push(fltr); 
-    var result = [];
-      console.log('value is', req.params.value);
+    filtersArray.push(fltr);
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('soldiers').find({ $and: filtersArray }).forEach(function (sld, err) {
@@ -189,13 +190,13 @@ app.get('/get-soldiers/:filter/:value', function (req, res, next) {
             result.push(sld);
         }, function () {
             db.close();
-            res.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters, soldiers: result });                  
-            }); 
+            res.json(result);
+        });
     });
+});
 
-  });
 
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
-    
+
 });
