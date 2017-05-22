@@ -90,19 +90,44 @@ app.get('/login', function (request, response) {
     });
 });
 
-app.post('/db', function (request, response) {
+app.post('/logged', function (request, response) {
     var login = request.body;
-    var user = login.uname;
+    var user = login.currentUser;
     var type = login.type;
     if (type == "doctor") {
-        response.render('pages/db', { user: user });
+        response.render('pages/map', { user: user, type: type});
     }
     else {
-        response.render('pages/admin', { user: user });
+        response.render('pages/admin_main', { user: user, type: type });
     }
 });
 
-app.get('\db', function (request, response) {
+app.post('/user', function (request, response) {
+    var user = request.body.currentUser;
+    var type = request.body.type;
+    response.render('pages/db', { user: user, type: type });
+});
+
+app.post('/equip', function (request, response) {
+    var user = request.body.currentUser;
+    var type = request.body.type;
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        var equipmentDB = db.collection('equipment');
+        equipmentDB.find().toArray(
+            function (err, docs) {
+                response.render('pages/admin', { docs: docs, user: user, type: type });
+            }
+        );
+        db.close();
+    });
+});
+
+app.get('/map', function (request, response) {
+    response.render('pages/map');
+});
+
+app.get('/db', function (request, response) {
     response.render('pages/index');
 });
 
@@ -117,7 +142,7 @@ app.post('/addUser', function (request, response) {
             if (err) return console.log(err);
         });
     });
-    response.render('pages/db', { user: user });
+    response.render('pages/admin_main', { user: user });
 });
 
 var army = [];

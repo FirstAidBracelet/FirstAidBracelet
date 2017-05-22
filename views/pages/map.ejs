@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+ 
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">First Aid Bracelet</a>
+    </div>
+	<ul class="nav navbar-nav navbar-right">
+		<li><a href="/login"> Back To Login</a></li>
+	</ul>
+  </div>
+</nav>
+
+<div class="jumbotron">
+	<center><h1>  Welcome Doctor <%= user %> <br> </h1></center>
+</div>
+
+<center><h1>  Patient Map <br> </h1></center>
+
+<div id="map" style="width:800px;height:800px;background:black"></div>
+
+<script>
+function myMap() {
+var mapOptions = {
+    center: new google.maps.LatLng(32.777739, 35.0219852),
+    zoom: 20,
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+}
+var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaOzdRahKL3nXRnZA0n-yK1hB2C828SQ&callback=myMap"></script>
+<!--
+To use this code on your website, get a free API key from Google.
+Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
+-->
+
+</body>
+</html>
