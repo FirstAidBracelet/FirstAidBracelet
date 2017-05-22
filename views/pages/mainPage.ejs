@@ -291,6 +291,11 @@ document.getElementById("serialId").remove();
 	 var k = 0;
 	  sldrs.forEach(function(sold) {
           var tHeader = table.insertRow(j);
+          tHeader.setAttribute("id", "<%=soldiers_table[0] %>");
+          tHeader.addEventListener("click", function (event) {
+             addTable<%=soldiers_table[0] %>(sold.<%=soldiers_table[0]%>);
+               event.preventDefault();
+          });
 
 	  j++;
          <% soldiers_table.forEach(function(tbl) { %>
