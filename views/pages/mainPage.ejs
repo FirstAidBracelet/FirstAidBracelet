@@ -30,7 +30,7 @@
         <div class="col-md-11">
             <h4>Chosen Filters </h4>
             <div class="container">
-                <center>  <ul id="divisionId" class="list-inline"></ul> </center>
+                  <ul id="filtersBarId" class="list-inline"></ul> 
             </div>
         </div>
     </div>
@@ -86,11 +86,21 @@
 
                     <script>
     function putFilter(type, value) {
-         for (i = 0; i < injuryStatuses.length; i++) {
-		if (status === injuryStatuses[i] ){
+         for (i = 0; i < chosenFilters.length; i++) {
+		if (value === chosenFilters[i] ){
 			return;
-		}
-	}
+             }               
+        }
+      chosenFilters.push(value);
+      var node = document.createElement("BUTTON");
+      var t = document.createTextNode(status);
+                        node.appendChild(t);
+         var textnode = document.createTextNode(value);
+    node.appendChild(textnode);
+    node.style.backgroundColor = "yellow";
+       document.getElementById("filtersBarId").appendChild(node);
+
+
          //selectStatus(value);
    var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {//Call a function when the state changes.
@@ -146,7 +156,8 @@
     addTable(slll);
 
     }
-<!-- local variables to manipulate chosen data in real time (not sure if we will need in future) -->
+    <!--local variables to manipulate chosen data in real time (not sure if we will need in future) -->
+var chosenFilters = [];
 var divisions = [];
 var units = [];
 var locations = [];
