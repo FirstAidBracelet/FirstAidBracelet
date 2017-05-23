@@ -196,7 +196,7 @@ app.get('/mainPage', function (request, response) {
                     soldiers.push(sld);
                 }, function () {
                     db.close();
-                    response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, filters: configs[0].filters, soldiers: soldiers });
+                    response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, treatments_table: configs[0].treatments, filters: configs[0].filters, soldiers: soldiers });
                 });
             });
         });

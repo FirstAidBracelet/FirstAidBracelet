@@ -30,7 +30,7 @@
         <div class="col-md-11">
             <h4>Chosen Filters </h4>
             <div class="container">
-                  <ul id="filtersBarId" class="list-inline"></ul> 
+                <ul id="filtersBarId" class="list-inline"></ul>
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@
                     <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
                     <h1></h1>
                     <!-- This two buttons will be removed after we will make the filter bar dynamicly -->
-                    <a href="#" onclick="addTable()">DISPLAY</a>
+                    <a href="#" onclick="getTreatments('6666666')">DISPLAY</a>
                     <h1 id="bdikabdika"></h1>
                     <a href="/mainPage" onclick="deleteTable()">Clear all</a>
 
@@ -89,7 +89,7 @@
          for (i = 0; i < chosenFilters.length; i++) {
 		if (value === chosenFilters[i] ){
 			return;
-             }               
+             }
         }
       chosenFilters.push(value);
       var node = document.createElement("BUTTON");
@@ -321,7 +321,50 @@ document.getElementById("serialId").remove();
     node.appendChild(table);
     <!-- Create dynamcly table -->
         document.getElementById("mainSoldiersTable").appendChild(node);
+}
+ function getTreatments(soldierID) {
 
+
+     <% soldiers.forEach(function (currSoldier) { %> // we will print the soldier only if he exists in our cashed collection
+         if('<%=currSoldier[soldiers_table[0]]%>' === soldierID){
+
+<!-- Here we create Dynamicly linear list -->
+   var node = document.createElement("LI");
+   <!-- Here we will insert our table -->
+    var table = document.createElement('table');
+	table.setAttribute("class", "table table-striped");
+	table.setAttribute("id", "serialIdd"); <!-- TODO: this id should be uniq for every table  -->
+    var tHeader = table.insertRow(0);
+     <!-- Iterator for the header -->
+	 var i = 0 ;
+	  <% treatments_table.forEach(function(doc) { %>
+	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
+     tHeader.insertCell(i).innerHTML = " <%= doc %> ";
+	 i++;
+	  <% }); %>
+     <!-- Iterator for the columns which are treatment properties -->
+		 var k = 0;
+
+   <% for(var i = 0; i < 3; i++) { %>// for every treatment
+      var tHeader = table.insertRow(<%=i%>+1);  // create new row and insert +1 because the header is 0
+
+         <% treatments_table.forEach(function(tbl) { %> // every row put create cells
+             tHeader.setAttribute('style', 'text-align:center;');
+
+             tHeader.insertCell(k).innerHTML ="Aaaaaa";
+
+		  k++;
+		   <% }); %>
+		   k = 0 ;
+           <% }; %>
+
+    <!-- Now insert the Tabe to the dynamic row -->
+    node.appendChild(table);
+    <!-- Create dynamcly table -->
+        document.getElementById("filtersTable").appendChild(node);
+             }
+         <% }); %> // if we did not found our soldier we will simply out
+             return;
 }
 </script>
 </html>
