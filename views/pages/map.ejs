@@ -8,7 +8,24 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   
- 
+ <script>
+	function getCookie(cname) {
+		var name = cname + "=";
+		var decodedCookie = decodeURIComponent(document.cookie);
+		var ca = decodedCookie.split(';');
+		for(var i = 0; i <ca.length; i++) {
+			var c = ca[i];
+			while (c.charAt(0) == ' ') {
+				c = c.substring(1);
+			}
+			if (c.indexOf(name) == 0) {
+				return c.substring(name.length, c.length);
+			}
+		}
+		return "";
+	}
+  </script>
+
 </head>
 <body>
 
@@ -18,13 +35,13 @@
       <a class="navbar-brand" href="/">First Aid Bracelet</a>
     </div>
 	<ul class="nav navbar-nav navbar-right">
-		<li><a href="/login"> Back To Login</a></li>
+		<li><a href="/logout"> Logout</a></li>
 	</ul>
   </div>
 </nav>
 
-<div class="jumbotron">
-	<center><h1>  Welcome Doctor <%= user %> <br> </h1></center>
+<div class="page-header" id="header">
+	<center><h2> Welcome Doctor <br> </h2></center>
 </div>
 
 <center><h1>  Patient Map <br> </h1></center>
@@ -33,12 +50,21 @@
 
 <script>
 function myMap() {
-var mapOptions = {
-    center: new google.maps.LatLng(32.777739, 35.0219852),
-    zoom: 20,
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-}
-var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+	var mapOptions = {
+		center: new google.maps.LatLng(32.777739, 35.0219852),
+		zoom: 20,
+		mapTypeId: google.maps.MapTypeId.TERRAIN
+	}
+	var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+	var marker = new google.maps.Marker({position:myCenter});
+	marker.setMap(map);
+	google.maps.event.addListener(marker,'click',function() {
+		var infowindow = new google.maps.InfoWindow({
+		  content:"Hello World!"
+		});
+	  infowindow.open(map,marker);
+	});
 }
 </script>
 
@@ -47,6 +73,11 @@ var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 To use this code on your website, get a free API key from Google.
 Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
 -->
+
+	<script>
+		var user = getCookie("user");
+		document.getElementById("header").innerHTML = "<center><h2>  Welcome Doctor " + user + " <br> </h2></center>";
+	</script>
 
 </body>
 </html>

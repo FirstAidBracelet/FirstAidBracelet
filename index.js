@@ -5,9 +5,11 @@ var mongoUrl = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.
 var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
 var bodyParser= require('body-parser');
+var cookieParser = require('cookie-parser');
 
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 /*
 postgres stuff
 */
@@ -77,7 +79,6 @@ app.get('/', function (request, response) {
 });
 
 app.get('/login', function (request, response) {
-
     // Use connect method to connect to the server
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
@@ -91,58 +92,91 @@ app.get('/login', function (request, response) {
 });
 
 app.post('/logged', function (request, response) {
-    var login = request.body;
-    var user = login.currentUser;
-    var type = login.type;
+    var type = request.cookies.type;
     if (type == "doctor") {
-        response.render('pages/map', { user: user, type: type});
+        response.redirect('/map');
     }
-    else {
-        response.render('pages/admin_main', { user: user, type: type });
+    else if (type == "agam") {
+        response.redirect('/admin_main');
     }
 });
 
-app.post('/user', function (request, response) {
-    var user = request.body.currentUser;
-    var type = request.body.type;
-    response.render('pages/db', { user: user, type: type });
+app.get('/logged', function (request, response) {
+    var type = request.cookies.type;
+    if (type == "doctor") {
+        response.redirect('/map');
+    }
+    else if (type == "agam") {
+        response.render('pages/admin_main');
+    } else {
+        response.redirect('/login');
+    }
 });
 
-app.post('/equip', function (request, response) {
-    var user = request.body.currentUser;
-    var type = request.body.type;
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        var equipmentDB = db.collection('equipment');
-        equipmentDB.find().toArray(
-            function (err, docs) {
-                response.render('pages/admin', { docs: docs, user: user, type: type });
-            }
-        );
-        db.close();
-    });
+app.get('/logout', function (request, response) {
+    response.clearCookie('type');
+    response.clearCookie('user');
+    response.redirect('/login');
+});
+
+app.get('/user', function (request, response) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
+        response.render('pages/add_user');
+    }
+});
+
+app.get('/equip', function (request, response) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            var equipmentDB = db.collection('equipment');
+            equipmentDB.find().toArray(
+                function (err, docs) {
+                    response.render('pages/admin', { docs: docs });
+                }
+            );
+            db.close();
+        });
+    }
+});
+
+app.get('/admin_main', function (request, response) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
+        response.render('pages/admin_main');
+    }
 });
 
 app.get('/map', function (request, response) {
-    response.render('pages/map');
-});
-
-app.get('/db', function (request, response) {
-    response.render('pages/index');
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
+        response.render('pages/map');
+    }
 });
 
 app.post('/addUser', function (request, response) {
     var form = request.body;
-    var user = form.currentUser;
-    delete form.currentUser;
-    //console.log(form);
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('users').save(form, function (err, result) {
             if (err) return console.log(err);
         });
     });
-    response.render('pages/admin_main', { user: user });
+    response.redirect('pages/logged');
 });
 
 var army = [];

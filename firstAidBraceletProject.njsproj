@@ -29,7 +29,7 @@
     <Content Include="public\IDFbadge.png" />
     <Content Include="public\medic-logo.png" />
     <Content Include="public\stylesheets\main.css" />
-    <Content Include="views\pages\db.ejs" />
+    <Content Include="views\pages\add_user.ejs" />
     <Content Include="views\pages\login.ejs" />
     <Content Include="views\pages\index.ejs" />
     <Content Include="views\pages\mainPage.ejs" />

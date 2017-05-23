@@ -11,7 +11,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
-
 <body>
 
 <!-- <% include ../partials/nav.ejs %> -->
@@ -22,7 +21,6 @@
     </div>
   </div>
 </nav>  
-
 
 <script>
 function validateForm() {
@@ -39,6 +37,8 @@ function validateForm() {
 		var check_uname = <%- JSON.stringify(doc.user) %>;
 		var check_psw = <%- JSON.stringify(doc.password) %>;
 		if (check_type == type && check_uname == uname && check_psw == psw){
+			document.cookie = "user=" + uname;
+			document.cookie = "type=" + type;
 			return true;
 		}
 	<% }); %>
@@ -47,13 +47,13 @@ function validateForm() {
 }
 </script>
 
-<div class="jumbotron">
-	<center><h1>  Login <br> </h1></center>
+<div class="page-header">
+	<center><h2> Login <br> </h2></center>
 </div>
 
 <form name="loginForm" action = "/logged" method = "post" onsubmit="return validateForm()">
 	<div class="imgcontainer">
-		<img src="/cas-padlock-icon.png" alt="Login" class="avatar">
+		<img src="/cas-padlock-icon.png" alt="Login" class="avatar" style="width:128px;height:128px;">
 	</div>
 
   <div class="container">

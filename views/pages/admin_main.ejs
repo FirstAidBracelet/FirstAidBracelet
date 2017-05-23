@@ -7,8 +7,25 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script>
+	function getCookie(cname) {
+		var name = cname + "=";
+		var decodedCookie = decodeURIComponent(document.cookie);
+		var ca = decodedCookie.split(';');
+		for(var i = 0; i <ca.length; i++) {
+			var c = ca[i];
+			while (c.charAt(0) == ' ') {
+				c = c.substring(1);
+			}
+			if (c.indexOf(name) == 0) {
+				return c.substring(name.length, c.length);
+			}
+		}
+		return "";
+	}
+  </script>
   
- 
 </head>
 <body>
 
@@ -18,34 +35,28 @@
       <a class="navbar-brand" href="/">First Aid Bracelet</a>
     </div>
 	<ul class="nav navbar-nav navbar-right">
-		<li><a href="/login"> Back To Login</a></li>
+		<li><a href="/logout">Logout</a></li>
 	</ul>
   </div>
 </nav>  
 
     <div class="container" style="background-image: url('/background.png'); background-repeat: no-repeat ; background-position: center ">
-        <div class="jumbotron">
-            <center><h1>  Welcome Admin <%= user %> <br> </h1></center>
-        </div>
+        <div class="page-header" id="header"></div>
 
         <div class="imgcontainer">
 		    <img src="/command-center.png" alt="Login" class="avatar">
 	    </div>
 
         <div class="row">
-            <form name="loginForm" action = "/equip" method = "post" onsubmit="return validateForm()">
-                <input type="hidden" name="currentUser" value=<%=user%>>
-                <input type="hidden" name="type" value=<%=type%>>
-                <div class="col-md-3"> <center> <input type="submit" value="Check Equipment" class="btn btn-lg btn-default"></center> </div>
-            </form>
-
-            <form name="loginForm" action = "/user" method = "post" onsubmit="return validateForm()">
-                <input type="hidden" name="currentUser" value=<%=user%>>
-                <input type="hidden" name="type" value=<%=type%>>	
-               <div class="col-md-3"> <center> <input type="submit" value="Add User" class="btn btn-lg btn-default"></center> </div>
-            </form>
-            
+			<div class="col-md-3"> <center> <a type="button" class="btn btn-lg btn-default" href="/equip">Check Equipment</a> </center> </div>
+			<div class="col-md-3"> <center> <a type="button" class="btn btn-lg btn-default" href="/user">Add User</a> </center> </div>    
         </div>
     </div>
+
+	<script>
+		var user = getCookie("user");
+		document.getElementById("header").innerHTML = "<center><h2>  Welcome Admin " + user + " <br> </h2></center>";
+	</script>
+
 </body>
 </html>
