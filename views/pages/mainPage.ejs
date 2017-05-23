@@ -80,7 +80,7 @@
                     <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
                     <h1></h1>
                     <!-- This two buttons will be removed after we will make the filter bar dynamicly -->
-                    <a href="#" onclick="getTreatments('6666666')">DISPLAY</a>
+                    <a href="#" onclick="getTreatments('55:33:12:D2:3A:11')">DISPLAY</a>
                     <h1 id="bdikabdika"></h1>
                     <a href="/mainPage" onclick="deleteTable()">Clear all</a>
 
@@ -132,9 +132,7 @@ function removeFilter(type, value) {
         xhr.send({});
 
 }
-
                     </script>
-
                 </div>
             </center>
         </div>
@@ -357,7 +355,9 @@ document.getElementById("serialId").remove();
 }
 
 
- function buildTreatmentsTable(soldier) {
+ function buildTreatmentsTable(givenSoldier) {
+
+       givenSoldier.forEach(function(soldier) { 
 
  <!-- Here we create Dynamicly linear list -->
    var node = document.createElement("LI");
@@ -375,24 +375,20 @@ document.getElementById("serialId").remove();
 	  <% }); %>
      <!-- Iterator for the columns which are treatment properties -->
 		 var k = 0;
-
-   <% for(var i = 0; i < 3; i++) { %>// for every treatment
-      var tHeader = table.insertRow(<%=i%>+1);  // create new row and insert +1 because the header is 0
-
+    for(var i = 0; i < soldier.treatments.length; i++) { // for every treatment
+      var tHeader = table.insertRow(i+1);  // create new row and insert +1 because the header is 0
          <% treatments_table.forEach(function(tbl) { %> // every row put create cells
-             tHeader.setAttribute('style', 'text-align:center;');
-
-             tHeader.insertCell(k).innerHTML ="Aaaaaa";
-
+             tHeader.setAttribute('style', 'text-align:center;');      
+             tHeader.insertCell(k).innerHTML = soldier.treatments[i].<%=tbl%>;
 		  k++;
 		   <% }); %>
 		   k = 0 ;
-           <% }; %>
-
+            }; 
     <!-- Now insert the Tabe to the dynamic row -->
     node.appendChild(table);
     <!-- Create dynamcly table -->
         document.getElementById("filtersTable").appendChild(node);
+             }); 
              }
 
 </script>

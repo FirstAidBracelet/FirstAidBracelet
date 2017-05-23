@@ -235,10 +235,11 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
         });
     });
 });
-app.post('/get-soldier/:braceletId/', function (req, res) {
+
+app.post('/get-soldier/:braceletId', function (req, res) {
+    console.log('ENTERED TO SEARCH SOLDIER');
     var result = [];
-    var fltr = { [req.params.filter]: req.params.value }; // Check if there is no duplicated filters
-       MongoClient.connect(mongoUrl, function (err, db) {
+          MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('soldiers').find({ bracelet_id: req.params.braceletId }).forEach(function (sld, err) {
             assert.equal(null, err);
