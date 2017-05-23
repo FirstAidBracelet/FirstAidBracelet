@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">
+    
 </head>
 
 <body>
@@ -79,13 +80,181 @@
                     </div>
                     <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
                     <h1></h1>
-                    <!-- This two buttons will be removed after we will make the filter bar dynamicly -->
-                    <!--<a href="#" onclick="getTreatments('55:33:12:D2:3A:11')">DISPLAY</a>
-                    <h1 id="bdikabdika"></h1>-->
+                    <!-- This  buttons will be removed after we will make the filter bar dynamicly -->
                     <a href="/mainPage" onclick="deleteTable()">Clear all</a>
+                </div>
+            </center>
+        </div>
+        <div class="col-md-10">
+            <center>
+                <div class="container">
+                    <center>
+                        <h2> Soldiers Database </h2>
+                    </center>
+                    <center>  <div id="mainSoldiersTable" style="overflow:scroll ; height:400px; " ></div> </center>                  
+                </div>
+            </center>
+            <div class="container" >
+                <center>  <ul id="filtersTable" class="list-inline" ></ul> </center>
+            </div>
+        </div>
+    </div>
+</body>
 
 <script>
-    function putFilter(type, value) {
+  
+    window.onload = function () {
+        var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            buildSoldiersTable(JSON.parse(this.response));      
+        }
+    }
+        xhr.open('POST','/get-soldiers/_/_/remove', true);
+        xhr.send({});
+    };
+  
+    <!--local variables to manipulate chosen data in real time (not sure if we will need in future) -->
+var chosenFilters = [];
+
+<!-- function that creates the popover that related with the "popover" keyword -->
+$(function(){
+    $('[rel="popover"]').popover({
+        container: 'body',
+        html: true,
+        content: function () {
+            var clone = $($(this).data('popover-content')).clone(true).removeClass('dropdown-menu');
+            return clone;
+        }
+    }).click(function(e) {
+        e.preventDefault();
+    });
+});
+
+function statusColor(status) {   
+    switch (status) {
+        case "kia":
+            return  "red";         
+        case "heavy":
+             return "#ff0066";     
+        case "average":
+            return "#ff7733";
+        case "light":
+           return "whilte";           
+    } 
+}
+<!-- Dynamic Table builder to represent the filtered information -->
+
+function deleteTable() { <!-- TODO: when there will be uniq id pass it to this function -->
+document.getElementById("serialId").remove();
+    }
+
+ function buildSoldiersTable(sldrs) {
+         
+        if (document.getElementById("serialId") !== null) {
+            document.getElementById("serialId").remove();
+}
+        <!-- Here we create Dynamicly linear list -->
+   
+   <!-- Here we will insert our table -->
+    var table = document.createElement('table'); 
+	table.setAttribute("class", "table table-striped");
+	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
+    var tHeader = table.insertRow(0);
+     <!-- Iterator for the header -->
+	 var i = 0 ;
+	  <% soldiers_table.forEach(function(doc) { %>
+	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
+
+     tHeader.insertCell(i).innerHTML = " <%= doc %> ";
+	 i++;
+	  <% }); %>
+     <!-- Iterator for the columns which are soldiers properties -->
+	 var j = 1;
+	 var k = 0;
+	  sldrs.forEach(function(sold) {
+          var tHeader = table.insertRow(j);
+          tHeader.setAttribute("id", "<%=soldiers_table[0] %>");
+          tHeader.addEventListener("click", function (event) {
+              getTreatments(sold.bracelet_id);
+               event.preventDefault();
+          });
+
+	  j++;
+         <% soldiers_table.forEach(function(tbl) { %>
+		 tHeader.setAttribute('style','text-align:center;');
+		 tHeader.insertCell(k).innerHTML = sold.<%=tbl%>;
+		  k++;
+		   <% }); %>
+		   k = 0 ;
+		 });
+
+    <!-- Now insert the Tabe to the dynamic row -->
+
+    <!-- Create dynamcly table -->
+        document.getElementById("mainSoldiersTable").appendChild(table);
+}
+
+  function getTreatments(braceletID) {
+     var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {//Call a function when the state changes.
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            buildTreatmentsTable(JSON.parse(this.response));
+        }
+    }
+        xhr.open('POST','/get-soldier/'+ braceletID , true);
+        xhr.send({});
+}
+
+ function buildTreatmentsTable(givenSoldier) {
+
+       givenSoldier.forEach(function(soldier) {  // this is the found soldier
+ <!-- Here we create Dynamicly linear list -->
+   var node = document.createElement("LI");
+    node.setAttribute('style', 'overflow:scroll; height:225px; width:350px');
+   <!-- Here we will insert our table -->
+    var table = document.createElement('table');
+    table.setAttribute("class", "table table-striped");
+    table.setAttribute("id", "serialIdd"); <!--TODO: this id should be uniq for every table  -- >
+
+    var tHeaderr = table.insertRow(0);        
+    tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
+    var tCell = tHeaderr.insertCell(0);
+    tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
+    tCell.innerHTML = "BraceletID: " + soldier.bracelet_id;
+    tCell.setAttribute('style','background:' + statusColor(soldier.injury_stat)+';');
+    tCell.colSpan = "3";
+    tHeaderr = table.insertRow(1);
+    tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
+    tCell = tHeaderr.insertCell(0);
+    tCell.innerHTML = "Soldier #: " + soldier.personal_number;
+    tCell.colSpan = "3";         
+    var tHeader = table.insertRow(2);
+     <!-- Iterator for the header -->
+	 var i = 0 ;
+	  <% treatments_table.forEach(function(doc) { %>
+	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
+          tHeader.insertCell(i).innerHTML = " <%= doc %> ";       
+	 i++;
+	  <% }); %>
+     <!-- Iterator for the columns which are treatment properties -->
+		 var k = 0;
+    for(var i = 0; i < soldier.treatments.length; i++) { // for every treatment
+      var tHeader = table.insertRow(i+3);  // create new row and insert +3 because there are 3 headers before
+         <% treatments_table.forEach(function(tbl) { %> // every row put create cells
+             tHeader.setAttribute('style', 'text-align:center;');      
+             tHeader.insertCell(k).innerHTML = soldier.treatments[i].<%=tbl%>;
+		  k++;
+		   <% }); %>
+		   k = 0 ;
+            }; 
+    <!-- Now insert the Tabe to the dynamic row -->
+    node.appendChild(table);
+    <!-- Create dynamcly table -->
+        document.getElementById("filtersTable").appendChild(node);
+             }); 
+    }
+     function putFilter(type, value) {
          for (i = 0; i < chosenFilters.length; i++) {
 		if (value === chosenFilters[i] ){
 			return;
@@ -130,266 +299,7 @@ function removeFilter(type, value) {
     }
         xhr.open('POST','/get-soldiers/'+ type +'/' + value + '/remove', true);
         xhr.send({});
-
 }
- </script>
-                </div>
-            </center>
-        </div>
-        <div class="col-md-10">
-            <center>
-                <div class="container">
-                    <center>
-                        <h2> Soldiers Database </h2>
-                    </center>
-                    <center>  <ul id="mainSoldiersTable" class="list-inline"></ul> </center>
-                    <table class="table table-striped" id="initialSoldiersTable">
-                        <thead>
-                            <tr>
-                                <% soldiers_table.forEach(function(doc) { %>
-                                <th> <%= doc %> </th>
-                                <% }); %>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% soldiers.forEach(function(sld) { %>
-                            <!--<tr id="<%=soldiers_table[0]%>" onclick="addTable<%=soldiers_table[0]%>('<%=sld[soldiers_table[0]]%>')">-->
-                            <tr id="<%=soldiers_table[0]%>" onclick="getTreatments('<%=sld.bracelet_id%>')">
-                                <% soldiers_table.forEach(function(tbl) { %>
-                                <td> <%= sld[tbl] %>   </td>
-                                <% }); %>
-                            </tr>
-                            <% }); %>
-                        </tbody>
-                    </table>
-                </div>
-            </center>
-            <div class="container" >
-                <center>  <ul id="filtersTable" class="list-inline" ></ul> </center>
-            </div>
-        </div>
-    </div>
-</body>
-
-<script>
-
-    function addTable<%=soldiers_table[0]%>(slll){
-    addTable(slll);
-
-    }
-    <!--local variables to manipulate chosen data in real time (not sure if we will need in future) -->
-var chosenFilters = [];
-var divisions = [];
-var units = [];
-var locations = [];
-var injuryStatuses = [];
-<!-- function that creates the popover that related with the "popover" keyword -->
-$(function(){
-    $('[rel="popover"]').popover({
-        container: 'body',
-        html: true,
-        content: function () {
-            var clone = $($(this).data('popover-content')).clone(true).removeClass('dropdown-menu');
-            return clone;
-        }
-    }).click(function(e) {
-        e.preventDefault();
-    });
-});
-<!-- Implementation of on click functions of the filters bar -->
-function selectDivision(division) {
-    for (i = 0; i < divisions.length; i++) {
-		if (division === divisions[i] ){
-			return;
-		}
-	}
-	divisions.push(division);
-    var myNodelist = document.getElementsByTagName("ul");
-    var node = document.createElement("LI");
-    var textnode = document.createTextNode(division);
-    node.appendChild(textnode);
-    node.style.backgroundColor = "yellow";
-    document.getElementById("divisionId").appendChild(node);
-}
-function selectUnit(unit) {
-    for (i = 0; i < units.length; i++) {
-		if (unit === units[i] ){
-			return;
-		}
-	}
-	units.push(unit);
-    var myNodelist = document.getElementsByTagName("ul");
-    var node = document.createElement("LI");
-    var textnode = document.createTextNode(unit);
-    node.appendChild(textnode);
-    node.style.backgroundColor = "#a64dff";
-    document.getElementById("divisionId").appendChild(node);
-}
-function statusColor(status) {   
-    switch (status) {
-        case "kia":
-            return  "red";         
-        case "heavy":
-             return "#ff0066";     
-        case "average":
-            return "#ff7733";
-        case "light":
-           return "whilte";           
-    } 
-}
-<!-- Dynamic Table builder to represent the filtered information -->
-
-function addTable(soldrr) {
-
-<!-- Here we create Dynamicly linear list -->
-   var node = document.createElement("LI");
-   <!-- Here we will insert our table -->
-    var table = document.createElement('table');
-	table.setAttribute("class", "table table-striped");
-	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
-    var tHeader = table.insertRow(0);
-     <!-- Iterator for the header -->
-	 var i = 0 ;
-	  <% soldiers_table.forEach(function(doc) { %>
-	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
-
-     tHeader.insertCell(i).innerHTML = " <%= doc %> ";
-	 i++;
-	  <% }); %>
-     <!-- Iterator for the columns which are soldiers properties -->
-	 var j = 1;
-	 var k = 0;
-	 <% soldiers.forEach(function(sold) { %>
-      var tHeader = table.insertRow(j);
-	  j++;
-         <% soldiers_table.forEach(function(tbl) { %>
-		 tHeader.setAttribute('style','text-align:center;');
-		<!--  tHeader.insertCell(k).innerHTML = " <%= sold[tbl] %> "; -->  <!--need to open for full table building -->
-    tHeader.insertCell(k).innerHTML = soldrr;
-		  k++;
-		   <% }); %>
-		   k = 0 ;
-		<% }); %>
-
-    <!-- Now insert the Tabe to the dynamic row -->
-    node.appendChild(table);
-    <!-- Create dynamcly table -->
-    document.getElementById("filtersTable").appendChild(node);
-}
-function deleteTable() { <!-- TODO: when there will be uniq id pass it to this function -->
-document.getElementById("serialId").remove();
-    }
-    function buildSoldiersTable(sldrs) {
-
-         if (document.getElementById("initialSoldiersTable") !== null) {
-            document.getElementById("initialSoldiersTable").remove();
-}
-        if (document.getElementById("serialId") !== null) {
-            document.getElementById("serialId").remove();
-}
-        <!-- Here we create Dynamicly linear list -->
-   var node = document.createElement("LI");
-   <!-- Here we will insert our table -->
-    var table = document.createElement('table');
-	table.setAttribute("class", "table table-striped");
-	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
-    var tHeader = table.insertRow(0);
-     <!-- Iterator for the header -->
-	 var i = 0 ;
-	  <% soldiers_table.forEach(function(doc) { %>
-	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
-
-     tHeader.insertCell(i).innerHTML = " <%= doc %> ";
-	 i++;
-	  <% }); %>
-     <!-- Iterator for the columns which are soldiers properties -->
-	 var j = 1;
-	 var k = 0;
-	  sldrs.forEach(function(sold) {
-          var tHeader = table.insertRow(j);
-          tHeader.setAttribute("id", "<%=soldiers_table[0] %>");
-          tHeader.addEventListener("click", function (event) {
-             //addTable<%=soldiers_table[0] %>(sold.<%=soldiers_table[0]%>);
-              getTreatments(sold.bracelet_id);
-               event.preventDefault();
-          });
-
-	  j++;
-         <% soldiers_table.forEach(function(tbl) { %>
-		 tHeader.setAttribute('style','text-align:center;');
-		 tHeader.insertCell(k).innerHTML = sold.<%=tbl%>;
-		  k++;
-		   <% }); %>
-		   k = 0 ;
-		 });
-
-    <!-- Now insert the Tabe to the dynamic row -->
-    node.appendChild(table);
-    <!-- Create dynamcly table -->
-        document.getElementById("mainSoldiersTable").appendChild(node);
-}
-
-  function getTreatments(braceletID) {
-     var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {//Call a function when the state changes.
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-            buildTreatmentsTable(JSON.parse(this.response));
-        }
-    }
-        xhr.open('POST','/get-soldier/'+ braceletID , true);
-        xhr.send({});
-}
-
- function buildTreatmentsTable(givenSoldier) {
-
-       givenSoldier.forEach(function(soldier) {  // this is the found soldier
- <!-- Here we create Dynamicly linear list -->
-   var node = document.createElement("LI");
-    //style = "overflow:scroll; height:100px;
-    node.setAttribute('style', 'overflow:scroll; height:225px; width:350px');
-
-   <!-- Here we will insert our table -->
-    var table = document.createElement('table');
-	table.setAttribute("class", "table table-striped");
-    table.setAttribute("id", "serialIdd"); <!--TODO: this id should be uniq for every table  -- >
-
-    var tHeaderr = table.insertRow(0);        
-    tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
-    var tCell = tHeaderr.insertCell(0);
-    tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
-    tCell.innerHTML = "BraceletID: " + soldier.bracelet_id;
-    tCell.setAttribute('style','background:' + statusColor(soldier.injury_stat)+';');
-    tCell.colSpan = "3";
-    tHeaderr = table.insertRow(1);
-    tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
-    tCell = tHeaderr.insertCell(0);
-    tCell.innerHTML = "Soldier #: " + soldier.personal_number;
-    tCell.colSpan = "3";         
-    var tHeader = table.insertRow(2);
-     <!-- Iterator for the header -->
-	 var i = 0 ;
-	  <% treatments_table.forEach(function(doc) { %>
-	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
-          tHeader.insertCell(i).innerHTML = " <%= doc %> ";       
-	 i++;
-	  <% }); %>
-     <!-- Iterator for the columns which are treatment properties -->
-		 var k = 0;
-    for(var i = 0; i < soldier.treatments.length; i++) { // for every treatment
-      var tHeader = table.insertRow(i+3);  // create new row and insert +3 because there are 3 headers before
-         <% treatments_table.forEach(function(tbl) { %> // every row put create cells
-             tHeader.setAttribute('style', 'text-align:center;');      
-             tHeader.insertCell(k).innerHTML = soldier.treatments[i].<%=tbl%>;
-		  k++;
-		   <% }); %>
-		   k = 0 ;
-            }; 
-    <!-- Now insert the Tabe to the dynamic row -->
-    node.appendChild(table);
-    <!-- Create dynamcly table -->
-        document.getElementById("filtersTable").appendChild(node);
-             }); 
-             }
 
 </script>
 </html>
