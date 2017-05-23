@@ -31,6 +31,7 @@
         <div class="col-md-11">
             <h4>Chosen Filters </h4>
             <div class="container">
+                <h4>Press to remove </h4>
                 <ul id="filtersBarId" class="list-inline"></ul>
             </div>
         </div>
@@ -94,6 +95,7 @@
                     <center>  <div id="mainSoldiersTable" style="overflow:scroll ; height:400px; " ></div> </center>                  
                 </div>
             </center>
+            <center> <h3> Chosen Soldiers  </h3></center>
             <div class="container" >
                 <center>  <ul id="filtersTable" class="list-inline" ></ul> </center>
             </div>
@@ -155,7 +157,6 @@ document.getElementById("serialId").remove();
             document.getElementById("serialId").remove();
 }
         <!-- Here we create Dynamicly linear list -->
-   
    <!-- Here we will insert our table -->
     var table = document.createElement('table'); 
 	table.setAttribute("class", "table table-striped");
