@@ -80,11 +80,11 @@
                     <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
                     <h1></h1>
                     <!-- This two buttons will be removed after we will make the filter bar dynamicly -->
-                    <a href="#" onclick="getTreatments('55:33:12:D2:3A:11')">DISPLAY</a>
-                    <h1 id="bdikabdika"></h1>
+                    <!--<a href="#" onclick="getTreatments('55:33:12:D2:3A:11')">DISPLAY</a>
+                    <h1 id="bdikabdika"></h1>-->
                     <a href="/mainPage" onclick="deleteTable()">Clear all</a>
 
-                    <script>
+<script>
     function putFilter(type, value) {
          for (i = 0; i < chosenFilters.length; i++) {
 		if (value === chosenFilters[i] ){
@@ -132,7 +132,7 @@ function removeFilter(type, value) {
         xhr.send({});
 
 }
-                    </script>
+ </script>
                 </div>
             </center>
         </div>
@@ -164,8 +164,8 @@ function removeFilter(type, value) {
                     </table>
                 </div>
             </center>
-            <div class="container">
-                <center>  <ul id="filtersTable" class="list-inline"></ul> </center>
+            <div class="container" >
+                <center>  <ul id="filtersTable" class="list-inline" ></ul> </center>
             </div>
         </div>
     </div>
@@ -340,12 +340,14 @@ document.getElementById("serialId").remove();
         xhr.send({});
 }
 
-
  function buildTreatmentsTable(givenSoldier) {
 
        givenSoldier.forEach(function(soldier) {  // this is the found soldier
  <!-- Here we create Dynamicly linear list -->
    var node = document.createElement("LI");
+    //style = "overflow:scroll; height:100px;
+    node.setAttribute('style', 'overflow:scroll; height:225px; width:350px');
+
    <!-- Here we will insert our table -->
     var table = document.createElement('table');
 	table.setAttribute("class", "table table-striped");
@@ -362,16 +364,13 @@ document.getElementById("serialId").remove();
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     tCell = tHeaderr.insertCell(0);
     tCell.innerHTML = "Soldier #: " + soldier.personal_number;
-    tCell.colSpan = "3";
-           
-
+    tCell.colSpan = "3";         
     var tHeader = table.insertRow(2);
      <!-- Iterator for the header -->
 	 var i = 0 ;
 	  <% treatments_table.forEach(function(doc) { %>
 	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
-          tHeader.insertCell(i).innerHTML = " <%= doc %> ";
-         
+          tHeader.insertCell(i).innerHTML = " <%= doc %> ";       
 	 i++;
 	  <% }); %>
      <!-- Iterator for the columns which are treatment properties -->
