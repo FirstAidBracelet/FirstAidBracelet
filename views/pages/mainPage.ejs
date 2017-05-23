@@ -153,7 +153,8 @@ function removeFilter(type, value) {
                         </thead>
                         <tbody>
                             <% soldiers.forEach(function(sld) { %>
-                            <tr id="<%=soldiers_table[0]%>" onclick="addTable<%=soldiers_table[0]%>('<%=sld[soldiers_table[0]]%>')">
+                            <!--<tr id="<%=soldiers_table[0]%>" onclick="addTable<%=soldiers_table[0]%>('<%=sld[soldiers_table[0]]%>')">-->
+                            <tr id="<%=soldiers_table[0]%>" onclick="getTreatments('<%=sld.bracelet_id%>')">
                                 <% soldiers_table.forEach(function(tbl) { %>
                                 <td> <%= sld[tbl] %>   </td>
                                 <% }); %>
@@ -324,7 +325,8 @@ document.getElementById("serialId").remove();
           var tHeader = table.insertRow(j);
           tHeader.setAttribute("id", "<%=soldiers_table[0] %>");
           tHeader.addEventListener("click", function (event) {
-             addTable<%=soldiers_table[0] %>(sold.<%=soldiers_table[0]%>);
+             //addTable<%=soldiers_table[0] %>(sold.<%=soldiers_table[0]%>);
+              getTreatments(sold.bracelet_id);
                event.preventDefault();
           });
 
@@ -357,8 +359,7 @@ document.getElementById("serialId").remove();
 
  function buildTreatmentsTable(givenSoldier) {
 
-       givenSoldier.forEach(function(soldier) { 
-
+       givenSoldier.forEach(function(soldier) {  // this is the found soldier
  <!-- Here we create Dynamicly linear list -->
    var node = document.createElement("LI");
    <!-- Here we will insert our table -->
