@@ -21,6 +21,7 @@
     </Compile>
     <Content Include="app.json" />
     <Content Include="package.json" />
+    <Content Include="public\armyBackground.jpg" />
     <Content Include="public\background.png" />
     <Content Include="public\background_o40.png" />
     <Content Include="public\stylesheets\doctorStyles.css" />
@@ -38,8 +39,6 @@
     <Content Include="views\pages\map.ejs">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="views\partials\header.ejs" />
-    <Content Include="views\partials\nav.ejs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="firstAidBraceletProject" />
@@ -47,7 +46,6 @@
     <Folder Include="public\stylesheets" />
     <Folder Include="views" />
     <Folder Include="views\pages" />
-    <Folder Include="views\partials" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
