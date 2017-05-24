@@ -42,5 +42,12 @@
     background-color: #1B9CC0;
     text-align: center;
 }
+#backGrndPic {
+    background-image: url('/background_o40.png');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-attachment: fixed;
+    background-position: center;
+}
 
 
