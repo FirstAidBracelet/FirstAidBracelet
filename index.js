@@ -6,7 +6,7 @@ var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
 var bodyParser= require('body-parser');
 
-
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));
 /*
 postgres stuff
@@ -60,6 +60,26 @@ app.post('/admin', function (request, response) {
     db.close();
     });
 });
+
+//deleting an item in Equipment. called from admin.ejs
+app.post('/admin_delete_item', (req, res) => {
+    MongoClient.connect(mongoUrl, function(err, db) {
+        assert.equal(null, err);
+        console.log("HELLO")
+        console.log(req.body.item_id);
+        db.collection('equipment').findOneAndDelete({equipment_id: req.body.item_id},
+        (err, result) => {
+            if (err) return res.send(500, err)
+            console.log("HELOO")
+        console.log(req.body.user)
+        console.log(req.body.user_type)
+            res.render('pages/admin', { docs: req.body.docs, user: req.body.user, type: req.body.user_type });
+        })
+        
+
+    db.close();
+    });
+})
 
 
 app.set('port', (process.env.PORT || 5000));

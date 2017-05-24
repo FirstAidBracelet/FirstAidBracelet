@@ -24,7 +24,7 @@
 			<input type="hidden" name="currentUser" value=<%=user%>>
 			<input type="hidden" name="type" value=<%=type%>>
 			<button class="btn btn-default navbar-btn" type="submit">Admin Page</button>
-        </form>
+      </form>
     </ul>
 	<ul class="nav navbar-nav navbar-right">
 		<li><a href="/login"> Back To Login</a></li>
@@ -93,10 +93,17 @@
                       <td><%= doc.name%> </td>
                       <td><%= doc.type%> </td>
                       <td><%= doc.equipment_id%> </td>
+                      <!--<input type="hidden" name="name" value="<%= doc.name%>" />
+                      <td><button id="delete_item"> Delete! </button></td>-->
+                      <td><form name="Delete_item">
+                      	<button id="delete_item_<%= doc.name%>" onclick="deletingItem('<%=doc.equipment_id%>',
+                      	 '<%=docs%>', '<%=user%>', '<%=type%>')"> Delete </button>
+                      </form></td>
                   </tr>
                     <% }); %>
+
                 </tbody>          
-        </table>
+        </table> 
 
         </div>
       </div>
@@ -107,6 +114,27 @@
 <div class="row"><h1></h1></div>
 <div class="row">""</div>
 <div class="row">""</div>
+
+<script>
+function deletingItem(item_id, docs, user, user_type) {
+ 		console.log(item_id)
+   		console.log(user)
+ 		fetch('admin_delete_item', {
+		    method: 'post',
+		    headers: {
+		      'Content-Type': 'application/json'
+		    },
+   			body: JSON.stringify({
+      			'item_id': item_id
+      			'user': user
+      			'user_type': user_type
+      			'docs': docs
+    		})
+  			}).then(function (response) {
+   				window.location.reload()
+  			})
+}
+</script>
 
 <script>
 $(document).ready(function(){
