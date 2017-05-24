@@ -8,7 +8,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">
- 
 </head>
 <div id="backGrndPic">
     <body>
@@ -104,7 +103,7 @@
         </div>
     </body>
 </div>
-    <script>
+<script>
 
     window.onload = function () {
         var xhr = new XMLHttpRequest();
@@ -167,7 +166,6 @@ document.getElementById("serialId").remove();
 	 var i = 0 ;
 	  <% soldiers_table.forEach(function(doc) { %>
 	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
-
      tHeader.insertCell(i).innerHTML = " <%= doc %> ";
 	 i++;
 	  <% }); %>
@@ -181,7 +179,6 @@ document.getElementById("serialId").remove();
               getTreatments(sold.bracelet_id);
                event.preventDefault();
           });
-
 	  j++;
          <% soldiers_table.forEach(function(tbl) { %>
 		 tHeader.setAttribute('style','text-align:center;');
@@ -191,7 +188,6 @@ document.getElementById("serialId").remove();
 		   k = 0 ;
 		 });
 
-    <!-- Now insert the Tabe to the dynamic row -->
 
     <!-- Create dynamcly table -->
         document.getElementById("mainSoldiersTable").appendChild(table);
@@ -292,7 +288,7 @@ function removeFilter(type, value) {
             buildSoldiersTable(JSON.parse(this.response));
             for (i = 0; i < chosenFilters.length; i++) {
 		if (value === chosenFilters[i] ){
-            chosenFilters.splice(i, value);
+            chosenFilters.splice(i, 1);
              document.getElementById(type + value).remove();
                         break;
              }
@@ -303,5 +299,5 @@ function removeFilter(type, value) {
         xhr.send({});
 }
 
-    </script>
+</script>
 </html>

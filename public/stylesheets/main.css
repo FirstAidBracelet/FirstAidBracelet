@@ -5,10 +5,8 @@
     background-attachment: fixed;
     background-position: center;
 }
+
 #armyBack {
     background-image: url('/armyBackground.jpg');
     background-size: auto;
 }
-    
-    
-

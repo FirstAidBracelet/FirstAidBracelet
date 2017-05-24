@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <% include ../partials/header.ejs %>
+    <% include ../partials/header.ejs %>
 </head>
 
 <body>
 
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">First Aid Bracelet</a>
-    </div>
-    <ul class="nav navbar-nav">
-		<li><a href="/logged">Admin Page</a></li>
-    </ul>
-	<ul class="nav navbar-nav navbar-right">
-		<li><a href="/logout">Logout</a></li>
-	</ul>
-  </div>
-</nav>  
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">First Aid Bracelet</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/logged">Admin Page</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
 
-<div class="container" style="background-image: url('/background.png'); background-repeat: no-repeat ; background-position: center ">
-	<center><h1>  Add User </h1></center>
+    <div class="container" style="background-image: url('/background.png'); background-repeat: no-repeat ; background-position: center ">
+        <center><h1>  Add User </h1></center>
 
-<form name="addUser" action = "/addUser" method = "post">
-    <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="user" required>
+        <form name="addUser" action="/addUser" method="post">
+            <label><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="user" required>
 
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required><br>
+            <label><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" required><br>
 
-	<input type="radio" name="type" value="doctor" checked>Doctor<br>
-	<input type="radio" name="type" value="agam">Agam<br>
+            <input type="radio" name="type" value="doctor" checked>Doctor<br>
+            <input type="radio" name="type" value="agam">Agam<br>
 
-    <input type="submit" value="Add">
-</form>
+            <input type="submit" value="Add">
+        </form>
 
 </body>
 </html>
