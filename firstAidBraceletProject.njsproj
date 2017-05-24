@@ -39,12 +39,15 @@
     <Content Include="views\pages\map.ejs">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="views\partials\header.ejs" />
+    <Content Include="views\partials\nav.ejs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="firstAidBraceletProject" />
     <Folder Include="public" />
     <Folder Include="public\stylesheets" />
     <Folder Include="views" />
+    <Folder Include="views\partials\" />
     <Folder Include="views\pages" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
