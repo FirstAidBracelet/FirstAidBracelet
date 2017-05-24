@@ -69,17 +69,14 @@ app.post('/admin', function (request, response) {
 app.post('/admin_delete_item', (req, res) => {
     MongoClient.connect(mongoUrl, function(err, db) {
         assert.equal(null, err);
-        console.log("HELLO")
-        console.log(req.body.item_id);
         db.collection('equipment').findOneAndDelete({equipment_id: req.body.item_id},
         (err, result) => {
             if (err) return res.send(500, err)
-            console.log("HELOO")
-        console.log(req.body.user)
-        console.log(req.body.user_type)
-            res.render('pages/admin', { docs: req.body.docs, user: req.body.user, type: req.body.user_type });
+            setTimeout(function() {
+                console.log("waits")
+            }, 5000);
+            res.redirect('/admin');
         })
-        
 
     db.close();
     });
@@ -101,16 +98,25 @@ app.get('/', function (request, response) {
 });
 
 app.get('/login', function (request, response) {
-    // Use connect method to connect to the server
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        var col = db.collection('users');
-        col.find().toArray(function (err, docs) {
-            response.render('pages/login', { docs: docs });
-        });
+    var type = request.cookies.type;
+    if (type == "doctor") {
+        response.redirect('/map');
+    }
+    else if (type == "agam") {
+        response.redirect('/admin_main');
+    }
+    else {
+        // Use connect method to connect to the server
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            var col = db.collection('users');
+            col.find().toArray(function (err, docs) {
+                response.render('pages/login', { docs: docs });
+            });
 
-        db.close();
-    });
+            db.close();
+        });
+    }
 });
 
 app.post('/logged', function (request, response) {

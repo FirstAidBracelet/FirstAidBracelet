@@ -92,8 +92,7 @@
                       <!--<input type="hidden" name="name" value="<%= doc.name%>" />
                       <td><button id="delete_item"> Delete! </button></td>-->
                       <td><form name="Delete_item">
-                      	<button id="delete_item_<%= doc.name%>" onclick="deletingItem('<%=doc.equipment_id%>',
-                      	 '<%=docs%>', '<%=user%>', '<%=type%>')"> Delete </button>
+                      	<button id="delete_item_<%= doc.name%>" onclick="deletingItem('<%=doc.equipment_id%>')"> Delete </button>
                       </form></td>
                   </tr>
                     <% }); %>
@@ -113,8 +112,6 @@
 
 <script>
 function deletingItem(item_id, docs, user, user_type) {
- 		console.log(item_id)
-   		console.log(user)
  		fetch('admin_delete_item', {
 		    method: 'post',
 		    headers: {
@@ -122,9 +119,6 @@ function deletingItem(item_id, docs, user, user_type) {
 		    },
    			body: JSON.stringify({
       			'item_id': item_id
-      			'user': user
-      			'user_type': user_type
-      			'docs': docs
     		})
   			}).then(function (response) {
    				window.location.reload()
