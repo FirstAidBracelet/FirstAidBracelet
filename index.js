@@ -222,8 +222,21 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
         for (var i = 0; i < filtersArray.length; i++) {
             if (Object.keys(filtersArray[i])[0] == Object.keys(fltr)[0] && filtersArray[i][Object.keys(filtersArray[i])[0]] == fltr[Object.keys(fltr)[0]]) {
                 filtersArray.splice(i, 1);
-                break;
+                   break;
             }
+        }
+        if (filtersArray.length == 0) {
+            MongoClient.connect(mongoUrl, function (err, db) {
+                assert.equal(null, err);
+                db.collection('soldiers').find().forEach(function (sld, err) {
+                    assert.equal(null, err);
+                    result.push(sld);
+                }, function () {
+                    db.close();
+                    res.json(result);
+                });
+            });
+            return;
         }
     }
     MongoClient.connect(mongoUrl, function (err, db) {
@@ -239,8 +252,7 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
 });
 
 app.post('/get-soldier/:braceletId', function (req, res) {
-    console.log('ENTERED TO SEARCH SOLDIER');
-    var result = [];
+      var result = [];
           MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('soldiers').find({ bracelet_id: req.params.braceletId }).forEach(function (sld, err) {

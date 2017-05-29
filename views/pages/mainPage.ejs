@@ -9,83 +9,250 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">
 </head>
+<div id="backGrndPic">
+    <body>
 
-<body>
-    <div class="row">
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/">First Aid Bracelet</a>
+        <div class="row">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/">First Aid Bracelet</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="/mainPage"> MainPage </a></li>
+                    </ul>
                 </div>
-                <ul class="nav navbar-nav">
-                    <li><a href="/mainPage"> mainPageFilter</a></li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-    <div class="row">" "  </div>
-    <div class="row">" "  </div>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-11">
-            <h4>Chosen Filters </h4>
-            <div class="container">
-                <ul id="filtersBarId" class="list-inline"></ul>
+            </nav>
+        </div>
+        <div class="row">" "  </div>
+        <div class="row">" "  </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-11">
+                <h4>Chosen Filters </h4>
+                <div class="container">
+                    <h4>Press to remove </h4>
+                    <ul id="filtersBarId" class="list-inline"></ul>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <center>
-                <div class="vertical-menu pull-right">
-                    <h4>Display By</h4>
-                    <!-- This is the Filters side Bar container, in future he will be built dynamicly -->
-                    <!-- Every element in the container is a dropdown menu of filter values -->
-                    <div class="dropdown">
-                        <ul id="divisionDropdown" class="dropdown-menu">
-                            <!-- Every dropdown is created by template iterator which builds list from the value we pass fom back-end -->
-                            <% divisions.forEach(function(dvsn) { %>
-                            <a href="#" class="list-group-item" onclick="putFilter('division','<%= dvsn %>')"><%= dvsn %></a>
-                            <% }); %>
-                        </ul>
+        <div class="row">
+            <div class="col-md-2">
+                <center>
+                    <div class="vertical-menu pull-right">
+                        <h4>Display By</h4>
+                        <!-- This is the Filters side Bar container, in future he will be built dynamicly -->
+                        <!-- Every element in the container is a dropdown menu of filter values -->
+                        <div class="dropdown">
+                            <ul id="divisionDropdown" class="dropdown-menu">
+                                <!-- Every dropdown is created by template iterator which builds list from the value we pass fom back-end -->
+                                <% divisions.forEach(function(dvsn) { %>
+                                <a href="#" class="list-group-item" onclick="putFilter('division','<%= dvsn %>')"><%= dvsn %></a>
+                                <% }); %>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#divisionDropdown" type="button" data-trigger="focus">Division <span class="caret-right"></span></button>
+                        <h1></h1>
+                        <div class="dropdown">
+                            <ul id="unitDropdown" class="dropdown-menu">
+                                <% units.forEach(function(unt) { %>
+                                <a href="#" class="list-group-item" onclick="putFilter('unit','<%= unt %>')"><%= unt %></a>
+                                <% }); %>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#unitDropdown" type="button" data-trigger="focus">Unit <span class="caret-right"></span></button>
+                        <h1></h1>
+                        <div class="dropdown">
+                            <ul id="locationDropdown" class="dropdown-menu">
+                                <!-- still dont know how to lsear wth location this is for future -->
+                                <a href="#" class="list-group-item">Some location</a>
+                                <a href="#" class="list-group-item">Location location</a>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#locationDropdown" type="button" data-trigger="focus">Location <span class="caret-right"></span></button>
+                        <h1></h1>
+                        <div class="dropdown">
+                            <ul id="statusDropdown" class="dropdown-menu">
+                                <a href="#" class="list-group-item" onclick="putFilter('injury_stat','light')">Light</a>
+                                <a href="#" class="list-group-item" onclick="putFilter('injury_stat','average')" style="background-color:#ff7733">Average</a>
+                                <a href="#" class="list-group-item" onclick="putFilter('injury_stat','heavy')" style="background-color:#ff0066">Heavy</a>
+                                <a href="#" class="list-group-item" onclick="putFilter('injury_stat','kia')" style="background-color:red">K.I.A</a>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
+                        <h1></h1>
+                        <!-- This  buttons will be removed after we will make the filter bar dynamicly -->
+                        <a href="/mainPage" onclick="deleteTable()">Clear all</a>
                     </div>
-                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#divisionDropdown" type="button" data-trigger="focus">Division <span class="caret-right"></span></button>
-                    <h1></h1>
-                    <div class="dropdown">
-                        <ul id="unitDropdown" class="dropdown-menu">
-                            <% units.forEach(function(unt) { %>
-                            <a href="#" class="list-group-item" onclick="putFilter('unit','<%= unt %>')"><%= unt %></a>
-                            <% }); %>
-                        </ul>
+                </center>
+            </div>
+            <div class="col-md-10">
+                <center>
+                    <div class="container">
+                        <center>
+                            <h2> Soldiers Database </h2>
+                        </center>
+                        <center>  <div id="mainSoldiersTable" style="overflow:scroll ; height:400px; "></div> </center>
                     </div>
-                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#unitDropdown" type="button" data-trigger="focus">Unit <span class="caret-right"></span></button>
-                    <h1></h1>
-                    <div class="dropdown">
-                        <ul id="locationDropdown" class="dropdown-menu">
-                            <!-- still dont know how to lsear wth location this is for future -->
-                            <a href="#" class="list-group-item">Some location</a>
-                            <a href="#" class="list-group-item">Location location</a>
-                        </ul>
-                    </div>
-                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#locationDropdown" type="button" data-trigger="focus">Location <span class="caret-right"></span></button>
-                    <h1></h1>
-                    <div class="dropdown">
-                        <ul id="statusDropdown" class="dropdown-menu">
-                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','light')">Light</a>
-                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','average')" style="background-color:#ff7733">Average</a>
-                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','heavy')" style="background-color:#ff0066">Heavy</a>
-                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','kia')" style="background-color:red">K.I.A</a>
-                        </ul>
-                    </div>
-                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
-                    <h1></h1>
-                    <!-- This two buttons will be removed after we will make the filter bar dynamicly -->
-                    <a href="#" onclick="getTreatments('55:33:12:D2:3A:11')">DISPLAY</a>
-                    <h1 id="bdikabdika"></h1>
-                    <a href="/mainPage" onclick="deleteTable()">Clear all</a>
+                </center>
+                <center> <h3> Chosen Soldiers  </h3></center>
+                <div class="container">
+                    <center>  <ul id="filtersTable" class="list-inline"></ul> </center>
+                </div>
+            </div>
+        </div>
+    </body>
+</div>
+<script>
 
-                    <script>
-    function putFilter(type, value) {
+    window.onload = function () {
+        var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            buildSoldiersTable(JSON.parse(this.response));
+        }
+    }
+        xhr.open('POST','/get-soldiers/_/_/remove', true);
+        xhr.send({});
+    };
+
+    <!--local variables to manipulate chosen data in real time (not sure if we will need in future) -->
+var chosenFilters = [];
+
+<!-- function that creates the popover that related with the "popover" keyword -->
+$(function(){
+    $('[rel="popover"]').popover({
+        container: 'body',
+        html: true,
+        content: function () {
+            var clone = $($(this).data('popover-content')).clone(true).removeClass('dropdown-menu');
+            return clone;
+        }
+    }).click(function(e) {
+        e.preventDefault();
+    });
+});
+
+function statusColor(status) {
+    switch (status) {
+        case "kia":
+            return  "red";
+        case "heavy":
+             return "#ff0066";
+        case "average":
+            return "#ff7733";
+        case "light":
+           return "whilte";
+    }
+}
+<!-- Dynamic Table builder to represent the filtered information -->
+
+function deleteTable() { <!-- TODO: when there will be uniq id pass it to this function -->
+document.getElementById("serialId").remove();
+    }
+
+ function buildSoldiersTable(sldrs) {
+
+        if (document.getElementById("serialId") !== null) {
+            document.getElementById("serialId").remove();
+}
+        <!-- Here we create Dynamicly linear list -->
+   <!-- Here we will insert our table -->
+    var table = document.createElement('table');
+	table.setAttribute("class", "table table-striped");
+	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
+    var tHeader = table.insertRow(0);
+     <!-- Iterator for the header -->
+	 var i = 0 ;
+	  <% soldiers_table.forEach(function(doc) { %>
+	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
+     tHeader.insertCell(i).innerHTML = " <%= doc %> ";
+	 i++;
+	  <% }); %>
+     <!-- Iterator for the columns which are soldiers properties -->
+	 var j = 1;
+	 var k = 0;
+	  sldrs.forEach(function(sold) {
+          var tHeader = table.insertRow(j);
+          tHeader.setAttribute("id", "<%=soldiers_table[0] %>");
+          tHeader.addEventListener("click", function (event) {
+              getTreatments(sold.bracelet_id);
+               event.preventDefault();
+          });
+	  j++;
+         <% soldiers_table.forEach(function(tbl) { %>
+		 tHeader.setAttribute('style','text-align:center;');
+		 tHeader.insertCell(k).innerHTML = sold.<%=tbl%>;
+		  k++;
+		   <% }); %>
+		   k = 0 ;
+		 });
+
+
+    <!-- Create dynamcly table -->
+        document.getElementById("mainSoldiersTable").appendChild(table);
+}
+
+  function getTreatments(braceletID) {
+     var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {//Call a function when the state changes.
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            buildTreatmentsTable(JSON.parse(this.response));
+        }
+    }
+        xhr.open('POST','/get-soldier/'+ braceletID , true);
+        xhr.send({});
+}
+
+ function buildTreatmentsTable(givenSoldier) {
+
+       givenSoldier.forEach(function(soldier) {  // this is the found soldier
+ <!-- Here we create Dynamicly linear list -->
+   var node = document.createElement("LI");
+    node.setAttribute('style', 'overflow:scroll; height:225px; width:350px');
+   <!-- Here we will insert our table -->
+    var table = document.createElement('table');
+    table.setAttribute("class", "table table-striped");
+    table.setAttribute("id", "serialIdd"); <!--TODO: this id should be uniq for every table  -- >
+
+    var tHeaderr = table.insertRow(0);
+    tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
+    var tCell = tHeaderr.insertCell(0);
+    tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
+    tCell.innerHTML = "BraceletID: " + soldier.bracelet_id;
+    tCell.setAttribute('style','background:' + statusColor(soldier.injury_stat)+';');
+    tCell.colSpan = "3";
+    tHeaderr = table.insertRow(1);
+    tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
+    tCell = tHeaderr.insertCell(0);
+    tCell.innerHTML = "Soldier #: " + soldier.personal_number;
+    tCell.colSpan = "3";
+    var tHeader = table.insertRow(2);
+     <!-- Iterator for the header -->
+	 var i = 0 ;
+	  <% treatments_table.forEach(function(doc) { %>
+	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
+          tHeader.insertCell(i).innerHTML = " <%= doc %> ";
+	 i++;
+	  <% }); %>
+     <!-- Iterator for the columns which are treatment properties -->
+		 var k = 0;
+    for(var i = 0; i < soldier.treatments.length; i++) { // for every treatment
+      var tHeader = table.insertRow(i+3);  // create new row and insert +3 because there are 3 headers before
+         <% treatments_table.forEach(function(tbl) { %> // every row put create cells
+             tHeader.setAttribute('style', 'text-align:center;');
+             tHeader.insertCell(k).innerHTML = soldier.treatments[i].<%=tbl%>;
+		  k++;
+		   <% }); %>
+		   k = 0 ;
+            };
+    <!-- Now insert the Tabe to the dynamic row -->
+    node.appendChild(table);
+    <!-- Create dynamcly table -->
+        document.getElementById("filtersTable").appendChild(node);
+             });
+    }
+     function putFilter(type, value) {
          for (i = 0; i < chosenFilters.length; i++) {
 		if (value === chosenFilters[i] ){
 			return;
@@ -93,7 +260,7 @@
         }
       chosenFilters.push(value);
       var node = document.createElement("BUTTON");
-        node.setAttribute("id", type + value); 
+        node.setAttribute("id", type + value);
         node.addEventListener("click", function (event) {
              removeFilter(type,value);
                event.preventDefault();
@@ -121,7 +288,7 @@ function removeFilter(type, value) {
             buildSoldiersTable(JSON.parse(this.response));
             for (i = 0; i < chosenFilters.length; i++) {
 		if (value === chosenFilters[i] ){
-            chosenFilters.splice(i, value);
+            chosenFilters.splice(i, 1);
              document.getElementById(type + value).remove();
                         break;
              }
@@ -130,267 +297,7 @@ function removeFilter(type, value) {
     }
         xhr.open('POST','/get-soldiers/'+ type +'/' + value + '/remove', true);
         xhr.send({});
-
 }
-                    </script>
-                </div>
-            </center>
-        </div>
-        <div class="col-md-10">
-            <center>
-                <div class="container">
-                    <center>
-                        <h2> Soldiers Database </h2>
-                    </center>
-                    <center>  <ul id="mainSoldiersTable" class="list-inline"></ul> </center>
-                    <table class="table table-striped" id="initialSoldiersTable">
-                        <thead>
-                            <tr>
-                                <% soldiers_table.forEach(function(doc) { %>
-                                <th> <%= doc %> </th>
-                                <% }); %>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% soldiers.forEach(function(sld) { %>
-                            <!--<tr id="<%=soldiers_table[0]%>" onclick="addTable<%=soldiers_table[0]%>('<%=sld[soldiers_table[0]]%>')">-->
-                            <tr id="<%=soldiers_table[0]%>" onclick="getTreatments('<%=sld.bracelet_id%>')">
-                                <% soldiers_table.forEach(function(tbl) { %>
-                                <td> <%= sld[tbl] %>   </td>
-                                <% }); %>
-                            </tr>
-                            <% }); %>
-                        </tbody>
-                    </table>
-                </div>
-            </center>
-            <div class="container">
-                <center>  <ul id="filtersTable" class="list-inline"></ul> </center>
-            </div>
-        </div>
-    </div>
-</body>
-
-<script>
-
-    function addTable<%=soldiers_table[0]%>(slll){
-    addTable(slll);
-
-    }
-    <!--local variables to manipulate chosen data in real time (not sure if we will need in future) -->
-var chosenFilters = [];
-var divisions = [];
-var units = [];
-var locations = [];
-var injuryStatuses = [];
-<!-- function that creates the popover that related with the "popover" keyword -->
-$(function(){
-    $('[rel="popover"]').popover({
-        container: 'body',
-        html: true,
-        content: function () {
-            var clone = $($(this).data('popover-content')).clone(true).removeClass('dropdown-menu');
-            return clone;
-        }
-    }).click(function(e) {
-        e.preventDefault();
-    });
-});
-<!-- Implementation of on click functions of the filters bar -->
-function selectDivision(division) {
-    for (i = 0; i < divisions.length; i++) {
-		if (division === divisions[i] ){
-			return;
-		}
-	}
-	divisions.push(division);
-    var myNodelist = document.getElementsByTagName("ul");
-    var node = document.createElement("LI");
-    var textnode = document.createTextNode(division);
-    node.appendChild(textnode);
-    node.style.backgroundColor = "yellow";
-    document.getElementById("divisionId").appendChild(node);
-}
-function selectUnit(unit) {
-    for (i = 0; i < units.length; i++) {
-		if (unit === units[i] ){
-			return;
-		}
-	}
-	units.push(unit);
-    var myNodelist = document.getElementsByTagName("ul");
-    var node = document.createElement("LI");
-    var textnode = document.createTextNode(unit);
-    node.appendChild(textnode);
-    node.style.backgroundColor = "#a64dff";
-    document.getElementById("divisionId").appendChild(node);
-}
-function selectStatus(status) {
-    for (i = 0; i < injuryStatuses.length; i++) {
-		if (status === injuryStatuses[i] ){
-			return;
-		}
-	}
-	injuryStatuses.push(status);
-
-   var node = document.createElement("BUTTON");
-   var t = document.createTextNode(status);
-   node.appendChild(t);
-
-    switch (status) {
-        case "kia":
-            node.style.backgroundColor = "red";
-            break;
-        case "heavy":
-            node.style.backgroundColor = " #ff0066";
-            break;
-        case "average":
-            node.style.backgroundColor = "#ff7733";
-            break;
-        case "light":
-            node.style.backgroundColor = "whilte";
-            break;
-    }
-    document.getElementById("divisionId").appendChild(node);
-}
-<!-- Dynamic Table builder to represent the filtered information -->
-
-function addTable(soldrr) {
-
-<!-- Here we create Dynamicly linear list -->
-   var node = document.createElement("LI");
-   <!-- Here we will insert our table -->
-    var table = document.createElement('table');
-	table.setAttribute("class", "table table-striped");
-	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
-    var tHeader = table.insertRow(0);
-     <!-- Iterator for the header -->
-	 var i = 0 ;
-	  <% soldiers_table.forEach(function(doc) { %>
-	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
-
-     tHeader.insertCell(i).innerHTML = " <%= doc %> ";
-	 i++;
-	  <% }); %>
-     <!-- Iterator for the columns which are soldiers properties -->
-	 var j = 1;
-	 var k = 0;
-	 <% soldiers.forEach(function(sold) { %>
-      var tHeader = table.insertRow(j);
-	  j++;
-         <% soldiers_table.forEach(function(tbl) { %>
-		 tHeader.setAttribute('style','text-align:center;');
-		<!--  tHeader.insertCell(k).innerHTML = " <%= sold[tbl] %> "; -->  <!--need to open for full table building -->
-    tHeader.insertCell(k).innerHTML = soldrr;
-		  k++;
-		   <% }); %>
-		   k = 0 ;
-		<% }); %>
-
-    <!-- Now insert the Tabe to the dynamic row -->
-    node.appendChild(table);
-    <!-- Create dynamcly table -->
-    document.getElementById("filtersTable").appendChild(node);
-}
-function deleteTable() { <!-- TODO: when there will be uniq id pass it to this function -->
-document.getElementById("serialId").remove();
-    }
-    function buildSoldiersTable(sldrs) {
-
-         if (document.getElementById("initialSoldiersTable") !== null) {
-            document.getElementById("initialSoldiersTable").remove();
-}
-        if (document.getElementById("serialId") !== null) {
-            document.getElementById("serialId").remove();
-}
-        <!-- Here we create Dynamicly linear list -->
-   var node = document.createElement("LI");
-   <!-- Here we will insert our table -->
-    var table = document.createElement('table');
-	table.setAttribute("class", "table table-striped");
-	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
-    var tHeader = table.insertRow(0);
-     <!-- Iterator for the header -->
-	 var i = 0 ;
-	  <% soldiers_table.forEach(function(doc) { %>
-	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
-
-     tHeader.insertCell(i).innerHTML = " <%= doc %> ";
-	 i++;
-	  <% }); %>
-     <!-- Iterator for the columns which are soldiers properties -->
-	 var j = 1;
-	 var k = 0;
-	  sldrs.forEach(function(sold) {
-          var tHeader = table.insertRow(j);
-          tHeader.setAttribute("id", "<%=soldiers_table[0] %>");
-          tHeader.addEventListener("click", function (event) {
-             //addTable<%=soldiers_table[0] %>(sold.<%=soldiers_table[0]%>);
-              getTreatments(sold.bracelet_id);
-               event.preventDefault();
-          });
-
-	  j++;
-         <% soldiers_table.forEach(function(tbl) { %>
-		 tHeader.setAttribute('style','text-align:center;');
-		 tHeader.insertCell(k).innerHTML = sold.<%=tbl%>;
-		  k++;
-		   <% }); %>
-		   k = 0 ;
-		 });
-
-    <!-- Now insert the Tabe to the dynamic row -->
-    node.appendChild(table);
-    <!-- Create dynamcly table -->
-        document.getElementById("mainSoldiersTable").appendChild(node);
-}
-
-  function getTreatments(braceletID) {
-     var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {//Call a function when the state changes.
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-            buildTreatmentsTable(JSON.parse(this.response));
-        }
-    }
-        xhr.open('POST','/get-soldier/'+ braceletID , true);
-        xhr.send({});
-}
-
-
- function buildTreatmentsTable(givenSoldier) {
-
-       givenSoldier.forEach(function(soldier) {  // this is the found soldier
- <!-- Here we create Dynamicly linear list -->
-   var node = document.createElement("LI");
-   <!-- Here we will insert our table -->
-    var table = document.createElement('table');
-	table.setAttribute("class", "table table-striped");
-	table.setAttribute("id", "serialIdd"); <!-- TODO: this id should be uniq for every table  -->
-    var tHeader = table.insertRow(0);
-     <!-- Iterator for the header -->
-	 var i = 0 ;
-	  <% treatments_table.forEach(function(doc) { %>
-	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
-     tHeader.insertCell(i).innerHTML = " <%= doc %> ";
-	 i++;
-	  <% }); %>
-     <!-- Iterator for the columns which are treatment properties -->
-		 var k = 0;
-    for(var i = 0; i < soldier.treatments.length; i++) { // for every treatment
-      var tHeader = table.insertRow(i+1);  // create new row and insert +1 because the header is 0
-         <% treatments_table.forEach(function(tbl) { %> // every row put create cells
-             tHeader.setAttribute('style', 'text-align:center;');      
-             tHeader.insertCell(k).innerHTML = soldier.treatments[i].<%=tbl%>;
-		  k++;
-		   <% }); %>
-		   k = 0 ;
-            }; 
-    <!-- Now insert the Tabe to the dynamic row -->
-    node.appendChild(table);
-    <!-- Create dynamcly table -->
-        document.getElementById("filtersTable").appendChild(node);
-             }); 
-             }
 
 </script>
 </html>
