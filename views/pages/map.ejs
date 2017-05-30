@@ -8,6 +8,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+	<style>
+	#info {
+			background-color: white;
+			border: 2px solid black;
+			top: 175px;
+			left: 30px;
+			height: 80px;
+			padding: 10px;
+			position: absolute;
+			display: none;
+		}
+	</style>
+
     <script>
 	function getCookie(cname) {
 		var name = cname + "=";
@@ -40,44 +53,64 @@
         </div>
     </nav>
 
-    <div class="page-header" id="header">
-        <center><h2> Welcome Doctor <br> </h2></center>
-    </div>
-
     <center><h1>  Patient Map <br> </h1></center>
 
-    <div id="map" style="width:800px;height:800px;background:black"></div>
+	<div id="content" style="width:100%;height:100%;background:black">
+		<div id="map" style="position:absolute;top:125px;left:0px;right:0px;bottom:0px;"></div>
+	</div>
+
+	<div id="info"></div>
 
     <script>
 function myMap() {
 	var mapOptions = {
 		center: new google.maps.LatLng(32.777739, 35.0219852),
-		zoom: 20,
+		zoom: 10,
 		mapTypeId: google.maps.MapTypeId.TERRAIN
 	}
 	var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-	var marker = new google.maps.Marker({position:myCenter});
-	marker.setMap(map);
-	google.maps.event.addListener(marker,'click',function() {
+	var divisions = getCookie("units");
+	var type = getCookie("type");
+	var markers = new Array();
+	<% docs.forEach(function(doc) { %>
+		var doc = <%- JSON.stringify(doc) %>;
+		if(doc.hasOwnProperty('location') && (type == "admin" || divisions.includes(doc.division))) {
+			var pos = new google.maps.LatLng(doc.location.longtitude, doc.location.latitude);
+			var marker = new google.maps.Marker({position:pos, url: '/admin_main', map: map});
+			var pair = {doc: doc, marker: marker}
+			markers.push(pair);
+		}
+
+		
+	<%})%>
+
+	markers.forEach(function(pair) {
+		
 		var infowindow = new google.maps.InfoWindow({
-		  content:"Hello World!"
+			content: pair.doc.division
 		});
-	  infowindow.open(map,marker);
-	});
+		
+		pair.marker.addListener('mouseover',function() {
+			infowindow.open(map, pair.marker);
+			//document.getElementById('info').textContent = ;
+			document.getElementById('info').appendChild(document.createTextNode(pair.doc.bracelet_id));
+			document.getElementById('info').appendChild(document.createElement("br"));
+			document.getElementById('info').appendChild(document.createTextNode(pair.doc.injury_stat));
+			document.getElementById('info').style.display= "block";
+		});
+
+		pair.marker.addListener('mouseout',function() {
+			infowindow.close();
+			document.getElementById('info').style.display= "none";
+			document.getElementById('info').innerHTML = "";
+		});
+	})
+	
 }
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaOzdRahKL3nXRnZA0n-yK1hB2C828SQ&callback=myMap"></script>
-    <!--
-    To use this code on your website, get a free API key from Google.
-    Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
-    -->
-
-    <script>
-		var user = getCookie("user");
-		document.getElementById("header").innerHTML = "<center><h2>  Welcome Doctor " + user + " <br> </h2></center>";
-    </script>
 
 </body>
 </html>

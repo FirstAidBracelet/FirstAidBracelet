@@ -1,2 +1,3 @@
 C:\Git\firstaidbracelet\bin\Microsoft.NodejsTools.WebRole.dll
 C:\Users\User\FirstAidBracelet\bin\Microsoft.NodejsTools.WebRole.dll
+C:\Users\User\FirstAidBracelet\obj\Debug\firstAidBraceletProject.njsprojResolveAssemblyReference.cache

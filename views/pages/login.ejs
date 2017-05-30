@@ -27,22 +27,26 @@ function validateForm() {
 	var login = document.forms["loginForm"];
     var uname = login["currentUser"].value;
 	var psw = login["psw"].value;
-	var type = login["type"].value;
 	if (uname == "" || psw == "") {
        alert("All fields must be filled out");
 	   return false;
 	}
 	<% docs.forEach(function(doc) { %>
-		var check_type = <%- JSON.stringify(doc.type) %>;
-		var check_uname = <%- JSON.stringify(doc.user) %>;
-		var check_psw = <%- JSON.stringify(doc.password) %>;
-		if (check_type == type && check_uname == uname && check_psw == psw){
+		var doc = <%- JSON.stringify(doc) %>;
+		var check_uname = doc.user;
+		var check_psw = doc.password;
+		if (check_uname == uname && check_psw == psw){
+			var type = doc.type;
 			document.cookie = "user=" + uname;
 			document.cookie = "type=" + type;
+			if (type == "doctor") {
+				var units = doc.units;
+				document.cookie = "units=" + units;
+			}
 			return true;
 		}
 	<% }); %>
-	alert("wrong username/password/user type");
+	alert("wrong username/password");
 	return false;
 }
 </script>
@@ -51,28 +55,26 @@ function validateForm() {
 	<center><h2> Login <br> </h2></center>
 </div>
 
+<div class="imgcontainer">
+	<img src="/cas-padlock-icon.png" alt="Login" class="avatar" style="width:128px;height:128px;">
+</div>
+
+<div class = "container">
 <form name="loginForm" action = "/logged" method = "post" onsubmit="return validateForm()">
-	<div class="imgcontainer">
-		<img src="/cas-padlock-icon.png" alt="Login" class="avatar" style="width:128px;height:128px;">
+	<div class="form-group">
+		<label><b>Username</b></label>
+		<input type="text" class = "form-control" placeholder="Enter Username" name="currentUser" required>
 	</div>
 
-  <div class="container">
-    <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="currentUser" required>
-
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-
-	<div class="radio">
-		<input type="radio" name="type" value="doctor" checked>Doctor<br>
+    <div class="form-group">
+		<label><b>Password</b></label>
+		<input type="password" class = "form-control" placeholder="Enter Password" name="psw" required>
 	</div>
-	<div class="radio">
-		<input type="radio" name="type" value="agam">Agam<br>
-    </div> 
 	
-    <input type="submit" value="Login">
+    <input type="submit" class="btn btn-primary" value="Login">
   </div>
 </form>
+</div>
 
 </body>
 </html>
