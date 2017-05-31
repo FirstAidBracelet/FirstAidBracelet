@@ -167,7 +167,6 @@ app.get('/admin_main', function (request, response) {
 });
 
 app.get('/map', function (request, response) {
-    console.log(request.cookies);
     var user = request.cookies.user;
     var type = request.cookies.type;
     if (user == null || type == null) {
@@ -186,7 +185,7 @@ app.get('/map', function (request, response) {
     }
 });
 
-app.get('/maps', function (request, response) {
+/*app.get('/maps', function (request, response) {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         var equipmentDB = db.collection('soldiers');
@@ -197,7 +196,7 @@ app.get('/maps', function (request, response) {
         );
         db.close();
     });
-});
+});*/
 
 app.post('/addUser', function (request, response) {
     var form = request.body;

@@ -85,6 +85,8 @@ function myMap() {
 		
 	<%})%>
 
+	//var markerCluster = new MarkerClusterer(map, markers, 
+
 	markers.forEach(function(pair) {
 		
 		var infowindow = new google.maps.InfoWindow({
@@ -93,10 +95,14 @@ function myMap() {
 		
 		pair.marker.addListener('mouseover',function() {
 			infowindow.open(map, pair.marker);
-			//document.getElementById('info').textContent = ;
-			document.getElementById('info').appendChild(document.createTextNode(pair.doc.bracelet_id));
-			document.getElementById('info').appendChild(document.createElement("br"));
-			document.getElementById('info').appendChild(document.createTextNode(pair.doc.injury_stat));
+			var bg_type = "";
+			switch (pair.doc.injury_stat) {		
+				case "light": bg_type = "bg-success"; console.log("light");break;
+				case "average": bg_type = "bg-info";console.log("average");break;
+				case "heavy": bg_type = "bg-warning";console.log("heavy");break;
+				case "kia": bg_type = "bg-danger";console.log("kia");break;
+			}
+			document.getElementById('info').innerHTML = "<p>" + pair.doc.bracelet_id + ": <span class='" + bg_type + "'>" + pair.doc.injury_stat + "</span></p>";
 			document.getElementById('info').style.display= "block";
 		});
 
