@@ -153,7 +153,16 @@ app.get('/user', function (request, response) {
     if (user == null || type == null) {
         response.redirect('/login')
     } else {
-        response.render('pages/add_user');
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            var equipmentDB = db.collection('soldiers');
+            equipmentDB.find().toArray(
+                function (err, docs) {
+                    response.render('pages/add_user', { docs : docs });
+                }
+            );
+            db.close();
+        });
     }
 });
 
@@ -192,9 +201,31 @@ app.get('/map', function (request, response) {
     if (user == null || type == null) {
         response.redirect('/login')
     } else {
-        response.render('pages/map');
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            var equipmentDB = db.collection('soldiers');
+            equipmentDB.find().toArray(
+                function (err, docs) {
+                    response.render('pages/map', { docs: docs });
+                }
+            );
+            db.close();
+        });
     }
 });
+
+/*app.get('/maps', function (request, response) {
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        var equipmentDB = db.collection('soldiers');
+        equipmentDB.find().toArray(
+            function (err, docs) {
+                response.render('pages/map', { docs : docs });
+            }
+        );
+        db.close();
+    });
+});*/
 
 app.post('/addUser', function (request, response) {
     var form = request.body;
@@ -204,7 +235,7 @@ app.post('/addUser', function (request, response) {
             if (err) return console.log(err);
         });
     });
-    response.redirect('pages/logged');
+    response.redirect('/logged');
 });
 
 var army = [];
