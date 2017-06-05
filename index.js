@@ -74,7 +74,7 @@ app.post('/admin_delete_item', (req, res) => {
             if (err) return res.send(500, err)
             setTimeout(function() {
                 res.redirect('/admin');
-            }, 1000);
+            }, 3000);           
             
         })
 
