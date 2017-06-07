@@ -67,20 +67,17 @@ app.post('/admin', function (request, response) {
 
 //deleting an item in Equipment. called from admin.ejs
 app.post('/admin_delete_item', (req, res) => {
-    MongoClient.connect(mongoUrl, function(err, db) {
+    MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        db.collection('equipment').findOneAndDelete({equipment_id: req.body.item_id},
-        (err, result) => {
-            if (err) return res.send(500, err)
-            setTimeout(function() {
-                res.redirect('/admin');
-            }, 3000);           
-            
-        })
-
-    db.close();
+        db.collection('equipment').findOneAndDelete({ equipment_id: req.body.item_id }, function () {
+            db.collection('equipment').find().toArray(function(err, docs) {
+                res.render('pages/admin', {docs: docs});
+            });
+            db.close(); 
+        });
     });
-})
+});
+
 
 
 app.set('port', (process.env.PORT || 5000));
