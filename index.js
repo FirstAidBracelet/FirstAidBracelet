@@ -1,11 +1,15 @@
 var express = require('express');
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+server.listen(80);
 var pg = require('pg');
 var mongoUrl = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
 var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+const EventEmitter = require('events');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
@@ -307,6 +311,53 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
         });
     });
 });
+
+class MyEmitter extends EventEmitter { }
+const myEmitter = new MyEmitter();
+
+myEmitter.on('event', () => {
+io.on('connection', function (socket) {
+    var result = [];
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        db.collection('soldiers').find().forEach(function (sld, err) {
+            assert.equal(null, err);
+            result.push(sld);
+        }, function () {
+            db.close();
+           // res.json(result);
+            socket.emit('news', { sss: json(result) }); // Send data to client
+        });
+    });
+     // wait for the event raised by the client
+    socket.on('my other event', function (data) {
+        console.log(data);
+    });
+});
+});
+
+//app.post('/addedBracelet', function (req, res) {
+//    var result = [];
+//    myEmitter.on('event', () => {
+//    MongoClient.connect(mongoUrl, function (err, db) {
+//        assert.equal(null, err);
+//        db.collection('soldiers').find().forEach(function (sld, err) {
+//            assert.equal(null, err);
+//            result.push(sld);
+//        }, function () {
+//            db.close();
+//            res.json(result);
+//        });
+//    });
+//});
+//});
+
+app.get('/someChange', function (request, response) {  
+    myEmitter.emit('event');
+    console.log('an event occurred!');
+    response.finished;
+});
+
 
 app.post('/get-soldier/:braceletId', function (req, res) {
       var result = [];
