@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-server.listen(80);
 var pg = require('pg');
 var mongoUrl = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
 var MongoClient = require('mongodb').MongoClient
@@ -308,49 +307,31 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
         }, function () {
             db.close();
             res.json(result);
+            
         });
     });
 });
 
 class MyEmitter extends EventEmitter { }
 const myEmitter = new MyEmitter();
+var client;
+io.sockets.on('connection', function (socket) { client = socket; });
 
 myEmitter.on('event', () => {
-io.on('connection', function (socket) {
+    console.log('an event occurred');
     var result = [];
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('soldiers').find().forEach(function (sld, err) {
             assert.equal(null, err);
-            result.push(sld);
+            result.push((sld));
         }, function () {
             db.close();
-           // res.json(result);
-            socket.emit('news', { sss: json(result) }); // Send data to client
+            client.emit('news', JSON.stringify(result) );
         });
     });
-     // wait for the event raised by the client
-    socket.on('my other event', function (data) {
-        console.log(data);
-    });
+  
 });
-});
-
-//app.post('/addedBracelet', function (req, res) {
-//    var result = [];
-//    myEmitter.on('event', () => {
-//    MongoClient.connect(mongoUrl, function (err, db) {
-//        assert.equal(null, err);
-//        db.collection('soldiers').find().forEach(function (sld, err) {
-//            assert.equal(null, err);
-//            result.push(sld);
-//        }, function () {
-//            db.close();
-//            res.json(result);
-//        });
-//    });
-//});
-//});
 
 app.get('/someChange', function (request, response) {  
     myEmitter.emit('event');
@@ -373,8 +354,7 @@ app.post('/get-soldier/:braceletId', function (req, res) {
     });
 });
 
-
+server.listen(3000);
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
-
 });
