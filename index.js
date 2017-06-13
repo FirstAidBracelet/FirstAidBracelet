@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var pg = require('pg');
 var mongoUrl = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
 var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
@@ -26,17 +25,6 @@ app.get('/', function (request, response) {
     response.render('pages/index');
 });
 
-app.get('/mongo', function (request, response) {
-
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        var col = db.collection('soldiers');
-        col.find().toArray(function (err, docs) {
-            response.render('pages/mongo', { docs: docs });
-        });
-        db.close();
-    });
-});
 
 app.get('/admin', function (request, response) {
 

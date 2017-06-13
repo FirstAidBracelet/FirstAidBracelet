@@ -35,7 +35,6 @@
     <Content Include="views\pages\login.ejs" />
     <Content Include="views\pages\index.ejs" />
     <Content Include="views\pages\mainPage.ejs" />
-    <Content Include="views\pages\mongo.ejs" />
     <Content Include="views\pages\map.ejs">
       <SubType>Code</SubType>
     </Content>
