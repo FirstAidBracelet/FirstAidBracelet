@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var server = require('http').Server(app);
+var server = require('https').Server(app);
 var io = require('socket.io')(server);
 var pg = require('pg');
 var mongoUrl = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
