@@ -318,6 +318,7 @@ var client;
 io.sockets.on('connection', function (socket) { client = socket; });
 
 
+
 myEmitter.on('event', () => {
     console.log('an event occurred');
     var result = [];
