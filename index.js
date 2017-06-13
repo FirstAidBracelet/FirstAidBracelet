@@ -320,24 +320,38 @@ io.sockets.on('connection', function (socket) { client = socket; });
 myEmitter.on('event', () => {
     console.log('an event occurred');
     var result = [];
+    if (filtersArray.length == 0) {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('soldiers').find().forEach(function (sld, err) {
+                assert.equal(null, err);
+                result.push(sld);
+            }, function () {
+                db.close();
+                client.emit('news', JSON.stringify(result));
+            });
+        });
+        return;
+    }
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        db.collection('soldiers').find().forEach(function (sld, err) {
+        db.collection('soldiers').find({ $and: filtersArray }).forEach(function (sld, err) {
             assert.equal(null, err);
             result.push((sld));
         }, function () {
             db.close();
-            client.emit('news', JSON.stringify(result) );
+            client.emit('news', JSON.stringify(result));
         });
     });
-  
+
 });
 
-app.get('/someChange', function (request, response) {  
+app.post('/soldiersChange', function (request, response) {
     myEmitter.emit('event');
     console.log('an event occurred!');
-    response.finished;
+    response.send("Got your request")
 });
+
 
 
 app.post('/get-soldier/:braceletId', function (req, res) {
