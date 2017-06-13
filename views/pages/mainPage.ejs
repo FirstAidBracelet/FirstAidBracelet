@@ -112,7 +112,7 @@
 
 <script>
         //** This is the Socket between back and front end******************************************
-    var socket = io.connect('http://localhost:3000'); // connect to server
+    var socket = io.connect('http://localhost:3000', {secure: true}); // connect to server
   socket.on('news', function (data) { // listen to news event raised by the server
      buildSoldiersTable(JSON.parse(data));
   });
