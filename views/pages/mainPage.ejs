@@ -7,12 +7,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   <script src="/socket.io/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">
 </head>
 <div id="backGrndPic">
     <body>
-
         <div class="row">
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
@@ -102,7 +101,7 @@
                     <center>  <ul id="filtersTable" class="list-inline"></ul> </center>
                 </div>
             </div>
-        </div>  
+        </div>
     </body>
 </div>
 
@@ -135,11 +134,11 @@
         xhr.send({});
 
     };
-  
+
     <!--local variables to manipulate chosen data in real time (not sure if we will need in future) -->
 var chosenFilters = [];
 
-<!-- function that creates the popover that related with the "popover" keyword -->
+// function that creates the popover that related with the "popover" keyword
 $(function(){
     $('[rel="popover"]').popover({
         container: 'body',
@@ -165,31 +164,31 @@ function statusColor(status) {
            return "whilte";
     }
 }
-<!-- Dynamic Table builder to represent the filtered information -->
 
-function deleteTable() { <!-- TODO: when there will be uniq id pass it to this function -->
+
+function deleteTable() { //  TODO: when there will be uniq id pass it to this function
 document.getElementById("serialId").remove();
     }
-
+ // Dynamic Table builder to represent the filtered information
  function buildSoldiersTable(sldrs) {
-     
+
         if (document.getElementById("serialId") !== null) {
             document.getElementById("serialId").remove();
 }
-        <!-- Here we create Dynamicly linear list -->
-   <!-- Here we will insert our table -->
+
+   // Here we will insert our table/
     var table = document.createElement('table');
 	table.setAttribute("class", "table table-striped");
 	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
     var tHeader = table.insertRow(0);
-     <!-- Iterator for the header -->
+    // Iterator for the header
 	 var i = 0 ;
 	  <% soldiers_table.forEach(function(doc) { %>
 	 tHeader.setAttribute('style','font-weight: bold; text-align:center;');
      tHeader.insertCell(i).innerHTML = " <%= doc %> ";
 	 i++;
 	  <% }); %>
-     <!-- Iterator for the columns which are soldiers properties -->
+     // Iterator for the columns which are soldiers properties
 	 var j = 1;
 	 var k = 0;
 	  sldrs.forEach(function(sold) {
@@ -207,9 +206,7 @@ document.getElementById("serialId").remove();
 		   <% }); %>
 		   k = 0 ;
 		 });
-
-
-    <!-- Create dynamcly table -->
+    // Create dynamcly table
         document.getElementById("mainSoldiersTable").appendChild(table);
 }
 
@@ -227,10 +224,10 @@ document.getElementById("serialId").remove();
  function buildTreatmentsTable(givenSoldier) {
 
        givenSoldier.forEach(function(soldier) {  // this is the found soldier
- <!-- Here we create Dynamicly linear list -->
+ // Here we create Dynamicly linear list
    var node = document.createElement("LI");
     node.setAttribute('style', 'overflow:scroll; height:225px; width:350px');
-   <!-- Here we will insert our table -->
+   // Here we will insert our table
     var table = document.createElement('table');
     table.setAttribute("class", "table table-striped");
     table.setAttribute("id", "serialIdd"); <!--TODO: this id should be uniq for every table  -- >
@@ -255,7 +252,7 @@ document.getElementById("serialId").remove();
           tHeader.insertCell(i).innerHTML = " <%= doc %> ";
 	 i++;
 	  <% }); %>
-     <!-- Iterator for the columns which are treatment properties -->
+    // Iterator for the columns which are treatment properties
 		 var k = 0;
     for(var i = 0; i < soldier.treatments.length; i++) { // for every treatment
       var tHeader = table.insertRow(i+3);  // create new row and insert +3 because there are 3 headers before
@@ -266,9 +263,9 @@ document.getElementById("serialId").remove();
 		   <% }); %>
 		   k = 0 ;
             };
-    <!-- Now insert the Tabe to the dynamic row -->
+    // Now insert the Tabe to the dynamic row
     node.appendChild(table);
-    <!-- Create dynamcly table -->
+    // Create dynamcly table
         document.getElementById("filtersTable").appendChild(node);
              });
     }
@@ -318,6 +315,5 @@ function removeFilter(type, value) {
         xhr.open('POST','/get-soldiers/'+ type +'/' + value + '/remove', true);
         xhr.send({});
 }
-
 </script>
 </html>
