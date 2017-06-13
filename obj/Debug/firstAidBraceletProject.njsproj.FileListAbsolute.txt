@@ -1,6 +1,0 @@
-C:\Git\firstaidbracelet\bin\Microsoft.NodejsTools.WebRole.dll
-C:\Users\User\FirstAidBracelet\bin\Microsoft.NodejsTools.WebRole.dll
-C:\Users\User\FirstAidBracelet\obj\Debug\firstAidBraceletProject.njsprojResolveAssemblyReference.cache
-C:\Users\rmirochn\Google_Drive\sem6\firstAidBracelet project\FirstAidBracelet\obj\Debug\firstAidBraceletProject.njsprojResolveAssemblyReference.cache
-C:\Users\rmirochn\Google_Drive\sem6\firstAidBracelet project\FirstAidBracelet\bin\Microsoft.NodejsTools.WebRole.dll
-C:\Git\FirstAidBracelet\obj\Debug\firstAidBraceletProject.njsprojResolveAssemblyReference.cache
