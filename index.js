@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+//var server = require('http').Server(app);
+//var io = require('socket.io')(server);
 var pg = require('pg');
 var mongoUrl = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.com:27737/heroku_8lwbv1x0';
 var MongoClient = require('mongodb').MongoClient
@@ -82,8 +82,10 @@ app.post('/admin_delete_item', (req, res) => {
 });
 
 
-
 app.set('port', (process.env.PORT || 5000));
+var io = require('socket.io').listen(app.listen(app.get('port')));
+
+
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname ));
@@ -370,7 +372,7 @@ app.post('/get-soldier/:braceletId', function (req, res) {
 });
 
 
-server.listen(3000);
-app.listen(app.get('port'), function () {
-    console.log('Node app is running on port', app.get('port'));
-});
+//server.listen(3000);
+//app.listen(app.get('port'), function () {
+//    console.log('Node app is running on port', app.get('port'));
+//});
