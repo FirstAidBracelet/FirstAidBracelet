@@ -353,7 +353,6 @@ app.post('/soldiersChange', function (request, response) {
 });
 
 
-
 app.post('/get-soldier/:braceletId', function (req, res) {
       var result = [];
           MongoClient.connect(mongoUrl, function (err, db) {
