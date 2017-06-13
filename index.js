@@ -312,7 +312,7 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     });
 });
 "use strict";
-class MyEmitter extends EventEmitter {  };
+class MyEmitter extends EventEmitter {  }
 const myEmitter = new MyEmitter();
 var client;
 io.sockets.on('connection', function (socket) { client = socket; });
