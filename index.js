@@ -311,8 +311,8 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
         });
     });
 });
-
-class MyEmitter extends EventEmitter { };
+"use strict";
+class MyEmitter extends EventEmitter {  };
 const myEmitter = new MyEmitter();
 var client;
 io.sockets.on('connection', function (socket) { client = socket; });
