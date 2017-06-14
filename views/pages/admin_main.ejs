@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/admin_mainStyles.css">
 
   <script>
 	function getCookie(cname) {
@@ -28,37 +29,36 @@
   
 </head>
 <body>
+    <div id="backGrndPic">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">First Aid Bracelet</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li> <a href="/user">Add User</a>  </li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
 
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">First Aid Bracelet</a>
-    </div>
-	<ul class="nav navbar-nav navbar-right">
-        <li> <a href="/user">Add User</a>  </li>
-		<li><a href="/logout">Logout</a></li>
-	</ul>
-  </div>
-</nav>  
+       
+            <div class="page-header" id="header"></div>
 
-    <div class="container" style="background-image: url('/background.png'); background-repeat: no-repeat ; background-position: center ">
-        <div class="page-header" id="header"></div>
+            
 
-        <div class="imgcontainer">
-		    <img src="/command-center.png" alt="Login" class="avatar">
-	    </div>
+            <div class="row">
+                <div class="col-md-3"> <center><img src="/treatmentsIcon.jpg"><h3><br></h3><a type="button" class="btn btn-lg btn-default" href="/equip">Treatments Database</a> </center> </div>
+                <div class="col-md-6"> <center><img src="/command-center.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/mainPage">Command Center</a> </center> </div>
+                <div class="col-md-3"> <center><img src="/mapIcon.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/map">Map</a> </center> </div>
+            </div>
+                <div class="row"><h1><br></h1><h1><br></h1><h1><br></h1></div>
+       
 
-        <div class="row">
-			<div class="col-md-3"> <center> <a type="button" class="btn btn-lg btn-default" href="/equip">Check Equipment</a> </center> </div>
-			<!--<div class="col-md-6"> <center> <a type="button" class="btn btn-lg btn-default" href="/user">Add User</a> </center> </div>-->
-			<div class="col-md-3"> <center> <a type="button" class="btn btn-lg btn-default" href="/map">Map</a> </center> </div>    
-        </div>
-    </div>
-
-	<script>
+        <script>
 		var user = getCookie("user");
 		document.getElementById("header").innerHTML = "<center><h2>  Welcome Admin " + user + " <br> </h2></center>";
-	</script>
-
+        </script>
+        </div>
 </body>
 </html>
