@@ -10,3 +10,8 @@
     background-image: url('/armyBackground.jpg');
     background-size: auto;
 }
+.btn {
+    padding: 18px 10px;
+    font-size: 22px;
+    border-radius: 15px;
+}
