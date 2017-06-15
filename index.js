@@ -288,7 +288,7 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
 class MyEmitter extends EventEmitter { } // event hendler for post request from android
 const myEmitter = new MyEmitter();
 var client;
-io.sockets.on('connection', function (socket) {
+io.sockets.on('connection', function (socket) { 
     client = socket;
     client.on('removePatient', function (data) { // removing bracelet via mainPage socket request
         MongoClient.connect(mongoUrl, function (err, db) {
@@ -297,8 +297,23 @@ io.sockets.on('connection', function (socket) {
                 db.close();
                 });       
         });
-        console.log(data.braceletId)
     });
+    client.on('updateEvacuationStatus', function (data) { // removing bracelet via mainPage socket request
+        console.log(data.status);
+        var newStatus;
+        if (data.status == "false") {
+            newStatus = "true";
+        } else {
+            newStatus = "false";
+        }
+        MongoClient.connect(mongoUrl, function (err, db) { // updating evacuation request via mainPage socket request
+            assert.equal(null, err);
+            db.collection('soldiers').findOneAndUpdate({ bracelet_id: data.braceletId }, { "evacuation_request": newStatus }, function () {
+                db.close();              
+            }); 
+        });
+    });
+   
  }); // the actual socket opening and definition
 
 

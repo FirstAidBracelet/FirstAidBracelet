@@ -160,7 +160,7 @@ function statusColor(status) {
     }
 }
 
- // Dynamic Table builder 
+ // Dynamic Table builder
  function buildSoldiersTable(sldrs) {
 
         if (document.getElementById("serialId") !== null) {
@@ -192,7 +192,7 @@ function statusColor(status) {
 	  j++;
          <% soldiers_table.forEach(function(tbl) { %>
 		 tHeader.setAttribute('style','text-align:center;');
-             var cell = tHeader.insertCell(k); 
+             var cell = tHeader.insertCell(k);
              cell.addEventListener("click", function (event) { // this is the handler that will open treatments table on some row click
               getTreatments(sold.bracelet_id);
                event.preventDefault();
@@ -204,7 +204,7 @@ function statusColor(status) {
           var btn = document.createElement("BUTTON");
     // btn.style.backgroundColor = "red";
           btn.addEventListener("click", function (event) {
-              evacuationStatusChange(sold.bracelet_id);
+              evacuationStatusChange(sold.bracelet_id, sold.evacuation_request);
                event.preventDefault();
           });
      var t = document.createTextNode(sold.evacuation_request);
@@ -226,16 +226,18 @@ function statusColor(status) {
          tHeader.insertCell(k).appendChild(btn);
          k++;
             /* End of the delete button creation*/
-         
+
 		   k = 0 ;
 		 });
     // Create dynamcly table
         document.getElementById("mainSoldiersTable").appendChild(table);
-    
-    }
-    function evacuationStatusChange(braceletID) { // Changing the status of evacuation request on click
 
-    
+    }
+    function evacuationStatusChange(braceletID , currStatus) { // Changing the status of evacuation request on click
+        var cnfrmation = confirm("Are you sure you want to change pation evacuation status?");               
+        if (cnfrmation == true) { // TODO *************** Change the status on the page without refresh.
+             socket.emit('updateEvacuationStatus', { braceletId: braceletID , status: currStatus });
+        }
 }
     function removeSoldier(braceletID) { // function to remove soldier from table
         var cnfrmation = confirm("Are you sure you want to remove this patient from Database?");
@@ -267,7 +269,7 @@ function statusColor(status) {
    // Here we will insert our table
     var table = document.createElement('table');
     table.setAttribute("class", "table table-striped");
-   
+
     var tHeaderr = table.insertRow(0);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     var tCell = tHeaderr.insertCell(0);
