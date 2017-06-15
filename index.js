@@ -288,7 +288,19 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
 class MyEmitter extends EventEmitter { } // event hendler for post request from android
 const myEmitter = new MyEmitter();
 var client;
-io.sockets.on('connection', function (socket) { client = socket; }); // the actual socket opening and definition
+io.sockets.on('connection', function (socket) {
+    client = socket;
+    client.on('removePatient', function (data) { // removing bracelet via mainPage socket request
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('soldiers').findOneAndDelete({ bracelet_id: data.braceletId }, function () {
+                db.close();
+                });       
+        });
+        console.log(data.braceletId)
+    });
+ }); // the actual socket opening and definition
+
 
 
 /*

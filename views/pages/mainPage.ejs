@@ -204,7 +204,7 @@ function statusColor(status) {
           var btn = document.createElement("BUTTON");
     // btn.style.backgroundColor = "red";
           btn.addEventListener("click", function (event) {
-             // removeSoldier(sold.bracelet_id);
+              evacuationStatusChange(sold.bracelet_id);
                event.preventDefault();
           });
      var t = document.createTextNode(sold.evacuation_request);
@@ -233,11 +233,17 @@ function statusColor(status) {
         document.getElementById("mainSoldiersTable").appendChild(table);
     
     }
-    function evacuationStatusChange() { // Changing the status of evacuation request on click
+    function evacuationStatusChange(braceletID) { // Changing the status of evacuation request on click
+
     
 }
     function removeSoldier(braceletID) { // function to remove soldier from table
-     document.getElementById('tRow'+braceletID).remove();
+        var cnfrmation = confirm("Are you sure you want to remove this patient from Database?");
+        if (cnfrmation == true) {
+            document.getElementById('tRow' + braceletID).remove();
+             socket.emit('removePatient', { braceletId: braceletID });
+
+        }
     }
 
   function getTreatments(braceletID) {
