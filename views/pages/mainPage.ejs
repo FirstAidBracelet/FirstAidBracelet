@@ -10,96 +10,96 @@
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">
 </head>
-    <body>
-        <div class="row">
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="/">First Aid Bracelet</a>
-						<a class="navbar-brand" href="/admin_main">User</a>
-                    </div>
+<body>
+    <div class="row">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">First Aid Bracelet</a>
+                    <a class="navbar-brand" href="/admin_main">User</a>
                 </div>
-            </nav>
+            </div>
+        </nav>
+    </div>
+    <div class="row">" "  </div>
+    <div class="row">" "  </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
+            <h4>Chosen Filters </h4>
+            <div class="container">
+                <h4>Press to remove </h4>
+                <ul id="filtersBarId" class="list-inline"></ul>
+            </div>
         </div>
-        <div class="row">" "  </div>
-        <div class="row">" "  </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-11">
-                <h4>Chosen Filters </h4>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <center>
+                <div class="vertical-menu pull-right">
+                    <h4>Display By</h4>
+                    <!-- This is the Filters side Bar container, in future he will be built dynamicly -->
+                    <!-- Every element in the container is a dropdown menu of filter values -->
+                    <div class="dropdown">
+                        <ul id="divisionDropdown" class="dropdown-menu">
+                            <!-- Every dropdown is created by template iterator which builds list from the value we pass fom back-end -->
+                            <% divisions.forEach(function(dvsn) { %>
+                            <a href="#" class="list-group-item" onclick="putFilter('division','<%= dvsn %>')"><%= dvsn %></a>
+                            <% }); %>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#divisionDropdown" type="button" data-trigger="focus">Division <span class="caret-right"></span></button>
+                    <h1></h1>
+                    <div class="dropdown">
+                        <ul id="unitDropdown" class="dropdown-menu">
+                            <% units.forEach(function(unt) { %>
+                            <a href="#" class="list-group-item" onclick="putFilter('unit','<%= unt %>')"><%= unt %></a>
+                            <% }); %>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#unitDropdown" type="button" data-trigger="focus">Unit <span class="caret-right"></span></button>
+                    <h1></h1>
+                    <div class="dropdown">
+                        <ul id="locationDropdown" class="dropdown-menu">
+                            <!-- still dont know how to lsear wth location this is for future -->
+                            <a href="#" class="list-group-item">Some location</a>
+                            <a href="#" class="list-group-item">Location location</a>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#locationDropdown" type="button" data-trigger="focus">Location <span class="caret-right"></span></button>
+                    <h1></h1>
+                    <div class="dropdown">
+                        <ul id="statusDropdown" class="dropdown-menu">
+                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','light')">Light</a>
+                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','average')" style="background-color:#ff7733">Average</a>
+                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','heavy')" style="background-color:#ff0066">Heavy</a>
+                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','kia')" style="background-color:red">K.I.A</a>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
+                    <h1></h1>
+                    <!-- This  buttons will be removed after we will make the filter bar dynamicly -->
+                    <!--<a href="/mainPage" onclick="deleteTable()">Clear all</a>-->
+                    <a href="#" onclick="checkPost()">Clear all</a>
+                </div>
+            </center>
+        </div>
+        <div class="col-md-10">
+            <center>
                 <div class="container">
-                    <h4>Press to remove </h4>
-                    <ul id="filtersBarId" class="list-inline"></ul>
+                    <center>
+                        <h2> Soldiers Database </h2>
+                    </center>
+                    <center>  <div id="mainSoldiersTable" style="overflow:scroll ; height:400px; "></div> </center>
                 </div>
+            </center>
+            <center> <h3> Chosen Soldiers  </h3></center>
+            <div class="container">
+                <center>  <ul id="filtersTable" class="list-inline"></ul> </center>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2">
-                <center>
-                    <div class="vertical-menu pull-right">
-                        <h4>Display By</h4>
-                        <!-- This is the Filters side Bar container, in future he will be built dynamicly -->
-                        <!-- Every element in the container is a dropdown menu of filter values -->
-                        <div class="dropdown">
-                            <ul id="divisionDropdown" class="dropdown-menu">
-                                <!-- Every dropdown is created by template iterator which builds list from the value we pass fom back-end -->
-                                <% divisions.forEach(function(dvsn) { %>
-                                <a href="#" class="list-group-item" onclick="putFilter('division','<%= dvsn %>')"><%= dvsn %></a>
-                                <% }); %>
-                            </ul>
-                        </div>
-                        <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#divisionDropdown" type="button" data-trigger="focus">Division <span class="caret-right"></span></button>
-                        <h1></h1>
-                        <div class="dropdown">
-                            <ul id="unitDropdown" class="dropdown-menu">
-                                <% units.forEach(function(unt) { %>
-                                <a href="#" class="list-group-item" onclick="putFilter('unit','<%= unt %>')"><%= unt %></a>
-                                <% }); %>
-                            </ul>
-                        </div>
-                        <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#unitDropdown" type="button" data-trigger="focus">Unit <span class="caret-right"></span></button>
-                        <h1></h1>
-                        <div class="dropdown">
-                            <ul id="locationDropdown" class="dropdown-menu">
-                                <!-- still dont know how to lsear wth location this is for future -->
-                                <a href="#" class="list-group-item">Some location</a>
-                                <a href="#" class="list-group-item">Location location</a>
-                            </ul>
-                        </div>
-                        <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#locationDropdown" type="button" data-trigger="focus">Location <span class="caret-right"></span></button>
-                        <h1></h1>
-                        <div class="dropdown">
-                            <ul id="statusDropdown" class="dropdown-menu">
-                                <a href="#" class="list-group-item" onclick="putFilter('injury_stat','light')">Light</a>
-                                <a href="#" class="list-group-item" onclick="putFilter('injury_stat','average')" style="background-color:#ff7733">Average</a>
-                                <a href="#" class="list-group-item" onclick="putFilter('injury_stat','heavy')" style="background-color:#ff0066">Heavy</a>
-                                <a href="#" class="list-group-item" onclick="putFilter('injury_stat','kia')" style="background-color:red">K.I.A</a>
-                            </ul>
-                        </div>
-                        <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
-                        <h1></h1>
-                        <!-- This  buttons will be removed after we will make the filter bar dynamicly -->
-                        <!--<a href="/mainPage" onclick="deleteTable()">Clear all</a>-->
-                        <a href="#" onclick="checkPost()">Clear all</a>
-                    </div>
-                </center>
-            </div>
-            <div class="col-md-10">
-                <center>
-                    <div class="container">
-                        <center>
-                            <h2> Soldiers Database </h2>
-                        </center>
-                        <center>  <div id="mainSoldiersTable" style="overflow:scroll ; height:400px; "></div> </center>
-                    </div>
-                </center>
-                <center> <h3> Chosen Soldiers  </h3></center>
-                <div class="container">
-                    <center>  <ul id="filtersTable" class="list-inline"></ul> </center>
-                </div>
-            </div>
-        </div>
-    </body>
+    </div>
+</body>
 <script>
         //** This is the Socket between back and front end******************************************
     var socket = io.connect('/'); // connect to server
@@ -174,7 +174,7 @@ document.getElementById("serialId").remove();
    // Here we will insert our table/
     var table = document.createElement('table');
 	table.setAttribute("class", "table table-striped");
-	table.setAttribute("id", "serialId"); <!-- TODO: this id should be uniq for every table  -->
+	table.setAttribute("id", "serialId"); //TODO: this id should be uniq for every table
     var tHeader = table.insertRow(0);
     // Iterator for the header
 	 var i = 0 ;
@@ -188,7 +188,7 @@ document.getElementById("serialId").remove();
 	 var k = 0;
 	  sldrs.forEach(function(sold) {
           var tHeader = table.insertRow(j);
-          tHeader.setAttribute("id", "<%=soldiers_table[0] %>");
+          tHeader.setAttribute("id",'tRow'+sold.bracelet_id);
           tHeader.addEventListener("click", function (event) {
               getTreatments(sold.bracelet_id);
                event.preventDefault();
@@ -198,12 +198,30 @@ document.getElementById("serialId").remove();
 		 tHeader.setAttribute('style','text-align:center;');
 		 tHeader.insertCell(k).innerHTML = sold.<%=tbl%>;
 		  k++;
-		   <% }); %>
+          <% }); %>
+   /* Here we will create The button to remove soldier from table */
+     var btn = document.createElement("BUTTON");
+     btn.style.backgroundColor = "red";
+          btn.addEventListener("click", function (event) {
+              removeSoldier(sold.bracelet_id);
+               event.preventDefault();
+          });
+     var t = document.createTextNode("X");
+     btn.appendChild(t);
+         tHeader.setAttribute('style','text-align:center;');
+         tHeader.insertCell(k).appendChild(btn);
+
+            /* End of the delete button creation*/
 		   k = 0 ;
 		 });
     // Create dynamcly table
         document.getElementById("mainSoldiersTable").appendChild(table);
-}
+    
+    }
+
+    function removeSoldier(braceletID) { // function to remove soldier from table
+     document.getElementById('tRow'+braceletID).remove();
+    }
 
   function getTreatments(braceletID) {
      var xhr = new XMLHttpRequest();
@@ -222,18 +240,29 @@ document.getElementById("serialId").remove();
  // Here we create Dynamicly linear list
    var node = document.createElement("LI");
     node.setAttribute('style', 'overflow:scroll; height:225px; width:350px');
+    node.setAttribute("id", "eqipId"+soldier.bracelet_number);
    // Here we will insert our table
     var table = document.createElement('table');
     table.setAttribute("class", "table table-striped");
-    table.setAttribute("id", "serialIdd"); <!--TODO: this id should be uniq for every table  -- >
-
+   
     var tHeaderr = table.insertRow(0);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     var tCell = tHeaderr.insertCell(0);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
-    tCell.innerHTML = "BraceletID: " + soldier.bracelet_id;
+    tCell.innerHTML = "BraceletID: " + soldier.bracelet_id + "    ";
     tCell.setAttribute('style','background:' + statusColor(soldier.injury_stat)+';');
     tCell.colSpan = "3";
+/* Here we will create The button to delete the Treatments Table */
+     var btn = document.createElement("BUTTON");
+     btn.style.backgroundColor = "red";
+          btn.addEventListener("click", function (event) {
+              document.getElementById('eqipId'+soldier.bracelet_number).remove();
+               event.preventDefault();
+          });
+     var t = document.createTextNode("X");
+     btn.appendChild(t);
+            tCell.appendChild(btn);
+            /* End of the delete button creation*/
     tHeaderr = table.insertRow(1);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     tCell = tHeaderr.insertCell(0);
