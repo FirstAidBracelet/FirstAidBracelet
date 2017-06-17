@@ -216,9 +216,7 @@ var configs = [];
 
 app.get('/mainPage', function (request, response) {
     army = [];
-    configs = [];
-    filtersArray = [];
-    var soldiers = [];
+    configs = [];  
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('army_structure').find().forEach(function (doc, err) {
@@ -227,12 +225,8 @@ app.get('/mainPage', function (request, response) {
             db.collection('configurations').find().forEach(function (cnfs, err) {
                 configs.push(cnfs);
             }, function () {
-                db.collection('soldiers').find().forEach(function (sld, err) {
-                    soldiers.push(sld);
-                }, function () {
-                    db.close();
-                    response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, treatments_table: configs[0].treatments, filters: configs[0].filters, soldiers: soldiers });
-                });
+                db.close();
+                response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, treatments_table: configs[0].treatments, filters: configs[0].filters });
             });
         });
     });
@@ -298,7 +292,7 @@ io.sockets.on('connection', function (socket) {
                 });       
         });
     });
-    client.on('updateEvacuationStatus', function (data) {
+    client.on('updateEvacuationStatus', function (data) { // removing bracelet via mainPage socket request
         console.log(data.status);
         MongoClient.connect(mongoUrl, function (err, db) { // updating evacuation request via mainPage socket request
             assert.equal(null, err);
@@ -308,7 +302,7 @@ io.sockets.on('connection', function (socket) {
         });
     });
    
- }); // the actual socket opening and it's functions definition
+ }); // the actual socket opening and it's f definition
 
 
 /*
