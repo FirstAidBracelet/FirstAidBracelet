@@ -101,23 +101,15 @@
     </div>
 </body>
 <script>
-        //** This is the Socket between back and front end******************************************
+        /* This is the Socket between back and front end */
     var socket = io.connect('/'); // connect to server
   socket.on('news', function (data) { // listen to news event raised by the server
      buildSoldiersTable(JSON.parse(data));
   });
-    //******************************************************************************************
-    //********** CHecking Post request*******************
-    function checkPost() {
-     var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {//Call a function when the state changes.
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-            console.log('Request done');
-        }
-    }
-        xhr.open('POST','/soldiersChange', true);
-        xhr.send({});
-    };
+    /*local variables to manipulate chosen data in real time (not sure if we will need in future) */
+    var chosenFilters = [];
+    var chosenBracelets = [];
+
     window.onload = function () {
         var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -127,11 +119,7 @@
     }
         xhr.open('POST','/get-soldiers/_/_/remove', true);
         xhr.send({});
-
     };
-
-    <!--local variables to manipulate chosen data in real time (not sure if we will need in future) -->
-var chosenFilters = [];
 
 // function that creates the popover that related with the "popover" keyword
 $(function(){
@@ -202,7 +190,7 @@ function statusColor(status) {
           <% }); %>
                 /* Here we will create The Evacuation button  */
           var btn = document.createElement("BUTTON");
-         
+
           btn.addEventListener("click", function (event) {
               evacuationStatusChange(sold.bracelet_id, sold.evacuation_request);
                event.preventDefault();
@@ -229,19 +217,18 @@ function statusColor(status) {
             /* End of the delete button creation*/
 		   k = 0 ;
 		 });
-    // Create dynamcly table
         document.getElementById("mainSoldiersTable").appendChild(table);
-
     }
+
     function evacuationStatusChange(braceletID , currStatus) { // Changing the status of evacuation request on click
-        var cnfrmation = confirm("Are you sure you want to change pation evacuation status?");               
-        var newStatus;    
-        if (cnfrmation == true) {       
+        var cnfrmation = confirm("Are you sure you want to change pation evacuation status?");
+        var newStatus;
+        if (cnfrmation == true) {
         if (currStatus == "false") {
             newStatus = "true";
         } else {
             newStatus = "false";
-            }     
+            }
              document.getElementById("evacButton" + braceletID).innerHTML = newStatus;
              socket.emit('updateEvacuationStatus', { braceletId: braceletID , status: newStatus });
         }
@@ -255,7 +242,13 @@ function statusColor(status) {
         }
     }
 
-  function getTreatments(braceletID) {
+    function getTreatments(braceletID) {
+        for (i = 0; i < chosenBracelets.length; i++) {
+		if (braceletID === chosenBracelets[i] ){
+			return;
+             }
+        }
+      chosenBracelets.push(braceletID);
      var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {//Call a function when the state changes.
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
@@ -272,11 +265,10 @@ function statusColor(status) {
  // Here we create Dynamicly linear list
    var node = document.createElement("LI");
     node.setAttribute('style', 'overflow:scroll; height:225px; width:350px');
-    node.setAttribute("id", "eqipId"+soldier.bracelet_number);
+    node.setAttribute("id", "eqipId"+soldier.bracelet_id);
    // Here we will insert our table
     var table = document.createElement('table');
     table.setAttribute("class", "table table-striped");
-
     var tHeaderr = table.insertRow(0);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     var tCell = tHeaderr.insertCell(0);
@@ -287,10 +279,19 @@ function statusColor(status) {
 /* Here we will create The button to delete the Treatments Table */
      var btn = document.createElement("BUTTON");
      btn.style.backgroundColor = "red";
-          btn.addEventListener("click", function (event) {
-              document.getElementById('eqipId'+soldier.bracelet_number).remove();
-               event.preventDefault();
-          });
+     btn.addEventListener("click", function (event) {      
+      
+         document.getElementById('eqipId' + soldier.bracelet_id).remove();
+              event.preventDefault();
+          console.log(soldier.bracelet_id);
+           for (i = 0; i < chosenBracelets.length; i++) { // removing the bracelet from array that prevents duplicates
+                  if (soldier.bracelet_id === chosenBracelets[i]) {
+                      chosenBracelets.splice(i, 1);       
+                      break;
+                  }
+              }
+                  });
+
      var t = document.createTextNode("X");
      btn.appendChild(t);
             tCell.appendChild(btn);
