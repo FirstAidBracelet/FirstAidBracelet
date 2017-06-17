@@ -279,10 +279,9 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     });
 });
 
-class MyEmitter extends EventEmitter { } // event hendler for post request from android
-const myEmitter = new MyEmitter();
-var client;
-io.sockets.on('connection', function (socket) { 
+
+var client; // This is the Socket client from mainPage.ejs
+io.sockets.on('connection', function (socket) { // the actual socket opening and it's functions definition
     client = socket;
     client.on('removePatient', function (data) { // removing bracelet via mainPage socket request
         MongoClient.connect(mongoUrl, function (err, db) {
@@ -292,25 +291,23 @@ io.sockets.on('connection', function (socket) {
                 });       
         });
     });
-    client.on('updateEvacuationStatus', function (data) { // removing bracelet via mainPage socket request
-        console.log(data.status);
-        MongoClient.connect(mongoUrl, function (err, db) { // updating evacuation request via mainPage socket request
+    client.on('updateEvacuationStatus', function (data) {  // updating evacuation request via mainPage socket request
+        MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             db.collection('soldiers').update({ bracelet_id: data.braceletId }, {$set: { evacuation_request: data.status }}, function () {
                 db.close();              
             }); 
         });
-    });
-   
- }); // the actual socket opening and it's f definition
-
+    });   
+ }); 
 
 /*
 This is the Event function that handles the Android request for
 updating the soldiers table
 */
+class MyEmitter extends EventEmitter { } // event hendler for post request from android
+const myEmitter = new MyEmitter();
 myEmitter.on('event', () => {
-    console.log('an event occurred');
     var result = [];
     if (filtersArray.length == 0) {
         MongoClient.connect(mongoUrl, function (err, db) {
@@ -343,10 +340,8 @@ It trigers event that update the soldiers table trought the socket
 */
 app.post('/soldiersChange', function (request, response) {
     myEmitter.emit('event');
-    console.log('Got request from android!');
     response.send("Android i got your request!")
 });
-
 
 app.post('/get-soldier/:braceletId', function (req, res) {
     var result = [];
