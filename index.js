@@ -216,7 +216,7 @@ var configs = [];
 
 app.get('/mainPage', function (request, response) {
     army = [];
-    configs = [];  
+    configs = [];
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('army_structure').find().forEach(function (doc, err) {
@@ -288,18 +288,31 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             assert.equal(null, err);
             db.collection('soldiers').findOneAndDelete({ bracelet_id: data.braceletId }, function () {
                 db.close();
-                });       
+            });
         });
     });
     client.on('updateEvacuationStatus', function (data) {  // updating evacuation request via mainPage socket request
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('soldiers').update({ bracelet_id: data.braceletId }, {$set: { evacuation_request: data.status }}, function () {
-                db.close();              
-            }); 
+            db.collection('soldiers').update({ bracelet_id: data.braceletId }, { $set: { evacuation_request: data.status } }, function () {
+                db.close();
+            });
         });
-    });   
- }); 
+    });
+    client.on('locationsRequest', function (data) {  // updating location coordinations mainPage socket request
+        var locations = [];
+        MongoClient.connect(mongoUrl, function (err, db) {  // TODO: NOT FINIESHED YET
+            assert.equal(null, err);
+            db.collection('soldiers').find().forEach(function (sld, err) {
+                var pair = { lat: sld.latitude, long: sld.longitude };
+                locations.push(JSON.stringify(pair));
+            }, function () {
+                db.close();
+                socket.emit('locationsSending', (locations));
+            });
+        });
+    });
+});
 
 /*
 This is the Event function that handles the Android request for
