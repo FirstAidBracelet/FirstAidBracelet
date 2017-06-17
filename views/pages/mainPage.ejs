@@ -202,13 +202,14 @@ function statusColor(status) {
           <% }); %>
                 /* Here we will create The Evacuation button  */
           var btn = document.createElement("BUTTON");
-    // btn.style.backgroundColor = "red";
+         
           btn.addEventListener("click", function (event) {
               evacuationStatusChange(sold.bracelet_id, sold.evacuation_request);
                event.preventDefault();
           });
-     var t = document.createTextNode(sold.evacuation_request);
-     btn.appendChild(t);
+          var evacButtonText = document.createTextNode(sold.evacuation_request);
+           btn.setAttribute("id",'evacButton'+sold.bracelet_id);
+          btn.appendChild(evacButtonText);
          tHeader.setAttribute('style','text-align:center;');
          tHeader.insertCell(k).appendChild(btn);
           k++
@@ -226,7 +227,6 @@ function statusColor(status) {
          tHeader.insertCell(k).appendChild(btn);
          k++;
             /* End of the delete button creation*/
-
 		   k = 0 ;
 		 });
     // Create dynamcly table
@@ -235,8 +235,15 @@ function statusColor(status) {
     }
     function evacuationStatusChange(braceletID , currStatus) { // Changing the status of evacuation request on click
         var cnfrmation = confirm("Are you sure you want to change pation evacuation status?");               
-        if (cnfrmation == true) { // TODO *************** Change the status on the page without refresh.
-             socket.emit('updateEvacuationStatus', { braceletId: braceletID , status: currStatus });
+        var newStatus;    
+        if (cnfrmation == true) {       
+        if (currStatus == "false") {
+            newStatus = "true";
+        } else {
+            newStatus = "false";
+            }     
+             document.getElementById("evacButton" + braceletID).innerHTML = newStatus;
+             socket.emit('updateEvacuationStatus', { braceletId: braceletID , status: newStatus });
         }
 }
     function removeSoldier(braceletID) { // function to remove soldier from table

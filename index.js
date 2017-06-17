@@ -298,24 +298,17 @@ io.sockets.on('connection', function (socket) {
                 });       
         });
     });
-    client.on('updateEvacuationStatus', function (data) { // removing bracelet via mainPage socket request
+    client.on('updateEvacuationStatus', function (data) {
         console.log(data.status);
-        var newStatus;
-        if (data.status == "false") {
-            newStatus = "true";
-        } else {
-            newStatus = "false";
-        }
         MongoClient.connect(mongoUrl, function (err, db) { // updating evacuation request via mainPage socket request
             assert.equal(null, err);
-            db.collection('soldiers').findOneAndUpdate({ bracelet_id: data.braceletId }, { "evacuation_request": newStatus }, function () {
+            db.collection('soldiers').update({ bracelet_id: data.braceletId }, {$set: { evacuation_request: data.status }}, function () {
                 db.close();              
             }); 
         });
     });
    
- }); // the actual socket opening and definition
-
+ }); // the actual socket opening and it's functions definition
 
 
 /*
