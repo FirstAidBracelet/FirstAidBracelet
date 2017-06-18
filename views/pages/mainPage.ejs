@@ -62,7 +62,7 @@
                     <div class="dropdown">
                         <div id="locationDropdown" class="dropdown-menu">
                             <!-- still dont know how to lsear wth location this is for future -->
-                            <a id="locationD" href="#" class="list-group-item"></a>
+                           <!-- <div id="locationD" href="#" class="list-group-item"></div>-->
 
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                     <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
                     <h1></h1>
                     <!--<a href="/mainPage" onclick="deleteTable()">Clear all</a>-->
-                    <a href="#" onclick="getBraceletsLocations()">Clear all</a>
+                   <!-- <a href="#" onclick="updateLocationFilters()">Clear all</a>-->
                 </div>
             </center>
         </div>
@@ -104,22 +104,11 @@
     var socket = io.connect('/'); // connect to server
   socket.on('news', function (data) { // listen to news event raised by the server
      buildSoldiersTable(JSON.parse(data));
-    });
-     socket.on('locationsSending', function (data) { // listen to locations event raised by the server
-         console.log((data));
-         var arr = []; //TODO: NOT FINISHED YET
-         arr = (data);
-         for ( i = 0; i < arr.length ; i++){
-            var btn = document.createElement("BUTTON");
-            var t = document.createTextNode(arr[i]);
-             btn.appendChild(t);
-            document.getElementById("locationD").appendChild(btn);
-        }
-         //getBraceletsLocations(data);
   });
     /*local variables to manipulate chosen data in real time (not sure if we will need in future) */
     var chosenFilters = [];
     var chosenBracelets = [];
+    var filteredSoldiers = [];
 
     window.onload = function () {
         var xhr = new XMLHttpRequest();
@@ -164,7 +153,9 @@ function statusColor(status) {
 
         if (document.getElementById("mainTable") !== null) {
             document.getElementById("mainTable").remove();
-}
+     }
+        filteredSoldiers = [];
+        filteredSoldiers = sldrs;
 
      var table = document.createElement('table');
 	table.setAttribute("class", "table table-striped");
@@ -379,9 +370,16 @@ function removeFilter(type, value) {
         xhr.open('POST','/get-soldiers/'+ type +'/' + value + '/remove', true);
         xhr.send({});
     }
-    function getBraceletsLocations() { // TODO: NOT FINISHED YET
-           socket.emit('locationsRequest');
-
+    
+    function updateLocationFilters() {
+         var list = document.createElement("DIV");
+        filteredSoldiers.forEach(function (sld) {           
+            var btnn = document.createElement("BUTTON");
+            var t = document.createTextNode(sld.latitude +','+ sld.longitude);
+            btnn.appendChild(t);
+            list.appendChild(btnn);
+        });
+        document.getElementById("locationDropdown").appendChild(list);
 }
 </script>
 </html>

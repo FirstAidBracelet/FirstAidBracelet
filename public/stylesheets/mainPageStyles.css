@@ -14,11 +14,6 @@
             background-color: #ccc;
         }
 
-        .vertical-menu a.active {
-            background-color: #4CAF50;
-            color: white;
-        }
-
 .caret-right {
     float: right;
     display: inline-block;

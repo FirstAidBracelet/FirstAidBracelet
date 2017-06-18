@@ -299,19 +299,6 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
-    client.on('locationsRequest', function (data) {  // updating location coordinations mainPage socket request
-        var locations = [];
-        MongoClient.connect(mongoUrl, function (err, db) {  // TODO: NOT FINIESHED YET
-            assert.equal(null, err);
-            db.collection('soldiers').find().forEach(function (sld, err) {
-                var pair = { lat: sld.latitude, long: sld.longitude };
-                locations.push(JSON.stringify(pair));
-            }, function () {
-                db.close();
-                socket.emit('locationsSending', (locations));
-            });
-        });
-    });
 });
 
 /*
