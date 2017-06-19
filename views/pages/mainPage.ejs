@@ -44,7 +44,7 @@
                         <div id="divisionDropdown" class="dropdown-menu">
                             <!-- Every dropdown is created by template iterator which builds list from the value we pass fom back-end -->
                             <% divisions.forEach(function(dvsn) { %>
-                            <a href="#" class="list-group-item" onclick="putFilter('division','<%= dvsn %>')"><%= dvsn %></a>
+                            <a href="#" class="list-group-item" onclick="putFilter('Division','<%= dvsn %>')"><%= dvsn %></a>
                             <% }); %>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                     <div class="dropdown">
                         <div id="unitDropdown" class="dropdown-menu">
                             <% units.forEach(function(unt) { %>
-                            <a href="#" class="list-group-item" onclick="putFilter('unit','<%= unt %>')"><%= unt %></a>
+                            <a href="#" class="list-group-item" onclick="putFilter('Unit','<%= unt %>')"><%= unt %></a>
                             <% }); %>
                         </div>
                     </div>
