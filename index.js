@@ -286,7 +286,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('removePatient', function (data) { // removing bracelet via mainPage socket request
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('soldiers').findOneAndDelete({ bracelet_id: data.braceletId }, function () {
+            db.collection('soldiers').findOneAndDelete({ Bracelet_ID: data.braceletId }, function () {
                 db.close();
             });
         });
@@ -294,7 +294,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('updateEvacuationStatus', function (data) {  // updating evacuation request via mainPage socket request
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('soldiers').update({ bracelet_id: data.braceletId }, { $set: { evacuation_request: data.status } }, function () {
+            db.collection('soldiers').update({ Bracelet_ID: data.braceletId }, { $set: { evacuation_request: data.status } }, function () {
                 db.close();
             });
         });
@@ -331,6 +331,7 @@ myEmitter.on('event', () => {
             db.close();
             client.emit('news', JSON.stringify(result));
         });
+
     });
 
 });
@@ -347,7 +348,7 @@ app.post('/get-soldier/:braceletId', function (req, res) {
     var result = [];
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        db.collection('soldiers').find({ bracelet_id: req.params.braceletId }).forEach(function (sld, err) {
+        db.collection('soldiers').find({ Bracelet_ID: req.params.braceletId }).forEach(function (sld, err) {
             assert.equal(null, err);
             result.push(sld);
         }, function () {

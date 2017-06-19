@@ -178,13 +178,13 @@ function statusColor(status) {
 	 var k = 0;
 	  sldrs.forEach(function(sold) {
           var tHeader = table.insertRow(j);
-          tHeader.setAttribute("id",'tRow'+sold.bracelet_id);
+          tHeader.setAttribute("id",'tRow'+sold.Bracelet_ID);
 	  j++;
          <% soldiers_table.forEach(function(tbl) { %>
 		 tHeader.setAttribute('style','text-align:center;');
              var cell = tHeader.insertCell(k);
              cell.addEventListener("click", function (event) { // this is the handler that will open treatments table on some row click
-              getTreatments(sold.bracelet_id);
+              getTreatments(sold.Bracelet_ID);
                event.preventDefault();
           });
              cell.innerHTML = sold.<%=tbl%>;
@@ -194,11 +194,11 @@ function statusColor(status) {
           var btn = document.createElement("BUTTON");
 
           btn.addEventListener("click", function (event) {
-              evacuationStatusChange(sold.bracelet_id, sold.evacuation_request);
+              evacuationStatusChange(sold.Bracelet_ID, sold.evacuation_request);
                event.preventDefault();
           });
           var evacButtonText = document.createTextNode(sold.evacuation_request);
-           btn.setAttribute("id",'evacButton'+sold.bracelet_id);
+           btn.setAttribute("id",'evacButton'+sold.Bracelet_ID);
           btn.appendChild(evacButtonText);
          tHeader.setAttribute('style','text-align:center;');
          tHeader.insertCell(k).appendChild(btn);
@@ -208,7 +208,7 @@ function statusColor(status) {
      var btn = document.createElement("BUTTON");
      btn.style.backgroundColor = "red";
           btn.addEventListener("click", function (event) {
-              removeSoldier(sold.bracelet_id);
+              removeSoldier(sold.Bracelet_ID);
                event.preventDefault();
           });
      var t = document.createTextNode("X");
@@ -267,7 +267,7 @@ function statusColor(status) {
  // Here we create Dynamicly linear list
    var node = document.createElement("LI");
     node.setAttribute('style', 'overflow:scroll; height:225px; width:350px');
-    node.setAttribute("id", "eqipId"+soldier.bracelet_id);
+    node.setAttribute("id", "eqipId"+soldier.Bracelet_ID);
    // Here we will insert our table
     var table = document.createElement('table');
     table.setAttribute("class", "table table-striped");
@@ -275,17 +275,17 @@ function statusColor(status) {
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     var tCell = tHeaderr.insertCell(0);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
-    tCell.innerHTML = "BraceletID: " + soldier.bracelet_id + "    ";
+    tCell.innerHTML = "BraceletID: " + soldier.Bracelet_ID + "    ";
     tCell.setAttribute('style','background:' + statusColor(soldier.injury_stat)+';');
     tCell.colSpan = "3";
 /* Here we will create The button to delete the Treatments Table */
      var btn = document.createElement("BUTTON");
      btn.style.backgroundColor = "red";
      btn.addEventListener("click", function (event) {
-         document.getElementById('eqipId' + soldier.bracelet_id).remove();
+         document.getElementById('eqipId' + soldier.Bracelet_ID).remove();
               event.preventDefault();
            for (i = 0; i < chosenBracelets.length; i++) { // removing the bracelet from array that prevents duplicates
-                  if (soldier.bracelet_id === chosenBracelets[i]) {
+                  if (soldier.Bracelet_ID === chosenBracelets[i]) {
                       chosenBracelets.splice(i, 1);
                       break;
                   }
