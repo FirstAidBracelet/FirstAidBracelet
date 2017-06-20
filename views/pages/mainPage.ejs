@@ -183,6 +183,7 @@ function statusColor(status) {
          <% soldiers_table.forEach(function(tbl) { %>
 		 tHeader.setAttribute('style','text-align:center;');
              var cell = tHeader.insertCell(k);
+             cell.style.cursor = "pointer";
              cell.addEventListener("click", function (event) { // this is the handler that will open treatments table on some row click
               getTreatments(sold.Bracelet_ID);
                event.preventDefault();
