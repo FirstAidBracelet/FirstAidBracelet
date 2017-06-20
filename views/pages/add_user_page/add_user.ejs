@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../../partials/header.ejs %>
+	<link rel="stylesheet" href="/stylesheets/add_user.css">
+</head>
+
+<body>
+
+	<script src="/views/pages/add_user_page/add_user.js"></script>
+	<script>
+		var army_struct = <%- JSON.stringify(army_struct) %>;
+		var users = [];
+		<% users.forEach(function(doc) { %>
+			users.push(<%- JSON.stringify(doc) %>);
+		<% }); %>
+	</script>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">First Aid Bracelet</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/admin_main">User</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="background-image: url('/background.png'); background-repeat: no-repeat ; background-position: center ">
+        <center><h1>  Add User </h1></center>
+
+        <form name="addUser" action="/addUser" method="post" onsubmit="return validateForm()">
+			<div class="form-group">
+				<label><b>Username</b></label>
+				<input type="text" class = "form-control" placeholder="Enter Username" name="user" required>
+			</div>
+
+			<div class="form-group">
+				<label><b>Password</b></label>
+				<input type="password" class = "form-control" placeholder="Enter Password" name="password" required>
+			</div>
+
+			<div id="type-div" class="radio-inline">
+				<label><input type="radio" name="type" value="doctor" required>Doctor</label>
+			</div>
+
+			<div id="type-div" class="radio-inline">
+				<label><input type="radio" name="type" value="agam" required>Agam</label>
+			</div>
+
+			<div class ="form-group">
+				<label><b>Name</b></label>
+				<input type="text" class = "form-control" placeholder="Enter Full Name" name="name" required>
+			</div>
+
+			<div class ="form-group">
+				<label><b>P.N</b></label>
+				<input type="text" class = "form-control" placeholder="Enter Personal Number" name="number" required>
+			</div>
+
+			<div class ="form-group">
+				<input type="hidden" class = "form-control" name="status" value="not connected" required>
+			</div>
+
+			<div id="divisions"></div>
+
+			<br><br>
+
+            <input type="submit" class="btn btn-primary" value="Add">
+        </form>
+
+	</div>
+
+	<script>
+		isClicked = false;
+		var type = document.addUser.type;
+			type[0].onclick = function() {
+				if (!isClicked){
+					isClicked = true;
+					isDoctor();
+				}
+			};
+			type[1].onclick = function() {
+				if (isClicked){
+					isClicked = false;
+					isAgam();
+				}
+			};
+	</script>
+
+</body>
+</html>

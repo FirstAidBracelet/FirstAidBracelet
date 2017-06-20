@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+
+	<link rel="stylesheet" href="/stylesheets/map.css">
+
+    <script src="/cookie.js"></script>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">First Aid Bracelet</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout"> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <center><h1>  Patient Map <br> </h1></center>
+
+	
+	<div id="content">
+		<!-- The div of the map --!>
+		<div id="map"></div>
+	</div>
+
+	<!-- The div of the floating window to show marker information on the map --!>
+	<div id="info"></div>
+
+	<script src="/views/pages/map_page/map.js"></script>
+	
+	<script>
+	var soldiersArray = [];
+	<% soldiers.forEach(function(doc) { %>
+		soldiersArray.push(<%- JSON.stringify(doc) %>);
+	<% }); %>
+
+	var doctorsArray = [];
+	<% users.forEach(function(doc) { %>
+		doctorsArray.push(<%- JSON.stringify(doc) %>);
+	<% }); %>
+	</script>
+
+	<script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/markerclustererplus/src/markerclusterer.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaOzdRahKL3nXRnZA0n-yK1hB2C828SQ&callback=myMap"></script>
+
+</body>
+</html>

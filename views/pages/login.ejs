@@ -34,20 +34,18 @@ function validateForm() {
 	}
 	<% docs.forEach(function(doc) { %>
 		var doc = <%- JSON.stringify(doc) %>;
-		var check_uname = doc.user;
-		var check_psw = doc.password;
-		if (check_uname == uname && check_psw == psw){
-			var type = doc.type;
+		if (doc.user == uname && doc.password == psw && doc.status == "not connected"){
 			document.cookie = "user=" + uname;
-			document.cookie = "type=" + type;
-			if (type == "doctor") {
-				var units = doc.units;
-				document.cookie = "units=" + units;
+			document.cookie = "type=" + doc.type;
+			document.cookie = "number=" + doc.number;
+			document.cookie = "name=" + doc.name;
+			if (doc.type == "doctor") {
+				document.cookie = "division=" + doc.division;
 			}
 			return true;
 		}
 	<% }); %>
-	alert("wrong username/password");
+	alert("wrong username/password or doctor already connected");
 	return false;
 }
 </script>
