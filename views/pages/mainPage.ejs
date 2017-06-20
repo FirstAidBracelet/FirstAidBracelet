@@ -159,7 +159,7 @@ function statusColor(status) {
 
      var table = document.createElement('table');
 	table.setAttribute("class", "table table-striped");
-	table.setAttribute("id", "mainTable"); //TODO: this id should be uniq for every table
+	table.setAttribute("id", "mainTable");
     var tHeader = table.insertRow(0);
     // Iterator for the header
 	 var i = 0 ;
@@ -301,11 +301,27 @@ function statusColor(status) {
     var tHeaderr = table.insertRow(0);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     var tCell = tHeaderr.insertCell(0);
-    tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
-    tCell.innerHTML = "BraceletID: " + soldier.Bracelet_ID + "    ";
-    tCell.setAttribute('style','background:' + statusColor(soldier.injury_stat)+';');
-    tCell.colSpan = "3";
-/* Here we will create The button to delete the Treatments Table */
+           /* Here we will create refresh button */
+           var btn = document.createElement("BUTTON");
+           btn.addEventListener("click", function (event) {
+         document.getElementById('eqipId' + soldier.Bracelet_ID).remove();
+              event.preventDefault();
+           for (i = 0; i < chosenBracelets.length; i++) { // firstable delete the table and then rebuild it Code duplication but works for now
+                  if (soldier.Bracelet_ID === chosenBracelets[i]) {
+                      chosenBracelets.splice(i, 1);
+                      break;
+                  }
+              }
+         buildTreatmentsTable(givenSoldier); //rebuild table after delted the first one - the refresh operation
+              event.preventDefault();
+     });
+     var t = document.createTextNode("refresh");
+     btn.appendChild(t);
+            tCell.appendChild(btn);
+           /* End of the refresh button creation*/
+            tCell = tHeaderr.insertCell(1);
+            tCell.colSpan = "2";
+            /* Here we will create The button to delete the Treatments Table */
      var btn = document.createElement("BUTTON");
      btn.addEventListener("click", function (event) {
          document.getElementById('eqipId' + soldier.Bracelet_ID).remove();
@@ -321,6 +337,14 @@ function statusColor(status) {
      btn.appendChild(t);
             tCell.appendChild(btn);
             /* End of the delete button creation*/
+
+    tHeaderr = table.insertRow(1);
+    var tCell = tHeaderr.insertCell(0);
+    tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
+    tCell.innerHTML = "BraceletID: " + soldier.Bracelet_ID + "    ";
+    tCell.setAttribute('style','background:' + statusColor(soldier.injury_stat)+';');
+    tCell.colSpan = "3";
+
     tHeaderr = table.insertRow(1);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     tCell = tHeaderr.insertCell(0);
