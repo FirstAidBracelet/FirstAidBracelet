@@ -236,6 +236,7 @@ app.get('/mainPage', function (request, response) {
 var filtersArray = []; // array that stores the filters for the AND operation
 app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     var result = [];
+    var databaseDoctors = [];
     var fltr = { [req.params.filter]: req.params.value }; // Check if there is no duplicated filters
     if (req.params.action == "add") {
         for (var i = 0; i < filtersArray.length; i++) {
@@ -259,24 +260,52 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
                     assert.equal(null, err);
                     result.push(sld);
                 }, function () {
+                    db.collection('users').find({ "type": "doctor" }).forEach(function (dctr, err) { // Get existing doctors
+                        assert.equal(null, err);
+                        databaseDoctors.push(dctr);
+                    }, function () { // Here we will atach the doctor division to soldiers division TODO: i think android must to do it
+                        for (var j = 0; j < result.length; j++) {
+                            for (var i = 0; i < databaseDoctors.length; i++) {                               
+                                if (databaseDoctors[i].number == result[j].Dr_number) {
+                                    result[j].Division = databaseDoctors[i].division;                                  
+                                    db.collection('soldiers').update({ Bracelet_ID: result[j].Bracelet_ID }, { $set: { Division: databaseDoctors[i].division } });
+                                    
+                                    break;
+                                }
+                            }
+                        }
+                        db.close();
+                        res.json(result);
+                    });
+                });
+            });
+        }
+    } else
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('soldiers').find({ $and: filtersArray }).forEach(function (sld, err) {
+                assert.equal(null, err);
+                result.push(sld);
+            }, function () {
+                db.collection('users').find({ "type": "doctor" }).forEach(function (dctr, err) { // Get existing doctors
+                    assert.equal(null, err);
+                    databaseDoctors.push(dctr);
+                }, function () { // Here we will atach the doctor division to soldiers division TODO: i think android must to do it
+                    for (var j = 0; j < result.length; j++) {
+                        for (var i = 0; i < databaseDoctors.length; i++) {
+                            if (databaseDoctors[i].number == result[j].Dr_number) {
+                                result[j].Division = databaseDoctors[i].division;
+                                db.collection('soldiers').update({ Bracelet_ID: result[j].Bracelet_ID }, { $set: { Division: databaseDoctors[i].division } });
+
+                                break;
+                            }
+                        }
+                    }
                     db.close();
                     res.json(result);
                 });
             });
-            return;
-        }
-    }
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        db.collection('soldiers').find({ $and: filtersArray }).forEach(function (sld, err) {
-            assert.equal(null, err);
-            result.push(sld);
-        }, function () {
-            db.close();
-            res.json(result);
-
         });
-    });
 });
 
 
