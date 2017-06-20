@@ -151,7 +151,6 @@ app.get('/user', function (request, response) {
         var users = [];
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-<<<<<<< HEAD
             db.collection('army_structure').find().forEach(function (doc, err) {
                 army_struct = doc;
             }, function () {
@@ -162,15 +161,6 @@ app.get('/user', function (request, response) {
                     response.render('pages/add_user_page/add_user', { army_struct: army_struct, users: users });
                 });
             });
-=======
-            var equipmentDB = db.collection('soldiers');
-            equipmentDB.find().toArray(
-                function (err, docs) {
-                    response.render('pages/add_user', { docs: docs });
-                }
-            );
-            db.close();
->>>>>>> 5c135f21953eae31435c18f2982dc130d813fad3
         });
     }
 });
@@ -356,13 +346,6 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('removePatient', function (data) { // removing bracelet via mainPage socket request
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-<<<<<<< HEAD
-            result.push(sld);
-        }, function () {
-            db.close();
-            res.json(result);
-
-=======
             db.collection('soldiers').findOneAndDelete({ Bracelet_ID: data.braceletId }, function () {
                 db.close();
             });
@@ -374,25 +357,10 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             db.collection('soldiers').update({ Bracelet_ID: data.braceletId }, { $set: { evacuation_request: data.status } }, function () {
                 db.close();
             });
->>>>>>> 5c135f21953eae31435c18f2982dc130d813fad3
         });
     });
 });
 
-<<<<<<< HEAD
-class MyEmitter extends EventEmitter { } // event hendler for post request from android
-const myEmitter = new MyEmitter();
-var client;
-io.sockets.on('connection', function (socket) { client = socket; }); // the actual socket opening and definition
-
-
-/*
-This is the Event function that handles the Android request for
-updating the soldiers table
-*/
-myEmitter.on('event', () => {
-    console.log('an event occurred');
-=======
 /*
 This is the Event function that handles the Android request for
 updating the soldiers table
@@ -400,7 +368,6 @@ updating the soldiers table
 class MyEmitter extends EventEmitter { } // event hendler for post request from android
 const myEmitter = new MyEmitter();
 myEmitter.on('event', () => {
->>>>>>> 5c135f21953eae31435c18f2982dc130d813fad3
     var result = [];
     if (filtersArray.length == 0) {
         MongoClient.connect(mongoUrl, function (err, db) {
@@ -426,8 +393,6 @@ myEmitter.on('event', () => {
         });
 
     });
-<<<<<<< HEAD
-
 });
 
 myEmitter.on('mapEvent', () => {
@@ -443,9 +408,6 @@ myEmitter.on('mapEvent', () => {
         });
     });
     return;
-=======
-
->>>>>>> 5c135f21953eae31435c18f2982dc130d813fad3
 });
 /*
 This is the Post request for the Android application,
@@ -453,11 +415,8 @@ It trigers event that update the soldiers table trought the socket
 */
 app.post('/soldiersChange', function (request, response) {
     myEmitter.emit('event');
-<<<<<<< HEAD
     myEmitter.emit('mapEvent');
     console.log('Got request from android!');
-=======
->>>>>>> 5c135f21953eae31435c18f2982dc130d813fad3
     response.send("Android i got your request!")
 });
 

@@ -1,0 +1,8 @@
+﻿/* mouse over radio */
+#type-div:hover {
+    background-color: hsla(240,100%,65%,0.3);
+}
+
+#division-div:hover {
+    background-color: hsla(120,100%,25%,0.3);
+}
