@@ -62,7 +62,7 @@
                     <div class="dropdown">
                         <div id="locationDropdown" class="dropdown-menu">
                             <!-- still dont know how to lsear wth location this is for future -->
-                           <!-- <div id="locationD" href="#" class="list-group-item"></div>-->
+                            <!-- <div id="locationD" href="#" class="list-group-item"></div>-->
 
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                     <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
                     <h1></h1>
                     <!--<a href="/mainPage" onclick="deleteTable()">Clear all</a>-->
-                   <!-- <a href="#" onclick="updateLocationFilters()">Clear all</a>-->
+                    <!-- <a href="#" onclick="updateLocationFilters()">Clear all</a>-->
                 </div>
             </center>
         </div>
@@ -194,10 +194,15 @@ function statusColor(status) {
           var btn = document.createElement("BUTTON");
 
           btn.addEventListener("click", function (event) {
-              evacuationStatusChange(sold.Bracelet_ID, sold.evacuation_request);
+              evacuationStatusChange(sold.Bracelet_ID);
                event.preventDefault();
           });
           var evacButtonText = document.createTextNode(sold.evacuation_request);
+          if (sold.evacuation_request == "true") {
+              btn.style.backgroundColor = "#b3ffcc";
+          } else {
+              btn.style.backgroundColor = "#e6e6e6";
+          }
            btn.setAttribute("id",'evacButton'+sold.Bracelet_ID);
           btn.appendChild(evacButtonText);
          tHeader.setAttribute('style','text-align:center;');
@@ -206,7 +211,6 @@ function statusColor(status) {
            /* End of the evacuation button creation*/
    /* Here we will create The button to remove soldier from table */
      var btn = document.createElement("BUTTON");
-     btn.style.backgroundColor = "red";
           btn.addEventListener("click", function (event) {
               removeSoldier(sold.Bracelet_ID);
                event.preventDefault();
@@ -222,19 +226,41 @@ function statusColor(status) {
         document.getElementById("mainSoldiersTable").appendChild(table);
     }
 
-    function evacuationStatusChange(braceletID , currStatus) { // Changing the status of evacuation request on click
+    function changeCurrentEvacuationRequestAndReturnOld(braceletID) {
+        var currStatus;
+        for (var i = 0; i < filteredSoldiers.length; i++) {
+            if (filteredSoldiers[i].Bracelet_ID == braceletID) {
+                 currStatus = filteredSoldiers[i].evacuation_request;
+                if (currStatus == "false") {
+                    filteredSoldiers[i].evacuation_request = "true";
+                } else {
+                    filteredSoldiers[i].evacuation_request = "false";
+                }
+                return currStatus;
+            }
+        }
+         return currStatus;
+    }
+
+
+    function evacuationStatusChange(braceletID) { // Changing the status of evacuation request on click
         var cnfrmation = confirm("Are you sure you want to change pation evacuation status?");
         var newStatus;
+        var currStatus;
         if (cnfrmation == true) {
-        if (currStatus == "false") {
-            newStatus = "true";
-        } else {
+          currStatus =  changeCurrentEvacuationRequestAndReturnOld(braceletID);
+            if (currStatus == "false") {
+                newStatus = "true";
+                 document.getElementById("evacButton" + braceletID).style.backgroundColor = "#b3ffcc";
+            } else {
+                document.getElementById("evacButton" + braceletID).style.backgroundColor = "#e6e6e6";
             newStatus = "false";
             }
-             document.getElementById("evacButton" + braceletID).innerHTML = newStatus;
-             socket.emit('updateEvacuationStatus', { braceletId: braceletID , status: newStatus });
-        }
-}
+
+       document.getElementById("evacButton" + braceletID).innerHTML = newStatus;
+       socket.emit('updateEvacuationStatus', { braceletId: braceletID , status: newStatus });
+     }
+   }
     function removeSoldier(braceletID) { // function to remove soldier from table
         var cnfrmation = confirm("Are you sure you want to remove this patient from Database?");
         if (cnfrmation == true) {
@@ -280,7 +306,6 @@ function statusColor(status) {
     tCell.colSpan = "3";
 /* Here we will create The button to delete the Treatments Table */
      var btn = document.createElement("BUTTON");
-     btn.style.backgroundColor = "red";
      btn.addEventListener("click", function (event) {
          document.getElementById('eqipId' + soldier.Bracelet_ID).remove();
               event.preventDefault();
@@ -291,7 +316,7 @@ function statusColor(status) {
                   }
               }
      });
-     var t = document.createTextNode("X");
+     var t = document.createTextNode("close");
      btn.appendChild(t);
             tCell.appendChild(btn);
             /* End of the delete button creation*/
@@ -370,10 +395,10 @@ function removeFilter(type, value) {
         xhr.open('POST','/get-soldiers/'+ type +'/' + value + '/remove', true);
         xhr.send({});
     }
-    
+
     function updateLocationFilters() {
          var list = document.createElement("DIV");
-        filteredSoldiers.forEach(function (sld) {           
+        filteredSoldiers.forEach(function (sld) {
             var btnn = document.createElement("BUTTON");
             var t = document.createTextNode(sld.latitude +','+ sld.longitude);
             btnn.appendChild(t);
