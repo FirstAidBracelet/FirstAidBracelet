@@ -302,22 +302,21 @@ function statusColor(status) {
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     var tCell = tHeaderr.insertCell(0);
            /* Here we will create refresh button */
-           var btn = document.createElement("BUTTON");
-           btn.addEventListener("click", function (event) {
-         document.getElementById('eqipId' + soldier.Bracelet_ID).remove();
-              event.preventDefault();
-           for (i = 0; i < chosenBracelets.length; i++) { // firstable delete the table and then rebuild it Code duplication but works for now
+           var btnn = document.createElement("BUTTON");
+           btnn.addEventListener("click", function (event) {
+    for (i = 0; i < chosenBracelets.length; i++) { // removing the bracelet from array that prevents duplicates
                   if (soldier.Bracelet_ID === chosenBracelets[i]) {
                       chosenBracelets.splice(i, 1);
+    document.getElementById('eqipId' + soldier.Bracelet_ID).remove();
+      getTreatments(soldier.Bracelet_ID); //rebuild table after delted the first one - the refresh operation
                       break;
                   }
               }
-         buildTreatmentsTable(givenSoldier); //rebuild table after delted the first one - the refresh operation
               event.preventDefault();
      });
      var t = document.createTextNode("refresh");
-     btn.appendChild(t);
-            tCell.appendChild(btn);
+     btnn.appendChild(t);
+            tCell.appendChild(btnn);
            /* End of the refresh button creation*/
             tCell = tHeaderr.insertCell(1);
             tCell.colSpan = "2";
