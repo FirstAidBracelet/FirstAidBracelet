@@ -35,7 +35,7 @@ function changeMarkers(soldiersArray) {
     soldiersArray.forEach(function (soldier) {
         if (soldier.Division == division || type == "agam") {
                 //create pair of soldier document and marker and push into markers' array
-                var pos = new google.maps.LatLng(soldier.Longitude, soldier.Latitude);
+                var pos = new google.maps.LatLng(soldier.Latitude, soldier.Longitude);
                 var marker = new google.maps.Marker({ position: pos, map: map });
                 var pair = { soldier: soldier, marker: marker };
                 markers.push(pair);
@@ -64,7 +64,7 @@ function myMap() {
     var lat = (lat == 0) ? 34.781450 : (lat / count);
     //attributes of map = center according to avg long-lat, starting zoom, and type
     var mapOptions = {
-        center: new google.maps.LatLng(long, lat),
+        center: new google.maps.LatLng(lat, long),
         zoom: 8,
         mapTypeId: google.maps.MapTypeId.TERRAIN
     }
