@@ -142,11 +142,7 @@ app.get('/logout', function (request, response) {
 });
 
 app.get('/user', function (request, response) {
-    var user = request.cookies.user;
-    var type = request.cookies.type;
-    if (user == null || type == null) {
-        response.redirect('/login')
-    } else {
+    //if (!agamLogin()) {
         var army_struct;
         var users = [];
         MongoClient.connect(mongoUrl, function (err, db) {
@@ -162,15 +158,11 @@ app.get('/user', function (request, response) {
                 });
             });
         });
-    }
+    //}
 });
 
 app.get('/equip', function (request, response) {
-    var user = request.cookies.user;
-    var type = request.cookies.type;
-    if (user == null || type == null) {
-        response.redirect('/login')
-    } else {
+    //if (!agamLogin()) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             var equipmentDB = db.collection('equipment');
@@ -181,15 +173,11 @@ app.get('/equip', function (request, response) {
             );
             db.close();
         });
-    }
+    //}
 });
 
 app.get('/user_table', function (request, response) {
-    var user = request.cookies.user;
-    var type = request.cookies.type;
-    if (user == null || type == null) {
-        response.redirect('/login')
-    } else {
+    //if (!agamLogin()) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             var equipmentDB = db.collection('users');
@@ -200,18 +188,26 @@ app.get('/user_table', function (request, response) {
             );
             db.close();
         });
-    }
+    //}
 });
 
 app.get('/admin_main', function (request, response) {
+    //if (!agamLogin()) {
+    //    response.render('pages/admin_main');
+    //}
+    console.log("NOTHING");
+});
+
+function agamLogin(){
     var user = request.cookies.user;
     var type = request.cookies.type;
     if (user == null || type == null) {
-        response.redirect('/login')
-    } else {
-        response.render('pages/admin_main');
+        response.redirect('/login');
+    } else if (type != "agam") {
+        response.redirect('/map');
     }
-});
+    return true;
+}
 
 app.get('/map', function (request, response) {
     var user = request.cookies.user;
