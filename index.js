@@ -204,10 +204,10 @@ app.get('/map', function (request, response) {
         var users = [];
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('soldiers').find().forEach( function (sol, err) {
-                    soldiers.push(sol);
+            db.collection('soldiers').find().forEach(function (sol, err) {
+                soldiers.push(sol);
             }, function () {
-                db.collection('users').find().forEach( function (use, err) {
+                db.collection('users').find().forEach(function (use, err) {
                     users.push(use);
                 }, function () {
                     db.close();
@@ -291,23 +291,8 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
                     assert.equal(null, err);
                     result.push(sld);
                 }, function () {
-                    db.collection('users').find({ "type": "doctor" }).forEach(function (dctr, err) { // Get existing doctors
-                        assert.equal(null, err);
-                        databaseDoctors.push(dctr);
-                    }, function () { // Here we will atach the doctor division to soldiers division TODO: i think android must to do it
-                        for (var j = 0; j < result.length; j++) {
-                            for (var i = 0; i < databaseDoctors.length; i++) {                               
-                                if (databaseDoctors[i].number == result[j].Dr_number) {
-                                    result[j].Division = databaseDoctors[i].division;                                  
-                                    db.collection('soldiers').update({ Bracelet_ID: result[j].Bracelet_ID }, { $set: { Division: databaseDoctors[i].division } });
-                                    
-                                    break;
-                                }
-                            }
-                        }
-                        db.close();
-                        res.json(result);
-                    });
+                    db.close();
+                    res.json(result);
                 });
             });
         }
@@ -318,23 +303,8 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
                 assert.equal(null, err);
                 result.push(sld);
             }, function () {
-                db.collection('users').find({ "type": "doctor" }).forEach(function (dctr, err) { // Get existing doctors
-                    assert.equal(null, err);
-                    databaseDoctors.push(dctr);
-                }, function () { // Here we will atach the doctor division to soldiers division TODO: i think android must to do it
-                    for (var j = 0; j < result.length; j++) {
-                        for (var i = 0; i < databaseDoctors.length; i++) {
-                            if (databaseDoctors[i].number == result[j].Dr_number) {
-                                result[j].Division = databaseDoctors[i].division;
-                                db.collection('soldiers').update({ Bracelet_ID: result[j].Bracelet_ID }, { $set: { Division: databaseDoctors[i].division } });
-
-                                break;
-                            }
-                        }
-                    }
-                    db.close();
-                    res.json(result);
-                });
+                db.close();
+                res.json(result);
             });
         });
 });
