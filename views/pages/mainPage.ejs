@@ -304,8 +304,7 @@ function statusColor(status) {
            /* Here we will create refresh button */
            var btn = document.createElement("BUTTON");
            btn.addEventListener("click", function (event) {
-         document.getElementById('eqipId' + soldier.Bracelet_ID).remove();
-              event.preventDefault();
+         document.getElementById('eqipId' + soldier.Bracelet_ID).remove();            
            for (i = 0; i < chosenBracelets.length; i++) { // firstable delete the table and then rebuild it Code duplication but works for now
                   if (soldier.Bracelet_ID === chosenBracelets[i]) {
                       chosenBracelets.splice(i, 1);
@@ -361,7 +360,7 @@ function statusColor(status) {
     // Iterator for the columns which are treatment properties
 		 var k = 0;
     for(var i = 0; i < soldier.treatments.length; i++) { // for every treatment
-      var tHeader = table.insertRow(i+3);  // create new row and insert +3 because there are 3 headers before
+      var tHeader = table.insertRow(i+4);  // create new row and insert +3 because there are 3 headers before
          <% treatments_table.forEach(function(tbl) { %> // every row put create cells
              tHeader.setAttribute('style', 'text-align:center;');
              tHeader.insertCell(k).innerHTML = soldier.treatments[i].<%=tbl%>;
