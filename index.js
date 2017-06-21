@@ -93,11 +93,11 @@ app.get('/login', function (request, response) {
 });
 
 app.post('/logged', function (request, response) {
-    var number = request.cookies.number;
+    var user = request.cookies.user;
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         var col = db.collection('users');
-        col.update({ number: number }, { $set: { status: "connected" } })
+        col.update({ user: user }, { $set: { status: "connected" } })
         db.close();
     });
 
@@ -123,11 +123,11 @@ app.get('/logged', function (request, response) {
 });
 
 app.get('/logout', function (request, response) {
-    var number = request.cookies.number;
+    var user = request.cookies.user;
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         var col = db.collection('users');
-        col.update({ number: number }, { $set: { status: "not connected" } })
+        col.update({ user: user }, { $set: { status: "not connected" } })
         db.close();
     });
 
@@ -184,6 +184,25 @@ app.get('/equip', function (request, response) {
     }
 });
 
+app.get('/user_table', function (request, response) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            var equipmentDB = db.collection('users');
+            equipmentDB.find().toArray(
+                function (err, docs) {
+                    response.render('pages/users_table', { docs: docs });
+                }
+            );
+            db.close();
+        });
+    }
+});
+
 app.get('/admin_main', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
@@ -217,19 +236,6 @@ app.get('/map', function (request, response) {
         });
     }
 });
-
-/*app.get('/maps', function (request, response) {
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        var equipmentDB = db.collection('soldiers');
-        equipmentDB.find().toArray(
-            function (err, docs) {
-                response.render('pages/map', { docs : docs });
-            }
-        );
-        db.close();
-    });
-});*/
 
 app.post('/addUser', function (request, response) {
     var form = request.body;

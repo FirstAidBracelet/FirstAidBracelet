@@ -33,7 +33,7 @@ function changeMarkers(soldiersArray) {
     
     //docs = Soldiers db in array form
     soldiersArray.forEach(function (soldier) {
-        if (soldier.Division == division || type == "admin") {
+        if (soldier.Division == division || type == "agam") {
                 //create pair of soldier document and marker and push into markers' array
                 var pos = new google.maps.LatLng(soldier.Longitude, soldier.Latitude);
                 var marker = new google.maps.Marker({ position: pos, map: map });
