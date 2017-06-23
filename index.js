@@ -257,7 +257,7 @@ app.get('/mainPage', function (request, response) {
                 configs.push(cnfs);
             }, function () {
                 db.close();
-                response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, treatments_table: configs[0].treatments, filters: configs[0].filters });
+                response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, treatments_table: configs[0].treatments, filters: configs[0].filters, statuses: configs[0].injury_status });
             });
         });
     });
@@ -280,7 +280,7 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     if (req.params.action == "remove") {
         for (var i = 0; i < filtersArray.length; i++) {
             if (Object.keys(filtersArray[i])[0] == Object.keys(fltr)[0] && filtersArray[i][Object.keys(filtersArray[i])[0]] == fltr[Object.keys(fltr)[0]]) {
-                filtersArray.splice(i, 1);
+                filtersArray.splice(i, 1);         
                 break;
             }
         }
@@ -293,10 +293,12 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
                 }, function () {
                     db.close();
                     res.json(result);
+                  
                 });
             });
+            return;
         }
-    } else
+    } 
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             db.collection('soldiers').find({ $and: filtersArray }).forEach(function (sld, err) {
