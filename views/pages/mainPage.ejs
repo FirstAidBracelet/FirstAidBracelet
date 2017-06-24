@@ -73,8 +73,6 @@
     xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
             buildSoldiersTable(JSON.parse(this.response));
-    //buildAllFilters();
-
         }
     }
         xhr.open('POST','/get-soldiers/_/_/remove', true);
@@ -87,6 +85,12 @@ function buildAllFilters(){
                   <% }); %>
     }
 
+function addFilterEvent (myFilter, btn) {  // Auxilary functionf for updatePopovers - to add dynamicly events
+        btn.addEventListener("click", function (event) {         
+                putFilter(myFilter, btn.innerHTML);
+            event.preventDefault();
+        });
+   }
 // function that creates the popover that related with the "popover" keyword
 function updatePopovers(){
     $('[rel="popover"]').popover({
@@ -97,31 +101,27 @@ function updatePopovers(){
             var child = [];
             child = $($(this).data('popover-content')).children();
             var list = document.createElement('div');
+
              list.setAttribute("id", myFilter + "dropdown");
             for (var i = 0  ; i < child.length ; i++ ){
                  var btn = document.createElement('BUTTON');
                  btn.setAttribute("class", "list-group-item");
                  btn.setAttribute("type", "button");
-                 btn.innerHTML =  child[i].getAttribute("filterValue");
-                 btn.addEventListener("click", function (event) {
-                         putFilter(myFilter,btn.innerHTML);
-                         event.preventDefault();
-                         });
-                    list.appendChild(btn);
-                        };
-                 return list;
-                }
+                 btn.innerHTML = child[i].getAttribute("filterValue");
+                 addFilterEvent(myFilter,btn);          
+                 list.appendChild(btn);
+
+             };
+         return list;
+       }
     })
-};
+    };
 
+ function filterButtonBuilder(filterName) {
+     var existingFilters = [];
+     var dropdown = document.createElement('div'); // The dropdown element
 
-    function filterButtonBuilder(filterName) {
-        var existingFilters = [];
-         var dropdown = document.createElement('div'); // The dropdown element
         dropdown.setAttribute("class", "dropdown-menu");
-      if (document.getElementById( filterName + "dropdown") !== null) { // remove old if exists
-            document.getElementById( filterName + "dropdown").remove();
-     }
         dropdown.setAttribute("id", filterName + "dropdown");
 
         for (var i = 0; i < filteredSoldiers.length; i++){
@@ -143,8 +143,9 @@ function updatePopovers(){
 
              var btn = document.createElement('div');
                btn.setAttribute("filter", filterName);
-              btn.setAttribute("filterValue", filteredSoldiers[i][filterName]);
+               btn.setAttribute("filterValue", filteredSoldiers[i][filterName]);
                 dropdown.appendChild(btn);
+   
           };
 
     if (document.getElementById( filterName + "dropdownButton") !== null) { // remove old if exists
@@ -167,19 +168,6 @@ function updatePopovers(){
     }
 
 
-function statusColor(status) {
-    switch (status) {
-        case "kia":
-            return  "red";
-        case "heavy":
-             return "#ff0066";
-        case "average":
-            return "#ff7733";
-        case "light":
-           return "whilte";
-    }
-}
-
  // Dynamic Table builder
  function buildSoldiersTable(sldrs) {
 
@@ -187,7 +175,7 @@ function statusColor(status) {
             document.getElementById("mainTable").remove();
      }
 
-       // filteredSoldiers = [];
+        filteredSoldiers = [];
         filteredSoldiers = sldrs;
     //console.log(filteredSoldiers);
 
@@ -378,13 +366,12 @@ function statusColor(status) {
     var tCell = tHeaderr.insertCell(0);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     tCell.innerHTML = "BraceletID: " + soldier.Bracelet_ID + "    ";
-    tCell.setAttribute('style','background:' + statusColor(soldier.injury_stat)+';');
     tCell.colSpan = "3";
 
     tHeaderr = table.insertRow(2);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     tCell = tHeaderr.insertCell(0);
-    tCell.innerHTML = "Soldier #: " + soldier.personal_number;
+    tCell.innerHTML = "Soldier #: " + soldier.Personal_Number;
     tCell.colSpan = "3";
     var tHeader = table.insertRow(3);
      <!-- Iterator for the header -->
