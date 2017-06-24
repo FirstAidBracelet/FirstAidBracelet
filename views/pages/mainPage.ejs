@@ -68,20 +68,24 @@
     var filteredSoldiers = [];
 
     window.onload = function () {
-        
+
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
             buildSoldiersTable(JSON.parse(this.response));
-            <% filters.forEach(function (filter) { %>
-                filterButtonBuilder('<%= filter %>');
-                  <% }); %>   
+    //buildAllFilters();
 
         }
     }
         xhr.open('POST','/get-soldiers/_/_/remove', true);
         xhr.send({});
     };
+
+function buildAllFilters(){
+    <% filters.forEach(function (filter) { %>
+                filterButtonBuilder('<%= filter %>');
+                  <% }); %>
+    }
 
 // function that creates the popover that related with the "popover" keyword
 function updatePopovers(){
@@ -115,6 +119,9 @@ function updatePopovers(){
         var existingFilters = [];
          var dropdown = document.createElement('div'); // The dropdown element
         dropdown.setAttribute("class", "dropdown-menu");
+      if (document.getElementById( filterName + "dropdown") !== null) { // remove old if exists
+            document.getElementById( filterName + "dropdown").remove();
+     }
         dropdown.setAttribute("id", filterName + "dropdown");
 
         for (var i = 0; i < filteredSoldiers.length; i++){
@@ -127,20 +134,26 @@ function updatePopovers(){
                         existingFilter = true;
                         break;
                      }
-    
+
                }
                if (existingFilter == true){
                    continue;
                }
              existingFilters.push(filteredSoldiers[i][filterName]);
-    
+
              var btn = document.createElement('div');
                btn.setAttribute("filter", filterName);
               btn.setAttribute("filterValue", filteredSoldiers[i][filterName]);
                 dropdown.appendChild(btn);
           };
 
-        var dropdownButton = document.createElement("button"); // The dropdown menu button     
+    if (document.getElementById( filterName + "dropdownButton") !== null) { // remove old if exists
+            document.getElementById( filterName + "dropdownButton").remove();
+     }
+
+        var dropdownButton = document.createElement("button"); // The dropdown menu button
+      dropdownButton.setAttribute("id", filterName + "dropdownButton");
+
         dropdownButton.innerHTML = filterName;
         dropdownButton.setAttribute("class", "btn btn-primary dropdown-toggle");
         dropdownButton.setAttribute("rel", "popover");
@@ -173,8 +186,10 @@ function statusColor(status) {
         if (document.getElementById("mainTable") !== null) {
             document.getElementById("mainTable").remove();
      }
-        filteredSoldiers = [];
+
+       // filteredSoldiers = [];
         filteredSoldiers = sldrs;
+    //console.log(filteredSoldiers);
 
      var table = document.createElement('table');
 	table.setAttribute("class", "table table-striped");
@@ -244,6 +259,9 @@ function statusColor(status) {
 		   k = 0 ;
 		 });
         document.getElementById("mainSoldiersTable").appendChild(table);
+     buildAllFilters();
+
+
     }
 
     function changeCurrentEvacuationRequestAndReturnOld(braceletID) {
@@ -415,6 +433,7 @@ function statusColor(status) {
     xhr.onreadystatechange = function () {//Call a function when the state changes.
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
             buildSoldiersTable(JSON.parse(this.response));
+
         }
     }
         xhr.open('POST','/get-soldiers/'+ type +'/' + value + '/add', true);
@@ -426,7 +445,7 @@ function statusColor(status) {
     xhr.onreadystatechange = function () {//Call a function when the state changes.
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
             buildSoldiersTable(JSON.parse(this.response));
-                       
+
             for (i = 0; i < chosenFilters.length; i++) {
 		if (value === chosenFilters[i] ){
             chosenFilters.splice(i, 1);
@@ -440,17 +459,6 @@ function statusColor(status) {
         xhr.send({});
     }
 
-   
-    function updateLocationFilters() {
-         var list = document.createElement("DIV");
-        filteredSoldiers.forEach(function (sld) {
-            var btnn = document.createElement("BUTTON");
-            var t = document.createTextNode(sld.latitude +','+ sld.longitude);
-            btnn.appendChild(t);
-            list.appendChild(btnn);
-        });
-        document.getElementById("locationDropdown").appendChild(list);
-}
 </script>
 </html>
 
