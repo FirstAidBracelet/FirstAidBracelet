@@ -82,11 +82,12 @@
 function buildAllFilters(){
     <% filters.forEach(function (filter) { %>
                 filterButtonBuilder('<%= filter %>');
-                  <% }); %>
+        <% }); %>
+            buildLocationFilterButton();
     }
 
 function addFilterEvent (myFilter, btn) {  // Auxilary functionf for updatePopovers - to add dynamicly events
-        btn.addEventListener("click", function (event) {         
+        btn.addEventListener("click", function (event) {
                 putFilter(myFilter, btn.innerHTML);
             event.preventDefault();
         });
@@ -108,7 +109,7 @@ function updatePopovers(){
                  btn.setAttribute("class", "list-group-item");
                  btn.setAttribute("type", "button");
                  btn.innerHTML = child[i].getAttribute("filterValue");
-                 addFilterEvent(myFilter,btn);          
+                 addFilterEvent(myFilter,btn);
                  list.appendChild(btn);
 
              };
@@ -145,7 +146,7 @@ function updatePopovers(){
                btn.setAttribute("filter", filterName);
                btn.setAttribute("filterValue", filteredSoldiers[i][filterName]);
                 dropdown.appendChild(btn);
-   
+
           };
 
     if (document.getElementById( filterName + "dropdownButton") !== null) { // remove old if exists
@@ -164,9 +165,12 @@ function updatePopovers(){
         dropdownButton.setAttribute("data-trigger", "focus");
         dropdownButton.appendChild(dropdown);
         document.getElementById("filtersMenu").appendChild(dropdownButton);
+
         updatePopovers();
+   
     }
 
+   
 
  // Dynamic Table builder
  function buildSoldiersTable(sldrs) {
@@ -177,7 +181,7 @@ function updatePopovers(){
 
         filteredSoldiers = [];
         filteredSoldiers = sldrs;
-    //console.log(filteredSoldiers);
+
 
      var table = document.createElement('table');
 	table.setAttribute("class", "table table-striped");
@@ -397,6 +401,7 @@ function updatePopovers(){
              });
     }
     function putFilter(type, value) {
+       
          for (i = 0; i < chosenFilters.length; i++) {
 		if (value === chosenFilters[i] ){
 			return;
@@ -409,9 +414,9 @@ function updatePopovers(){
              removeFilter(type,value);
                event.preventDefault();
             });
-              var t = document.createTextNode(status);
-      node.appendChild(t);
-         var textnode = document.createTextNode(value);
+     //  var t = document.createTextNode(status);
+      //node.appendChild(t);
+     var textnode = document.createTextNode(value);
     node.appendChild(textnode);
     node.style.backgroundColor = "yellow";
        document.getElementById("filtersBarId").appendChild(node);
@@ -445,6 +450,90 @@ function updatePopovers(){
         xhr.open('POST','/get-soldiers/'+ type +'/' + value + '/remove', true);
         xhr.send({});
     }
+    var North = { "maxLat": "33.3", "minLat": "32.46", "maxLong": "35.9", "minLong": "34.8" };
+    var Center = { "maxLat": "32.46", "minLat": "31.67",  "maxLong": "35.57", "minLong": "34.55" };
+    var South = { "maxLat": "31.67", "minLat": "29.49", "maxLong": "35.57", "minLong": "34.21" };
+    function isNorth(sld) {
+        return (sld.Latitude <= North.maxLat && sld.Latitude >= North.minLat && sld.Longitude <= North.maxLong && sld.Longitude >= North.minLong);    
+    }
+    function isCenter(sld) {
+        return (sld.Latitude <= Center.maxLat && sld.Latitude >= Center.minLat && sld.Longitude <= Center.maxLong && sld.Longitude >= Center.minLong);    
+    }
+    function isSouth(sld) {
+        return (sld.Latitude <= South.maxLat && sld.Latitude >= South.minLat && sld.Longitude <= South.maxLong && sld.Longitude >= South.minLong);    
+    }
+
+    function soldierLocation(sld) {
+        if (isNorth(sld)) {
+            return "North";
+        }
+        if (isCenter(sld)) {
+            return "Center";
+        }
+        if (isSouth(sld)) {
+            return "South";
+        }
+        return "undefined";
+    }
+    function buildLocationFilterButton() {
+      var existingFilters = [];
+     var dropdown = document.createElement('div'); // The dropdown element
+
+        dropdown.setAttribute("class", "dropdown-menu");
+        dropdown.setAttribute("id", "Location" + "dropdown");
+
+        for (var i = 0; i < filteredSoldiers.length; i++){
+            var lat = filteredSoldiers[i]["Latitude"];
+            var long =  filteredSoldiers[i]["Longitude"];
+             
+              if(!lat || !long ) {
+                        continue;
+            }
+              var sLocation = soldierLocation(filteredSoldiers[i]);
+              socket.emit('updateLocationFilter', { braceletId: filteredSoldiers[i]["Bracelet_ID"] , location: sLocation });
+               var  existingFilter = false;
+               for (var j = 0 ; j < existingFilters.length ; j++ ){
+                     if(existingFilters[j] == sLocation ) {
+                        existingFilter = true;
+                        break;
+                     }
+
+               }
+               if (existingFilter == true){
+                   continue;
+               }
+             existingFilters.push(sLocation);
+
+             var btn = document.createElement('div');
+               btn.setAttribute("filter", "Location");
+               btn.setAttribute("filterValue", sLocation);
+                dropdown.appendChild(btn);
+
+          };
+
+    if (document.getElementById( "Location" + "dropdownButton") !== null) { // remove old if exists
+            document.getElementById( "Location" + "dropdownButton").remove();
+     }
+
+        var dropdownButton = document.createElement("button"); // The dropdown menu button
+       dropdownButton.setAttribute("id", "Location" + "dropdownButton");
+
+        dropdownButton.innerHTML = "Location";
+        dropdownButton.setAttribute("class", "btn btn-primary dropdown-toggle");
+        dropdownButton.setAttribute("rel", "popover");
+        dropdownButton.setAttribute("data-toggle", "popover");
+        dropdownButton.setAttribute("data-popover-content", "#" + "Location" + "dropdown");
+        dropdownButton.setAttribute("type", "button");
+        dropdownButton.setAttribute("data-trigger", "focus");
+        dropdownButton.appendChild(dropdown);
+        document.getElementById("filtersMenu").appendChild(dropdownButton);
+        updatePopovers();
+}
+
+
+
+
+
 
 </script>
 </html>

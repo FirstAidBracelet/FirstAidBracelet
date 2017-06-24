@@ -325,6 +325,14 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
+    client.on('updateLocationFilter', function (data) {  // updating evacuation request via mainPage socket request
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('soldiers').update({ Bracelet_ID: data.braceletId }, { $set: { Location: data.location } }, function () {
+                db.close();
+            });
+        });
+    });
 });
 
 /*
