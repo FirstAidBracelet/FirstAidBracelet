@@ -242,10 +242,11 @@ app.post('/addUser', function (request, response) {
     response.redirect('/logged');
 });
 
-
+var filtersArray = []; // array that stores the filters for the AND operation
 var configs = [];
 app.get('/mainPage', function (request, response) { 
     configs = [];
+    filtersArray = [];
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('configurations').find().forEach(function (cnfs, err) {
@@ -258,7 +259,7 @@ app.get('/mainPage', function (request, response) {
 });
 
 
-var filtersArray = []; // array that stores the filters for the AND operation
+
 app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     var result = [];
     var databaseDoctors = [];
