@@ -328,8 +328,8 @@ function updatePopovers(){
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     var tCell = tHeaderr.insertCell(0);
            /* Here we will create refresh button */
-           var btn = document.createElement("BUTTON");
-           btn.addEventListener("click", function (event) {
+           var btnn = document.createElement("BUTTON");
+           btnn.addEventListener("click", function (event) {
          document.getElementById('eqipId' + soldier.Bracelet_ID).remove();            
            for (i = 0; i < chosenBracelets.length; i++) { // firstable delete the table and then rebuild it Code duplication but works for now
                   if (soldier.Bracelet_ID === chosenBracelets[i]) {
