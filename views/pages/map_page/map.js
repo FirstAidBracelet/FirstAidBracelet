@@ -146,10 +146,27 @@ function setMarkerListeners(map, markers, markerCluster){
         var soldiersArr = [];
         markers.forEach(function (pair) {
             if (list.includes(pair.marker)) {
-                soldiersArr.push(pair.doc);
+                soldiersArr.push(pair.soldier);
             }
         });
-        httpGetAsync('/mainPage', function (response) { }, soldiersArr);
+
+var xhr = new XMLHttpRequest();
+var xhrPost = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {//Call a function when the state changes.
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+
+console.log( JSON.stringify(soldiersArr));
+var  tmp = JSON.stringify(soldiersArr);
+          xhrPost.open('POST','/mapSoldiersRequest/' + tmp + '/', true);
+          xhrPost.send({});
+
+        }
+    }
+        xhr.open('GET','/mainPage/', true);
+        xhr.send({});
+
+
+     //   httpGetAsync('/mainPage', function (response) { }, soldiersArr);
     });
 
 }

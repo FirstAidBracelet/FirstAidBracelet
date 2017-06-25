@@ -441,3 +441,8 @@ app.post('/get-soldier/:braceletId', function (req, res) {
         });
     });
 });
+
+app.post('/mapSoldiersRequest/:braceletId', function (req, res) {
+    console.log( "hereeeeeeeeeeeeeeeeeeee" , req.params.braceletId);
+
+});
