@@ -44,16 +44,16 @@ app.post('/admin', function (request, response) {
 
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        db.collection('equipment').insertOne({
-            equipment_id: request.body.itemId,
-            name: request.body.name,
-            type: request.body.type
-        })
-
-            .then(function (result) {
-                response.redirect('/admin')
-            })
-
+        db.collection('equipment').update(
+            { equipment_id: request.body.itemId }, // query
+            { $set: { name: request.body.name, type: request.body.type } } , // replacement
+            { upsert: true}, // options
+            function (err, object) {
+                if (err) {  
+                } else {
+                    response.redirect('/admin')
+                }
+        });
         db.close();
     });
 });

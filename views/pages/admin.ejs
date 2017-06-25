@@ -41,11 +41,11 @@
   <div class="col-md-8">
   <!-- adding all the fields to Database posts back to index.js, where we are adding 
   the item to the database using MongoDB functions -->
-
+  <p align="center">Notice: Treatment id is unique</p>
   <form action="/admin" method="POST" align="center">Enter here: 
-    <input type="text" name="name" placeholder="name" id="name">
-    <input type="text" name="type" id="type" placeholder="type">
-    <input type="text" name="itemId" id="itemId" placeholder="identification">
+    <input type="text" name="name" placeholder="name" id="name" required="required">
+    <input type="text" name="type" id="type" placeholder="type" required="required">
+    <input type="text" name="itemId" id="itemId" placeholder="identification" required="required">
     <button type="submit">Submit</button> 
   </form>
 
