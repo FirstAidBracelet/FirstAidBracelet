@@ -272,6 +272,12 @@ app.post('/addUser', function (request, response) {
 var filtersArray = []; // array that stores the filters for the AND operation
 var configs = [];
 app.get('/mainPage', function (request, response) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+        return;
+    }
     configs = [];
     filtersArray = [];
     MongoClient.connect(mongoUrl, function (err, db) {
