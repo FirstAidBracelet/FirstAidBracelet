@@ -142,7 +142,11 @@ app.get('/logout', function (request, response) {
 });
 
 app.get('/user', function (request, response) {
-    //if (!agamLogin()) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
         var army_struct;
         var users = [];
         MongoClient.connect(mongoUrl, function (err, db) {
@@ -158,11 +162,15 @@ app.get('/user', function (request, response) {
                 });
             });
         });
-    //}
+    }
 });
 
 app.get('/equip', function (request, response) {
-    //if (!agamLogin()) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             var equipmentDB = db.collection('equipment');
@@ -173,41 +181,58 @@ app.get('/equip', function (request, response) {
             );
             db.close();
         });
-    //}
+    }
 });
 
 app.get('/user_table', function (request, response) {
-    //if (!agamLogin()) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            var equipmentDB = db.collection('users');
-            equipmentDB.find().toArray(
+            db.collection('users').find().toArray(
                 function (err, docs) {
                     response.render('pages/users_table', { docs: docs });
                 }
             );
             db.close();
         });
-    //}
+    }
+});
+
+//deleting a user. called from user_table.ejs
+app.post('/admin_delete_user', (req, res) => {
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        db.collection('users').findOneAndDelete({ user: req.body.user }, function () {
+            db.collection('users').find().toArray(function (err, docs) {
+                res.render('pages/users_table', { docs: docs });
+            });
+            db.close();
+        });
+    });
+});
+
+app.get('/try', function (request, response) {
+    response.render('pages/try');
+});
+
+app.post('/try-edit', function (request, response) {
+    console.log("Reached!!!!!!!!!!!!!!!!!!!!!");
+    return;
 });
 
 app.get('/admin_main', function (request, response) {
-    //if (!agamLogin()) {
-    //    response.render('pages/admin_main');
-    //}
-    console.log("NOTHING");
-});
-
-function agamLogin(){
     var user = request.cookies.user;
     var type = request.cookies.type;
     if (user == null || type == null) {
-        response.redirect('/login');
-    } else if (type != "agam") {
-        response.redirect('/map');
+        response.redirect('/login')
+    } else {
+        response.render('pages/admin_main');
     }
-    return true;
-}
+});
 
 app.get('/map', function (request, response) {
     var user = request.cookies.user;
@@ -219,10 +244,10 @@ app.get('/map', function (request, response) {
         var users = [];
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('soldiers').find().forEach( function (sol, err) {
-                    soldiers.push(sol);
+            db.collection('soldiers').find().forEach(function (sol, err) {
+                soldiers.push(sol);
             }, function () {
-                db.collection('users').find().forEach( function (use, err) {
+                db.collection('users').find().forEach(function (use, err) {
                     users.push(use);
                 }, function () {
                     db.close();
@@ -298,11 +323,11 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
                         databaseDoctors.push(dctr);
                     }, function () { // Here we will atach the doctor division to soldiers division TODO: i think android must to do it
                         for (var j = 0; j < result.length; j++) {
-                            for (var i = 0; i < databaseDoctors.length; i++) {                               
+                            for (var i = 0; i < databaseDoctors.length; i++) {
                                 if (databaseDoctors[i].number == result[j].Dr_number) {
-                                    result[j].Division = databaseDoctors[i].division;                                  
+                                    result[j].Division = databaseDoctors[i].division;
                                     db.collection('soldiers').update({ Bracelet_ID: result[j].Bracelet_ID }, { $set: { Division: databaseDoctors[i].division } });
-                                    
+
                                     break;
                                 }
                             }
