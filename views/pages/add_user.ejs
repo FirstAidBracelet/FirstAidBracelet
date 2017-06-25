@@ -6,7 +6,7 @@
 
 <body>
 
-	<script>
+    <script>
 		function isDoctor(){
         	var container = document.getElementById("divisions");
 			var divisions = new Array();
@@ -36,16 +36,15 @@
 			var container = document.getElementById("divisions");
 			container.innerHTML = "";
 		}
-	</script>
+    </script>
 
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">First Aid Bracelet</a>
+                <a class="navbar-brand" href="/admin_main">Home </a>
+                <a class="navbar-brand" href="/equip">Users Managment</a>
             </div>
-            <ul class="nav navbar-nav">
-                <li><a href="/admin_main">User</a></li>
-            </ul>
+
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/logout">Logout</a></li>
             </ul>
@@ -56,34 +55,34 @@
         <center><h1>  Add User </h1></center>
 
         <form name="addUser" action="/addUser" method="post">
-			<div class="form-group">
-				<label><b>Username</b></label>
-				<input type="text" class = "form-control" placeholder="Enter Username" name="user" required>
-			</div>
+            <div class="form-group">
+                <label><b>Username</b></label>
+                <input type="text" class="form-control" placeholder="Enter Username" name="user" required>
+            </div>
 
-			<div class="form-group">
-				<label><b>Password</b></label>
-				<input type="password" class = "form-control" placeholder="Enter Password" name="password" required>
-			</div>
+            <div class="form-group">
+                <label><b>Password</b></label>
+                <input type="password" class="form-control" placeholder="Enter Password" name="password" required>
+            </div>
 
-			<div class="radio">
-				<label><input type="radio" name="type" value="doctor">Doctor</label>
-			</div>
+            <div class="radio">
+                <label><input type="radio" name="type" value="doctor">Doctor</label>
+            </div>
 
-			<div class="radio">
-				<label><input type="radio" name="type" value="agam">Agam</label>
-			</div>
+            <div class="radio">
+                <label><input type="radio" name="type" value="agam">Agam</label>
+            </div>
 
-			<div id="divisions"></div>
+            <div id="divisions"></div>
 
-			<br><br>
+            <br><br>
 
             <input type="submit" class="btn btn-primary" value="Add">
         </form>
 
-	</div>
+    </div>
 
-	<script>
+    <script>
 		var type = document.addUser.type;
 			type[0].onclick = function() {
 				isDoctor();
@@ -91,7 +90,7 @@
 			type[1].onclick = function() {
 				isAgam();
 			};
-	</script>
+    </script>
 
 </body>
 </html>
