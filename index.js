@@ -339,7 +339,7 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     });
 });
 
-
+var  mapReqestedSoldiers;
 var client; // This is the Socket client from mainPage.ejs
 io.sockets.on('connection', function (socket) { // the actual socket opening and it's functions definition
     client = socket;
@@ -366,6 +366,10 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
                 db.close();
             });
         });
+    });
+    client.on('mapSoldiersRequest', function (data) {  // updating evacuation request via mainPage socket request
+    console.log("before emiting ---------------------->" ,data.soldiers );
+        client.emit('mapSoldiersReady',data.soldiers );
     });
 });
 
@@ -442,7 +446,3 @@ app.post('/get-soldier/:braceletId', function (req, res) {
     });
 });
 
-app.post('/mapSoldiersRequest/:braceletId', function (req, res) {
-    console.log( "hereeeeeeeeeeeeeeeeeeee" , req.params.braceletId);
-
-});

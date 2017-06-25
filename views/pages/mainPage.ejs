@@ -57,6 +57,13 @@
   socket.on('news', function (data) { // listen to news event raised by the server
      buildSoldiersTable(JSON.parse(data));
   });
+    socket.on('mapSoldiersReady', function (data) { // listen to news event raised by the server
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" ,JSON.parse(data));
+     buildSoldiersTable(JSON.parse(data));
+  });
+
+
+
     /*local variables to manipulate chosen data in real time (not sure if we will need in future) */
     var chosenFilters = [];
     var chosenBracelets = [];
