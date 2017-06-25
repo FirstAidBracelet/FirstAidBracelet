@@ -17,7 +17,8 @@ function httpGetAsync(theUrl, callback, parameters) {
 var division = getCookie("division");
 //User type = {doctor,agam}
 var type = getCookie("type");
-
+//Marker array
+var markers = new Array();
 /*
 First we select the markers that appear on the map for the logged-in user.
 The divisions the user is in charge of are kept in a cookie (unless he is a phone user or an admin).
@@ -25,25 +26,29 @@ We go over all the soldiers in the db and for each on who belongs to a relevant 
 (if exists) and create a tuple of the marker and the soldier's page for future reference.
 In addition we average the longtitude and latitude of the markers to point the center of the map. 
 */
-function changeMarkers(soldiersArray) {
-    var markers = new Array();
+function changeMarkers(soldiersArray) { 
     var count = 0;
     var long = 0;
     var lat = 0;
     
     //docs = Soldiers db in array form
     soldiersArray.forEach(function (soldier) {
-        if (soldier.Division == division || type == "admin") {
+        if (soldier.Division == division || type == "agam") {
                 //create pair of soldier document and marker and push into markers' array
-                var pos = new google.maps.LatLng(soldier.Longitude, soldier.Latitude);
+            var pos = new google.maps.LatLng(soldier.Latitude, soldier.Longitude);
+            var pair = markers.find(function (elem) { return (elem['soldier'] == soldier); });
+            if (pair == null) {
                 var marker = new google.maps.Marker({ position: pos, map: map });
                 var pair = { soldier: soldier, marker: marker };
                 markers.push(pair);
+            } else {
+                pair.marker.setPosition(pos);
+            }
 
-                //sum longtitude and latitude
-                long += parseInt(soldier.Longitude);
-                lat += parseInt(soldier.Latitude);
-                count += 1;
+            //sum longtitude and latitude
+            long += parseInt(soldier.Longitude);
+            lat += parseInt(soldier.Latitude);
+            count += 1;
         }
     });
     var loc = {long : long, lat: lat, count: count};
@@ -64,7 +69,7 @@ function myMap() {
     var lat = (lat == 0) ? 34.781450 : (lat / count);
     //attributes of map = center according to avg long-lat, starting zoom, and type
     var mapOptions = {
-        center: new google.maps.LatLng(long, lat),
+        center: new google.maps.LatLng(lat, long),
         zoom: 8,
         mapTypeId: google.maps.MapTypeId.TERRAIN
     }
@@ -154,9 +159,9 @@ function mouseOver(pair) {
     //coloring is done using bootstrap classes
     var stat_bg_type = "";
     switch (pair.soldier.Status) {
-        case "light": stat_bg_type = "bg-success"; break;
-        case "average": stat_bg_type = "bg-info"; break;
-        case "heavy": stat_bg_type = "bg-warning"; break;
+        case "Minor": stat_bg_type = "bg-success"; break;
+        case "average": stat_bg_type = "bg-info"; break; //ALERT
+        case "Severe": stat_bg_type = "bg-warning"; break;
         case "kia": stat_bg_type = "bg-danger"; break;
         case "": break;
     }

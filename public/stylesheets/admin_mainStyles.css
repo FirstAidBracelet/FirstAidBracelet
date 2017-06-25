@@ -5,3 +5,8 @@
     background-attachment: fixed;
     background-position: center;
 }
+
+#users_database {
+    width: 244px;
+    height: 182px;
+}
