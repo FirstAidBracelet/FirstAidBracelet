@@ -269,29 +269,24 @@ app.post('/addUser', function (request, response) {
     response.redirect('/logged');
 });
 
-var army = [];
+var filtersArray = []; // array that stores the filters for the AND operation
 var configs = [];
-
-app.get('/mainPage', function (request, response) {
-    army = [];
+app.get('/mainPage', function (request, response) { 
     configs = [];
+    filtersArray = [];
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        db.collection('army_structure').find().forEach(function (doc, err) {
-            army.push(doc);
+        db.collection('configurations').find().forEach(function (cnfs, err) {
+            configs.push(cnfs);
         }, function () {
-            db.collection('configurations').find().forEach(function (cnfs, err) {
-                configs.push(cnfs);
-            }, function () {
-                db.close();
-                response.render('pages/mainPage', { divisions: army[0].divisions, units: army[0].units, soldiers_table: configs[0].soldiers_table, treatments_table: configs[0].treatments, filters: configs[0].filters });
-            });
+            db.close();
+            response.render('pages/mainPage', { soldiers_table: configs[0].soldiers_table, treatments_table: configs[0].treatments, filters: configs[0].filters });
         });
     });
 });
 
 
-var filtersArray = []; // array that stores the filters for the AND operation
+
 app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     var result = [];
     var databaseDoctors = [];
@@ -318,52 +313,24 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
                     assert.equal(null, err);
                     result.push(sld);
                 }, function () {
-                    db.collection('users').find({ "type": "doctor" }).forEach(function (dctr, err) { // Get existing doctors
-                        assert.equal(null, err);
-                        databaseDoctors.push(dctr);
-                    }, function () { // Here we will atach the doctor division to soldiers division TODO: i think android must to do it
-                        for (var j = 0; j < result.length; j++) {
-                            for (var i = 0; i < databaseDoctors.length; i++) {
-                                if (databaseDoctors[i].number == result[j].Dr_number) {
-                                    result[j].Division = databaseDoctors[i].division;
-                                    db.collection('soldiers').update({ Bracelet_ID: result[j].Bracelet_ID }, { $set: { Division: databaseDoctors[i].division } });
-
-                                    break;
-                                }
-                            }
-                        }
-                        db.close();
-                        res.json(result);
-                    });
-                });
-            });
-        }
-    } else
-        MongoClient.connect(mongoUrl, function (err, db) {
-            assert.equal(null, err);
-            db.collection('soldiers').find({ $and: filtersArray }).forEach(function (sld, err) {
-                assert.equal(null, err);
-                result.push(sld);
-            }, function () {
-                db.collection('users').find({ "type": "doctor" }).forEach(function (dctr, err) { // Get existing doctors
-                    assert.equal(null, err);
-                    databaseDoctors.push(dctr);
-                }, function () { // Here we will atach the doctor division to soldiers division TODO: i think android must to do it
-                    for (var j = 0; j < result.length; j++) {
-                        for (var i = 0; i < databaseDoctors.length; i++) {
-                            if (databaseDoctors[i].number == result[j].Dr_number) {
-                                result[j].Division = databaseDoctors[i].division;
-                                db.collection('soldiers').update({ Bracelet_ID: result[j].Bracelet_ID }, { $set: { Division: databaseDoctors[i].division } });
-
-                                break;
-                            }
-                        }
-                    }
                     db.close();
                     res.json(result);
+
                 });
             });
+            return;
+        }
+    }
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        db.collection('soldiers').find({ $and: filtersArray }).forEach(function (sld, err) {
+            assert.equal(null, err);
+            result.push(sld);
+        }, function () {
+            db.close();
+            res.json(result);
         });
+    });
 });
 
 
@@ -382,6 +349,14 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             db.collection('soldiers').update({ Bracelet_ID: data.braceletId }, { $set: { evacuation_request: data.status } }, function () {
+                db.close();
+            });
+        });
+    });
+    client.on('updateLocationFilter', function (data) {  // updating evacuation request via mainPage socket request
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('soldiers').update({ Bracelet_ID: data.braceletId }, { $set: { Location: data.location } }, function () {
                 db.close();
             });
         });

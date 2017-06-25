@@ -32,6 +32,7 @@
 
 .btn {
     width: 100px;
+    margin: 10px;
 }
 .popover-content {
     background-color: #1B9CC0;

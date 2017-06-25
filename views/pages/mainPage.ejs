@@ -15,20 +15,17 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/">First Aid Bracelet</a>
-                    <a class="navbar-brand" href="/admin_main">User</a>
+                    <a class="navbar-brand" href="/admin_main">Home </a>
+                    <a class="navbar-brand" href="/mainPage">Command Center</a>
                 </div>
             </div>
         </nav>
     </div>
-    <div class="row">" "  </div>
-    <div class="row">" "  </div>
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-11">
-            <h4>Chosen Filters </h4>
             <div class="container">
-                <h4>Press to remove </h4>
+                <h4 id="chosenFiltersText" style="visibility:hidden">Click to remove chosen filter </h4>
                 <ul id="filtersBarId" class="list-inline"></ul>
             </div>
         </div>
@@ -36,51 +33,8 @@
     <div class="row">
         <div class="col-md-2">
             <center>
-                <div class="vertical-menu pull-right">
-                    <h4>Display By</h4>
-                    <!-- This is the Filters side Bar container, in future he will be built dynamicly -->
-                    <!-- Every element in the container is a dropdown menu of filter values -->
-                    <div class="dropdown">
-                        <div id="divisionDropdown" class="dropdown-menu">
-                            <!-- Every dropdown is created by template iterator which builds list from the value we pass fom back-end -->
-                            <% divisions.forEach(function(dvsn) { %>
-                            <a href="#" class="list-group-item" onclick="putFilter('Division','<%= dvsn %>')"><%= dvsn %></a>
-                            <% }); %>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#divisionDropdown" type="button" data-trigger="focus">Division <span class="caret-right"></span></button>
-                    <h1></h1>
-                    <div class="dropdown">
-                        <div id="unitDropdown" class="dropdown-menu">
-                            <% units.forEach(function(unt) { %>
-                            <a href="#" class="list-group-item" onclick="putFilter('Unit','<%= unt %>')"><%= unt %></a>
-                            <% }); %>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#unitDropdown" type="button" data-trigger="focus">Unit <span class="caret-right"></span></button>
-                    <h1></h1>
-                    <div class="dropdown">
-                        <div id="locationDropdown" class="dropdown-menu">
-                            <!-- still dont know how to lsear wth location this is for future -->
-                            <!-- <div id="locationD" href="#" class="list-group-item"></div>-->
-
-                        </div>
-                    </div>
-                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#locationDropdown" type="button" data-trigger="focus">Location <span class="caret-right"></span></button>
-                    <h1></h1>
-                    <div class="dropdown">
-                        <div id="statusDropdown" class="dropdown-menu">
-                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','light')">Light</a>
-                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','average')" style="background-color:#ff7733">Average</a>
-                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','heavy')" style="background-color:#ff0066">Heavy</a>
-                            <a href="#" class="list-group-item" onclick="putFilter('injury_stat','kia')" style="background-color:red">K.I.A</a>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary dropdown-toggle" rel="popover" data-toggle="dropdown" data-popover-content="#statusDropdown" type="button" data-trigger="focus">Status <span class="caret-right"></span></button>
-                    <h1></h1>
-                    <!--<a href="/mainPage" onclick="deleteTable()">Clear all</a>-->
-                    <!-- <a href="#" onclick="updateLocationFilters()">Clear all</a>-->
-                </div>
+                <h4>Display By</h4>
+                <div id="filtersMenu" class="vertical-menu"></div>           
             </center>
         </div>
         <div class="col-md-10">
@@ -92,7 +46,7 @@
                     <center>  <div id="mainSoldiersTable" style="overflow:scroll ; height:400px; "></div> </center>
                 </div>
             </center>
-            <center> <h3> Chosen Soldiers  </h3></center>
+            <center> <h3 id="chosenSoldiersText" style="visibility:hidden"> Chosen Soldiers  </h3></center>
             <div class="container">
                 <center>  <ul id="filtersTable" class="list-inline"></ul> </center>
             </div>
@@ -111,7 +65,8 @@
     var filteredSoldiers = [];
 
     window.onload = function () {
-        var xhr = new XMLHttpRequest();
+
+    var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
             buildSoldiersTable(JSON.parse(this.response));
@@ -121,32 +76,98 @@
         xhr.send({});
     };
 
-// function that creates the popover that related with the "popover" keyword
-$(function(){
-  $('[rel="popover"]').popover({
-  container: 'body',
-   html: true,
-  content: function () {
-  var clone = $($(this).data('popover-content')).clone(true).removeClass('dropdown-menu');
-    return clone;
-        }
-    }).click(function(e) {
-        e.preventDefault();
-    });
-});
-
-function statusColor(status) {
-    switch (status) {
-        case "kia":
-            return  "red";
-        case "heavy":
-             return "#ff0066";
-        case "average":
-            return "#ff7733";
-        case "light":
-           return "whilte";
+function buildAllFilters(){
+    <% filters.forEach(function (filter) { %>
+                filterButtonBuilder('<%= filter %>');
+        <% }); %>
+            buildLocationFilterButton();
     }
-}
+
+function addFilterEvent (myFilter, btn) {  // Auxilary functionf for updatePopovers - to add dynamicly events
+        btn.addEventListener("click", function (event) {
+                putFilter(myFilter, btn.innerHTML);
+            event.preventDefault();
+        });
+   }
+// function that creates the popover that related with the "popover" keyword
+function updatePopovers(){
+    $('[rel="popover"]').popover({
+        container: 'body',
+        html: true,
+        content: function () {
+             var myFilter = $($(this).data('popover-content')).children()[0].getAttribute("filter");
+            var child = [];
+            child = $($(this).data('popover-content')).children();
+            var list = document.createElement('div');
+
+             list.setAttribute("id", myFilter + "dropdown");
+            for (var i = 0  ; i < child.length ; i++ ){
+                 var btn = document.createElement('BUTTON');
+                 btn.setAttribute("class", "list-group-item");
+                 btn.setAttribute("type", "button");
+                 btn.innerHTML = child[i].getAttribute("filterValue");
+                 addFilterEvent(myFilter,btn);
+                 list.appendChild(btn);
+
+             };
+         return list;
+       }
+    })
+    };
+
+ function filterButtonBuilder(filterName) {
+     var existingFilters = [];
+     var dropdown = document.createElement('div'); // The dropdown element
+
+        dropdown.setAttribute("class", "dropdown-menu");
+        dropdown.setAttribute("id", filterName + "dropdown");
+
+        for (var i = 0; i < filteredSoldiers.length; i++){
+              if(!filteredSoldiers[i][filterName] ) {
+                        continue;
+                     }
+               var  existingFilter = false;
+               for (var j = 0 ; j < existingFilters.length ; j++ ){
+                     if(existingFilters[j] == filteredSoldiers[i][filterName] ) {
+                        existingFilter = true;
+                        break;
+                     }
+
+               }
+               if (existingFilter == true){
+                   continue;
+               }
+             existingFilters.push(filteredSoldiers[i][filterName]);
+
+             var btn = document.createElement('div');
+               btn.setAttribute("filter", filterName);
+               btn.setAttribute("filterValue", filteredSoldiers[i][filterName]);
+                dropdown.appendChild(btn);
+
+          };
+
+    if (document.getElementById( filterName + "dropdownButton") !== null) { // remove old if exists
+            document.getElementById( filterName + "dropdownButton").remove();
+     }
+
+        var dropdownButton = document.createElement("button"); // The dropdown menu button
+      dropdownButton.setAttribute("id", filterName + "dropdownButton");
+
+        dropdownButton.innerHTML = filterName;
+        dropdownButton.setAttribute("class", "btn btn-primary dropdown-toggle");
+        dropdownButton.setAttribute("rel", "popover");
+        dropdownButton.setAttribute("data-toggle", "popover");
+        dropdownButton.setAttribute("data-popover-content", "#" + filterName + "dropdown");
+        dropdownButton.setAttribute("type", "button");
+        dropdownButton.setAttribute("data-trigger", "focus");
+        dropdownButton.appendChild(dropdown);
+        document.getElementById("filtersMenu").appendChild(dropdownButton);
+
+        updatePopovers();
+
+    }
+
+
 
  // Dynamic Table builder
  function buildSoldiersTable(sldrs) {
@@ -154,8 +175,10 @@ function statusColor(status) {
         if (document.getElementById("mainTable") !== null) {
             document.getElementById("mainTable").remove();
      }
+
         filteredSoldiers = [];
         filteredSoldiers = sldrs;
+
 
      var table = document.createElement('table');
 	table.setAttribute("class", "table table-striped");
@@ -225,6 +248,9 @@ function statusColor(status) {
 		   k = 0 ;
 		 });
         document.getElementById("mainSoldiersTable").appendChild(table);
+     buildAllFilters();
+
+
     }
 
     function changeCurrentEvacuationRequestAndReturnOld(braceletID) {
@@ -308,15 +334,16 @@ function statusColor(status) {
            for (i = 0; i < chosenBracelets.length; i++) { // firstable delete the table and then rebuild it Code duplication but works for now
                   if (soldier.Bracelet_ID === chosenBracelets[i]) {
                       chosenBracelets.splice(i, 1);
+    document.getElementById('eqipId' + soldier.Bracelet_ID).remove();
+      getTreatments(soldier.Bracelet_ID); //rebuild table after delted the first one - the refresh operation
                       break;
                   }
               }
-         buildTreatmentsTable(givenSoldier); //rebuild table after delted the first one - the refresh operation
               event.preventDefault();
      });
      var t = document.createTextNode("refresh");
-     btn.appendChild(t);
-            tCell.appendChild(btn);
+     btnn.appendChild(t);
+            tCell.appendChild(btnn);
            /* End of the refresh button creation*/
             tCell = tHeaderr.insertCell(1);
             tCell.colSpan = "2";
@@ -328,7 +355,10 @@ function statusColor(status) {
            for (i = 0; i < chosenBracelets.length; i++) { // removing the bracelet from array that prevents duplicates
                   if (soldier.Bracelet_ID === chosenBracelets[i]) {
                       chosenBracelets.splice(i, 1);
-                      break;
+                      if (chosenBracelets.length == 0) {
+                          document.getElementById("chosenSoldiersText").style.visibility = "hidden";
+                      }
+                    break;
                   }
               }
      });
@@ -341,15 +371,14 @@ function statusColor(status) {
     var tCell = tHeaderr.insertCell(0);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     tCell.innerHTML = "BraceletID: " + soldier.Bracelet_ID + "    ";
-    tCell.setAttribute('style','background:' + statusColor(soldier.injury_stat)+';');
     tCell.colSpan = "3";
 
-    tHeaderr = table.insertRow(1);
+    tHeaderr = table.insertRow(2);
     tHeaderr.setAttribute('style', 'font-weight: bold; text-align:center;');
     tCell = tHeaderr.insertCell(0);
-    tCell.innerHTML = "Soldier #: " + soldier.personal_number;
+    tCell.innerHTML = "Soldier #: " + soldier.Personal_Number;
     tCell.colSpan = "3";
-    var tHeader = table.insertRow(2);
+    var tHeader = table.insertRow(3);
      <!-- Iterator for the header -->
 	 var i = 0 ;
 	  <% treatments_table.forEach(function(doc) { %>
@@ -360,7 +389,11 @@ function statusColor(status) {
     // Iterator for the columns which are treatment properties
 		 var k = 0;
     for(var i = 0; i < soldier.treatments.length; i++) { // for every treatment
+<<<<<<< HEAD
       var tHeader = table.insertRow(i+4);  // create new row and insert +3 because there are 3 headers before
+=======
+      var tHeader = table.insertRow(i+4);  // create new row and insert +4 because there are 4 headers before
+>>>>>>> 6eab8e39e2f4c408f07274970228e2e4833e0448
          <% treatments_table.forEach(function(tbl) { %> // every row put create cells
              tHeader.setAttribute('style', 'text-align:center;');
              tHeader.insertCell(k).innerHTML = soldier.treatments[i].<%=tbl%>;
@@ -368,11 +401,13 @@ function statusColor(status) {
 		   <% }); %>
 		   k = 0 ;
             };
-    node.appendChild(table);
+        node.appendChild(table);
         document.getElementById("filtersTable").appendChild(node);
+        document.getElementById("chosenSoldiersText").style.visibility = "visible";
              });
     }
-function putFilter(type, value) {
+    function putFilter(type, value) {
+
          for (i = 0; i < chosenFilters.length; i++) {
 		if (value === chosenFilters[i] ){
 			return;
@@ -385,33 +420,39 @@ function putFilter(type, value) {
              removeFilter(type,value);
                event.preventDefault();
             });
-              var t = document.createTextNode(status);
-      node.appendChild(t);
-         var textnode = document.createTextNode(value);
+    
+     var textnode = document.createTextNode(value);
     node.appendChild(textnode);
     node.style.backgroundColor = "yellow";
-       document.getElementById("filtersBarId").appendChild(node);
+        chosenFiltersText
+        document.getElementById("filtersBarId").appendChild(node);
+        document.getElementById("chosenFiltersText").style.visibility = "visible";
 
    var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {//Call a function when the state changes.
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
             buildSoldiersTable(JSON.parse(this.response));
+
         }
     }
         xhr.open('POST','/get-soldiers/'+ type +'/' + value + '/add', true);
         xhr.send({});
 }
 
-function removeFilter(type, value) {
+    function removeFilter(type, value) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {//Call a function when the state changes.
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
             buildSoldiersTable(JSON.parse(this.response));
+
             for (i = 0; i < chosenFilters.length; i++) {
 		if (value === chosenFilters[i] ){
             chosenFilters.splice(i, 1);
-             document.getElementById(type + value).remove();
-                        break;
+            document.getElementById(type + value).remove();
+               if (chosenFilters.length == 0) {
+                   document.getElementById("chosenFiltersText").style.visibility = "hidden";
+                 }
+            break;
              }
         }
         }
@@ -419,17 +460,91 @@ function removeFilter(type, value) {
         xhr.open('POST','/get-soldiers/'+ type +'/' + value + '/remove', true);
         xhr.send({});
     }
+    var North = { "maxLat": "33.3", "minLat": "32.46", "maxLong": "35.9", "minLong": "34.8" };
+    var Center = { "maxLat": "32.46", "minLat": "31.67",  "maxLong": "35.57", "minLong": "34.55" };
+    var South = { "maxLat": "31.67", "minLat": "29.49", "maxLong": "35.57", "minLong": "34.21" };
+    function isNorth(sld) {
+        return (sld.Latitude <= North.maxLat && sld.Latitude >= North.minLat && sld.Longitude <= North.maxLong && sld.Longitude >= North.minLong);
+    }
+    function isCenter(sld) {
+        return (sld.Latitude <= Center.maxLat && sld.Latitude >= Center.minLat && sld.Longitude <= Center.maxLong && sld.Longitude >= Center.minLong);
+    }
+    function isSouth(sld) {
+        return (sld.Latitude <= South.maxLat && sld.Latitude >= South.minLat && sld.Longitude <= South.maxLong && sld.Longitude >= South.minLong);
+    }
 
-    function updateLocationFilters() {
-         var list = document.createElement("DIV");
-        filteredSoldiers.forEach(function (sld) {
-            var btnn = document.createElement("BUTTON");
-            var t = document.createTextNode(sld.latitude +','+ sld.longitude);
-            btnn.appendChild(t);
-            list.appendChild(btnn);
-        });
-        document.getElementById("locationDropdown").appendChild(list);
+    function soldierLocation(sld) {
+        if (isNorth(sld)) {
+            return "North";
+        }
+        if (isCenter(sld)) {
+            return "Center";
+        }
+        if (isSouth(sld)) {
+            return "South";
+        }
+        return "undefined";
+    }
+    function buildLocationFilterButton() {
+      var existingFilters = [];
+     var dropdown = document.createElement('div'); // The dropdown element
+
+        dropdown.setAttribute("class", "dropdown-menu");
+        dropdown.setAttribute("id", "Location" + "dropdown");
+
+        for (var i = 0; i < filteredSoldiers.length; i++){
+            var lat = filteredSoldiers[i]["Latitude"];
+            var long =  filteredSoldiers[i]["Longitude"];
+
+              if(!lat || !long ) {
+                        continue;
+            }
+              var sLocation = soldierLocation(filteredSoldiers[i]);
+              socket.emit('updateLocationFilter', { braceletId: filteredSoldiers[i]["Bracelet_ID"] , location: sLocation });
+               var  existingFilter = false;
+               for (var j = 0 ; j < existingFilters.length ; j++ ){
+                     if(existingFilters[j] == sLocation ) {
+                        existingFilter = true;
+                        break;
+                     }
+
+               }
+               if (existingFilter == true){
+                   continue;
+               }
+             existingFilters.push(sLocation);
+
+             var btn = document.createElement('div');
+               btn.setAttribute("filter", "Location");
+               btn.setAttribute("filterValue", sLocation);
+                dropdown.appendChild(btn);
+
+          };
+
+    if (document.getElementById( "Location" + "dropdownButton") !== null) { // remove old if exists
+            document.getElementById( "Location" + "dropdownButton").remove();
+     }
+
+        var dropdownButton = document.createElement("button"); // The dropdown menu button
+       dropdownButton.setAttribute("id", "Location" + "dropdownButton");
+
+        dropdownButton.innerHTML = "Location";
+        dropdownButton.setAttribute("class", "btn btn-primary dropdown-toggle");
+        dropdownButton.setAttribute("rel", "popover");
+        dropdownButton.setAttribute("data-toggle", "popover");
+        dropdownButton.setAttribute("data-popover-content", "#" + "Location" + "dropdown");
+        dropdownButton.setAttribute("type", "button");
+        dropdownButton.setAttribute("data-trigger", "focus");
+        dropdownButton.appendChild(dropdown);
+        document.getElementById("filtersMenu").appendChild(dropdownButton);
+        updatePopovers();
 }
+
+
+
+
+
+
 </script>
 </html>
 
