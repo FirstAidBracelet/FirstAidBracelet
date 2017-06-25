@@ -389,11 +389,7 @@ function updatePopovers(){
     // Iterator for the columns which are treatment properties
 		 var k = 0;
     for(var i = 0; i < soldier.treatments.length; i++) { // for every treatment
-<<<<<<< HEAD
-      var tHeader = table.insertRow(i+4);  // create new row and insert +3 because there are 3 headers before
-=======
       var tHeader = table.insertRow(i+4);  // create new row and insert +4 because there are 4 headers before
->>>>>>> 6eab8e39e2f4c408f07274970228e2e4833e0448
          <% treatments_table.forEach(function(tbl) { %> // every row put create cells
              tHeader.setAttribute('style', 'text-align:center;');
              tHeader.insertCell(k).innerHTML = soldier.treatments[i].<%=tbl%>;
