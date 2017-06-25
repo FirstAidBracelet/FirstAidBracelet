@@ -271,7 +271,7 @@ app.post('/addUser', function (request, response) {
 
 var filtersArray = []; // array that stores the filters for the AND operation
 var configs = [];
-app.get('/mainPage', function (request, response) { 
+app.get('/mainPage', function (request, response) {
     configs = [];
     filtersArray = [];
     MongoClient.connect(mongoUrl, function (err, db) {
