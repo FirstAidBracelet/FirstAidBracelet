@@ -323,8 +323,8 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
 
             }
             
-                MongoClient.connect(mongoUrl, function (err, db) {
-                assert.equal(null, err);
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
                 db.collection('soldiers').find().forEach(function (sld, err) {
                     assert.equal(null, err);
                     result.push(sld);
@@ -349,8 +349,8 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     });
 });
 
-var  mapReqestedSoldiers = null; // local var to save map.js soldiers request
-var client; // This is the Socket client from mainPage.ejs
+var mapReqestedSoldiers = null; // local var to save map.js soldiers request
+var client; // This is the Socket to client 
 io.sockets.on('connection', function (socket) { // the actual socket opening and it's functions definition
     client = socket;
     client.on('removePatient', function (data) { // removing bracelet via mainPage socket request
@@ -377,7 +377,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
-    client.on('mapSoldiersRequest', function (data) {  // reieving soldiers from map.js   
+    client.on('mapSoldiersRequest', function (data) {  // receiving soldiers from map.js   
         mapReqestedSoldiers = data.soldiers;
     });
     client.on('removeUser', function (data) {

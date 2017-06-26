@@ -9,25 +9,21 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/admin_mainStyles.css">
     <script src="/views/functions/cookie.js"></script>
-  
 </head>
+<script>
+    var user = getCookie("user");
+		document.getElementById("header").innerHTML = "<center><h2>  Welcome Doctor " + user + " <br> </h2></center>";
+</script>
 <body>
     <div id="backGrndPic">
         <% include ../partials/user_nav.ejs %>
-
-            <div class="page-header" id="header"></div>
-               
-            <div class="row">
-                <div class="col-md-6"> <center><img src="/command-center.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/mainPage">Command Center</a> </center> </div>
-                <div class="col-md-6"> <center><img src="/mapIcon.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/map">Map</a> </center> </div>
-            </div>
-                <div class="row"><h1><br></h1><h1><br></h1><h1><br></h1><h1><br></h1></div>
-       
-
-        <script>
-		var user = getCookie("user");
-		document.getElementById("header").innerHTML = "<center><h2>  Welcome Doctor " + user + " <br> </h2></center>";
-        </script>
+        <div class="page-header" id="header"></div>
+        <div class="row">
+            <div class="col-md-6"> <center><img src="/command-center.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/mainPage">Command Center</a> </center> </div>
+            <div class="col-md-6"> <center><img src="/mapIcon.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/map">Map</a> </center> </div>
         </div>
+        <div class="row"><h1><br></h1><h1><br></h1><h1><br></h1><h1><br></h1></div>
+        
+    </div>
 </body>
 </html>

@@ -62,8 +62,12 @@
     var chosenBracelets = [];
     var filteredSoldiers = [];
 
-    window.onload = function () {
+window.onload = function () {
 
+    if (getCookie("division") != null) {
+    putFilter("Division",getCookie("division"));
+    return;
+    };
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
