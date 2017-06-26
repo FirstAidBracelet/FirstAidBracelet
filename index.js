@@ -25,7 +25,7 @@ app.get('/', function (request, response) {
     response.render('pages/index');
 });
 
-
+//shows Treatments DB
 app.get('/admin', function (request, response) {
 
     MongoClient.connect(mongoUrl, function (err, db) {
@@ -40,6 +40,7 @@ app.get('/admin', function (request, response) {
     });
 });
 
+//adding new item to Treatments DB
 app.post('/admin', function (request, response) {
 
     MongoClient.connect(mongoUrl, function (err, db) {
@@ -47,11 +48,11 @@ app.post('/admin', function (request, response) {
         db.collection('equipment').update(
             { equipment_id: request.body.itemId }, // query
             { $set: { name: request.body.name, type: request.body.type } } , // replacement
-            { upsert: true}, // options
+            { upsert: true}, // if id is inside --> update. if id is not inside -->enter new record
             function (err, object) {
                 if (err) {  
                 } else {
-                    response.redirect('/admin')
+                    response.redirect('/admin') //show the new table
                 }
         });
         db.close();
@@ -75,7 +76,7 @@ app.post('/admin_delete_item', (req, res) => {
 app.get('/login', function (request, response) {
     var type = request.cookies.type;
     if (type == "doctor") {
-        response.redirect('/map');
+        response.redirect('/doc_main');
     }
     else if (type == "agam") {
         response.redirect('/admin_main');
@@ -93,17 +94,17 @@ app.get('/login', function (request, response) {
 });
 
 app.post('/logged', function (request, response) {
-    var user = request.cookies.user;
+    var number = request.cookies.number;
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         var col = db.collection('users');
-        col.update({ user: user }, { $set: { status: "connected" } })
+        col.update({ number: number }, { $set: { status: "connected" } })
         db.close();
     });
 
     var type = request.cookies.type;
     if (type == "doctor") {
-        response.redirect('/map');
+        response.redirect('/doc_main');
     }
     else if (type == "agam") {
         response.redirect('/admin_main');
@@ -113,7 +114,7 @@ app.post('/logged', function (request, response) {
 app.get('/logged', function (request, response) {
     var type = request.cookies.type;
     if (type == "doctor") {
-        response.redirect('/map');
+        response.redirect('pages/doc_main');
     }
     else if (type == "agam") {
         response.render('pages/admin_main');
@@ -123,11 +124,11 @@ app.get('/logged', function (request, response) {
 });
 
 app.get('/logout', function (request, response) {
-    var user = request.cookies.user;
+    var number = request.cookies.number;
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         var col = db.collection('users');
-        col.update({ user: user }, { $set: { status: "not connected" } })
+        col.update({ number: number }, { $set: { status: "not connected" } })
         db.close();
     });
 
@@ -184,46 +185,6 @@ app.get('/equip', function (request, response) {
     }
 });
 
-app.get('/user_table', function (request, response) {
-    var user = request.cookies.user;
-    var type = request.cookies.type;
-    if (user == null || type == null) {
-        response.redirect('/login')
-    } else {
-        MongoClient.connect(mongoUrl, function (err, db) {
-            assert.equal(null, err);
-            db.collection('users').find().toArray(
-                function (err, docs) {
-                    response.render('pages/users_table', { docs: docs });
-                }
-            );
-            db.close();
-        });
-    }
-});
-
-//deleting a user. called from user_table.ejs
-app.post('/admin_delete_user', (req, res) => {
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        db.collection('users').findOneAndDelete({ user: req.body.user }, function () {
-            db.collection('users').find().toArray(function (err, docs) {
-                res.render('pages/users_table', { docs: docs });
-            });
-            db.close();
-        });
-    });
-});
-
-app.get('/try', function (request, response) {
-    response.render('pages/try');
-});
-
-app.post('/try-edit', function (request, response) {
-    console.log("Reached!!!!!!!!!!!!!!!!!!!!!");
-    return;
-});
-
 app.get('/admin_main', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
@@ -231,6 +192,16 @@ app.get('/admin_main', function (request, response) {
         response.redirect('/login')
     } else {
         response.render('pages/admin_main');
+    }
+});
+
+app.get('/doc_main', function (request, response) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
+        response.render('pages/doc_main');
     }
 });
 
@@ -258,6 +229,19 @@ app.get('/map', function (request, response) {
     }
 });
 
+/*app.get('/maps', function (request, response) {
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        var equipmentDB = db.collection('soldiers');
+        equipmentDB.find().toArray(
+            function (err, docs) {
+                response.render('pages/map', { docs : docs });
+            }
+        );
+        db.close();
+    });
+});*/
+
 app.post('/addUser', function (request, response) {
     var form = request.body;
     MongoClient.connect(mongoUrl, function (err, db) {
@@ -271,13 +255,7 @@ app.post('/addUser', function (request, response) {
 
 var filtersArray = []; // array that stores the filters for the AND operation
 var configs = [];
-app.get('/mainPage', function (request, response) {
-    var user = request.cookies.user;
-    var type = request.cookies.type;
-    if (user == null || type == null) {
-        response.redirect('/login')
-        return;
-    }
+app.get('/mainPage', function (request, response) { 
     configs = [];
     filtersArray = [];
     MongoClient.connect(mongoUrl, function (err, db) {
