@@ -112,6 +112,13 @@ function setMarkerListeners(map, markers, markerCluster){
             mouseOut();
         });
 
+        pair.marker.addListener('click', function () {
+            var soldiersArr = [];
+            soldiersArr.push(pair.soldier);
+            socket.emit('mapSoldiersRequest', { soldiers: JSON.stringify(soldiersArr) }); //send to backEnd the soldiers to prepare rendering list
+        window.open("/mainPage", "_self")
+        });
+
         //add to cluster
         markerCluster.addMarker(pair.marker);
     })
