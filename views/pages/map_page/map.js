@@ -138,21 +138,21 @@ function setMarkerListeners(map, markers, markerCluster){
         mouseOut();
     });
 
-
     markerCluster.addListener('click', function (cluster) {
+    window.open("/mainPage","_self"); // NOT WORKING THINK BECAUSE TOO SLOW WINDOW LOADING
         //the markers in current cluster
         var list = cluster.getMarkers();
         //we add the foreach because we want to get the soldiers data page and not only the marker
         var soldiersArr = [];
         markers.forEach(function (pair) {
             if (list.includes(pair.marker)) {
-                soldiersArr.push(pair.doc);
+                soldiersArr.push(pair.soldier);
             }
-        });
-        httpGetAsync('/mainPage', function (response) { }, soldiersArr);
+        });  
+       socket.emit('mapSoldiersRequest', { soldiers: JSON.stringify(soldiersArr) }); //send to backEnd the soldiers to prepare rendering list
     });
-
 }
+  
 
 function mouseOver(pair) {
     //bg_type is attribute for coloring of the status according to its severity

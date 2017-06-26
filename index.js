@@ -44,16 +44,16 @@ app.post('/admin', function (request, response) {
 
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        db.collection('equipment').insertOne({
-            equipment_id: request.body.itemId,
-            name: request.body.name,
-            type: request.body.type
-        })
-
-            .then(function (result) {
-                response.redirect('/admin')
-            })
-
+        db.collection('equipment').update(
+            { equipment_id: request.body.itemId }, // query
+            { $set: { name: request.body.name, type: request.body.type } } , // replacement
+            { upsert: true}, // options
+            function (err, object) {
+                if (err) {  
+                } else {
+                    response.redirect('/admin')
+                }
+        });
         db.close();
     });
 });
@@ -266,7 +266,13 @@ app.post('/addUser', function (request, response) {
 
 var filtersArray = []; // array that stores the filters for the AND operation
 var configs = [];
-app.get('/mainPage', function (request, response) { 
+app.get('/mainPage', function (request, response) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+        return;
+    }
     configs = [];
     filtersArray = [];
     MongoClient.connect(mongoUrl, function (err, db) {
@@ -328,7 +334,7 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     });
 });
 
-
+var  mapReqestedSoldiers;
 var client; // This is the Socket client from mainPage.ejs
 io.sockets.on('connection', function (socket) { // the actual socket opening and it's functions definition
     client = socket;
@@ -355,6 +361,10 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
                 db.close();
             });
         });
+    });
+    client.on('mapSoldiersRequest', function (data) {  // updating evacuation request via mainPage socket request
+    console.log("before emiting ---------------------->" ,data.soldiers );
+        client.emit('mapSoldiersReady',data.soldiers );
     });
     client.on('removeUser', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
@@ -387,7 +397,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
                 db.close();
             });
         });
-    });
+    });    
 });
 
 /*
@@ -462,3 +472,4 @@ app.post('/get-soldier/:braceletId', function (req, res) {
         });
     });
 });
+
