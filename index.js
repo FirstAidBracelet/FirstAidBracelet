@@ -380,6 +380,10 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('mapSoldiersRequest', function (data) {  // receiving soldiers from map.js   
         mapReqestedSoldiers = data.soldiers;
     });
+client.on('removePreviuseMapFiltering', function (data) {  // receiving soldiers from map.js   
+        mapReqestedSoldiers = null;
+    });
+
     client.on('removeUser', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
