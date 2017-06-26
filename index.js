@@ -193,8 +193,8 @@ app.get('/user_table', function (request, response) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             db.collection('users').find().toArray(
-                function (err, docs) {
-                    response.render('pages/users_table', { docs: docs });
+                function (err, users) {
+                    response.render('pages/users_table', { users: users });
                 }
             );
             db.close();
@@ -217,11 +217,6 @@ app.post('/admin_delete_user', (req, res) => {
 
 app.get('/try', function (request, response) {
     response.render('pages/try');
-});
-
-app.post('/try-edit', function (request, response) {
-    console.log("Reached!!!!!!!!!!!!!!!!!!!!!");
-    return;
 });
 
 app.get('/admin_main', function (request, response) {
@@ -357,6 +352,38 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             db.collection('soldiers').update({ Bracelet_ID: data.braceletId }, { $set: { Location: data.location } }, function () {
+                db.close();
+            });
+        });
+    });
+    client.on('removeUser', function (data) {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('users').findOneAndDelete({ user: data.user }, function () {
+                db.close();
+            });
+        });
+    });
+    client.on('updateUserName', function (data) {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('users').update({ user: data.user }, { $set: { name: data.name } }, function () {
+                db.close();
+            });
+        });
+    });
+    client.on('updateUserNum', function (data) {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('users').update({ user: data.user }, { $set: { number: data.num } }, function () {
+                db.close();
+            });
+        });
+    });
+    client.on('updateUserDiv', function (data) {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('users').update({ user: data.user }, { $set: { division: data.div } }, function () {
                 db.close();
             });
         });
