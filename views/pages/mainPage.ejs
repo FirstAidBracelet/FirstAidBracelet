@@ -63,8 +63,8 @@
     var filteredSoldiers = [];
 
 window.onload = function () {
-
-    if (getCookie("division") != null) {
+    console.log("the cockie is: ", getCookie("division"));
+    if (getCookie("division") != null && getCookie("division") != "" ) {
     putFilter("Division",getCookie("division"));
     return;
     };
