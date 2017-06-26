@@ -16,17 +16,12 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                 <a class="navbar-brand" href="/admin_main">Home </a>
-	             <a class="navbar-brand" href="/map_page/map">Map</a>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/logout"> Logout</a></li>
-            </ul>
-        </div>
-    </nav>
+    <% include ../../partials/user_nav.ejs %>
+    
+    <script>
+        var part = document.getElementById("nav-right");
+        part.innerHTML += "<a class='navbar-brand' href='/map_page/map'>Map</a>";
+    </script>
 
     <center><h1>  Patient Map <br> </h1></center>
 

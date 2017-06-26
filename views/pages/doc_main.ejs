@@ -13,24 +13,20 @@
 </head>
 <body>
     <div id="backGrndPic">
-
         <% include ../partials/user_nav.ejs %>
 
-       
             <div class="page-header" id="header"></div>
- 
+               
             <div class="row">
-                <div class="col-md-3"> <center><img src="/treatmentsIcon.jpg"><h3><br></h3><a type="button" class="btn btn-lg btn-default" href="/equip">Treatments Database</a> </center> </div>
-                <div class="col-md-3"> <center><img id="users_database" src="Users-icon.png"><h3><br></h3><a type="button" class="btn btn-lg btn-default" href="/user_table">Users Database</a> </center> </div>
-                <div class="col-md-3"> <center><img src="/command-center.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/mainPage">Command Center</a> </center> </div>
-                <div class="col-md-3"> <center><img src="/mapIcon.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/map">Map</a> </center> </div>
+                <div class="col-md-6"> <center><img src="/command-center.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/mainPage">Command Center</a> </center> </div>
+                <div class="col-md-6"> <center><img src="/mapIcon.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/map">Map</a> </center> </div>
             </div>
                 <div class="row"><h1><br></h1><h1><br></h1><h1><br></h1><h1><br></h1></div>
        
 
         <script>
 		var user = getCookie("user");
-		document.getElementById("header").innerHTML = "<center><h2>  Welcome Admin " + user + " <br> </h2></center>";
+		document.getElementById("header").innerHTML = "<center><h2>  Welcome Doctor " + user + " <br> </h2></center>";
         </script>
         </div>
 </body>

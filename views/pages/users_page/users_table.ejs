@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Users Table</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+  <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script> 
+  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>  
+  <script src="/views/functions/cookie.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>  
+  <script src="/socket.io/socket.io.js"></script>
+
+</head>
+<body>
+
+    <script>
+        var usersArr = [];
+        var socket = io.connect('/'); // connect to server
+        <% users.forEach(function (doc) { %> 
+            usersArr.push(<%- JSON.stringify(doc) %>);
+        <% }); %>
+    </script>
+
+    <!-- top of the page, bootstrap navigation bar -->
+    <% include ../../partials/user_nav.ejs %>  
+    <script>
+        var part = document.getElementById("nav-right");
+        part.innerHTML += "<a class='navbar-brand' href='/user_table'>Users Table</a>";
+    </script>
+
+    <div class="container" style="background-image: url('/background_o40.png'); background-repeat: no-repeat ; background-position: center ">
+
+    <% include ./add_user.ejs %>        
+
+    <center><h1> User Table <br> </h1></center>
+
+    <div class="row">
+        <div class="col-md-1"></div> 
+        <div class="col-md-10">
+            <center>
+            <table class="table table-hover">
+                    <thead>
+                        <tr>
+                        <th>User</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Number</th>
+                        <th>Division</th>
+                        <th>Connected</th>   
+                        </tr>
+                    </thead>  
+                    <tbody>
+                        <% users.forEach(function(doc) { %>
+                        <tr id=<%= doc.user%> >
+                            <td><%= doc.user%> </td>
+                            <td><%= doc.type%> </td>
+                            <td><a href="#" class="name_<%= doc.user%>"><%= doc.name%></a></td>
+                            <td><a href="#" class="num_<%= doc.user%>"><%= doc.number%></a></td>
+                            <td><a href="#" class="div_<%= doc.user%>"><%= doc.division%></a></td>
+                            <td><%= doc.status%> </td>
+                            <td><button type="submit" id="delete_<%= doc.user%>" class="btn btn-default btn-sm delete">Delete</button></td>
+                        </tr>
+                        <% }); %>
+                    </tbody>          
+            </table>
+            </center>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+    </div>
+
+    <script><% include ./users_table.js %></script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+﻿<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header" id="nav-right">
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<script>
+
+    var part = document.getElementById("nav-right");
+    var type = getCookie("type");
+    if (type == 'agam') {
+        part.innerHTML += "<a class='navbar-brand' href='/admin_main'>Home</a>";
+    } else {
+        part.innerHTML += "<a class='navbar-brand' href='/doc_main'>Home</a>";
+    }
+    
+</script>
