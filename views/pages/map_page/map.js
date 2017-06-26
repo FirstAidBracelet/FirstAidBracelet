@@ -160,9 +160,10 @@ function mouseOver(pair) {
     var stat_bg_type = "";
     switch (pair.soldier.Status) {
         case "Minor": stat_bg_type = "bg-success"; break;
-        case "average": stat_bg_type = "bg-info"; break; //ALERT
+        case "Moderate": stat_bg_type = "bg-info"; break;
         case "Severe": stat_bg_type = "bg-warning"; break;
-        case "kia": stat_bg_type = "bg-danger"; break;
+        case "Critical": stat_bg_type = "bg-danger"; break;
+        case "Dead": stat_bg_type = "bg-danger"; break; //ALERT NEW COLOR
         case "": break;
     }
     var evac_bg_type = "";
