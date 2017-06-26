@@ -142,7 +142,7 @@ app.get('/logout', function (request, response) {
     response.redirect('/login');
 });
 
-app.get('/user', function (request, response) {
+/*app.get('/user', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
     if (user == null || type == null) {
@@ -164,7 +164,7 @@ app.get('/user', function (request, response) {
             });
         });
     }
-});
+});*/
 
 app.get('/equip', function (request, response) {
     var user = request.cookies.user;
@@ -206,15 +206,13 @@ app.get('/doc_main', function (request, response) {
 });
 
 //deleting a user. called from user_table.ejs
-app.post('/admin_delete_user', (req, res) => {
+app.get('/user_table', (req, res) => {
     MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        db.collection('users').findOneAndDelete({ user: req.body.user }, function () {
-            db.collection('users').find().toArray(function (err, docs) {
-                res.render('pages/users_table', { docs: docs });
-            });
-            db.close();
+        assert.equal(null, err);    
+        db.collection('users').find().toArray(function (err, users) {
+            res.render('pages/users_page/users_table', { users: users });
         });
+         db.close();
     });
 });
 

@@ -9,16 +9,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="/stylesheets/mainPageStyles.css">
+    <script src="/views/functions/cookie.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/admin_main">Home</a>
-                <a class="navbar-brand" href="/mainPage">Command Center</a>
-            </div>
-        </div>
-    </nav>
+    <% include ../partials/user_nav.ejs %>
+    
+    <script>
+        var part = document.getElementById("nav-right");
+        part.innerHTML += "<a class='navbar-brand' href='/mainPage'>Command Center</a>";
+    </script>
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-11">

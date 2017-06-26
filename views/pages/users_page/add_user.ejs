@@ -1,0 +1,81 @@
+<script src="/views/pages/add_user_page/add_user.js"></script>
+<script>
+	var users = [];
+	<% users.forEach(function(doc) { %>
+		users.push(<%- JSON.stringify(doc) %>);
+	<% }); %>
+</script>
+
+<center><h1>  Add User </h1></center>
+
+<form name="addUser" action="#" method="post" onsubmit="return validateForm()">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-3">
+            <div class="form-group">
+				<label><b>Username</b></label>
+				<input type="text" class = "form-control" placeholder="Enter Username" name="user">
+			</div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+				<label><b>Password</b></label>
+				<input type="password" class = "form-control" placeholder="Enter Password" name="password">
+			</div>
+        </div>
+        <div class="col-md-2">
+            <label style="padding-left:4.5em"><b>Type</b></label>
+        	<div id="type-div" class="radio-inline">
+				<label><input type="radio" name="type" value="doctor" required>Doctor</label>
+			</div>
+			<div id="type-div" class="radio-inline">
+				<label><input type="radio" name="type" value="agam" required>Agam</label>
+			</div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-5" id="division"></div>
+        <div class="col-md-2"></div>
+    </div>
+            
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-6">
+			<div class ="form-group">
+				<label><b>Name</b></label>
+				<input type="text" class = "form-control" placeholder="Enter Full Name" name="name" required>
+			</div>
+        </div>
+        <div class="col-md-2">
+			<div class ="form-group">
+				<label><b>P.N</b></label>
+				<input type="text" class = "form-control" placeholder="Enter Personal Number" name="number" required>
+			</div>
+        </div>
+    </div>
+
+	<div class ="form-group">
+		<input type="hidden" class = "form-control" name="status" value="not connected" required>
+	</div>
+
+	<br><br>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+            <input type="submit" class="btn btn-primary" value="Add">
+    </div>
+</form>
+
+<script>
+	var type = document.addUser.type;
+	type[0].onclick = function() {
+		isDoctor();
+	};
+	type[1].onclick = function() {
+		isAgam();
+	};
+</script>
