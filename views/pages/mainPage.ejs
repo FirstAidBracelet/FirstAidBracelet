@@ -64,7 +64,7 @@
 
 window.onload = function () {
     console.log("the cockie is: ", getCookie("division"));
-    if (getCookie("division") != null && getCookie("division") != "" ) {
+    if (getCookie("division")) {
     putFilter("Division",getCookie("division"));
     return;
     };
