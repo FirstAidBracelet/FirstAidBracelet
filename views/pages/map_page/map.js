@@ -138,21 +138,21 @@ function setMarkerListeners(map, markers, markerCluster){
         mouseOut();
     });
 
-
     markerCluster.addListener('click', function (cluster) {
+    window.open("/mainPage","_self"); // NOT WORKING THINK BECAUSE TOO SLOW WINDOW LOADING
         //the markers in current cluster
         var list = cluster.getMarkers();
         //we add the foreach because we want to get the soldiers data page and not only the marker
         var soldiersArr = [];
         markers.forEach(function (pair) {
             if (list.includes(pair.marker)) {
-                soldiersArr.push(pair.doc);
+                soldiersArr.push(pair.soldier);
             }
-        });
-        httpGetAsync('/mainPage', function (response) { }, soldiersArr);
+        });  
+       socket.emit('mapSoldiersRequest', { soldiers: JSON.stringify(soldiersArr) }); //send to backEnd the soldiers to prepare rendering list
     });
-
 }
+  
 
 function mouseOver(pair) {
     //bg_type is attribute for coloring of the status according to its severity
@@ -160,9 +160,10 @@ function mouseOver(pair) {
     var stat_bg_type = "";
     switch (pair.soldier.Status) {
         case "Minor": stat_bg_type = "bg-success"; break;
-        case "average": stat_bg_type = "bg-info"; break; //ALERT
+        case "Moderate": stat_bg_type = "bg-info"; break;
         case "Severe": stat_bg_type = "bg-warning"; break;
-        case "kia": stat_bg_type = "bg-danger"; break;
+        case "Critical": stat_bg_type = "bg-danger"; break;
+        case "Dead": stat_bg_type = "bg-danger"; break; //ALERT NEW COLOR
         case "": break;
     }
     var evac_bg_type = "";

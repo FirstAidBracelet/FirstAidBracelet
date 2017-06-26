@@ -205,6 +205,33 @@ app.get('/doc_main', function (request, response) {
     }
 });
 
+//deleting a user. called from user_table.ejs
+app.post('/admin_delete_user', (req, res) => {
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        db.collection('users').findOneAndDelete({ user: req.body.user }, function () {
+            db.collection('users').find().toArray(function (err, docs) {
+                res.render('pages/users_table', { docs: docs });
+            });
+            db.close();
+        });
+    });
+});
+
+app.get('/try', function (request, response) {
+    response.render('pages/try');
+});
+
+app.get('/admin_main', function (request, response) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
+        response.render('pages/admin_main');
+    }
+});
+
 app.get('/map', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
@@ -317,7 +344,7 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     });
 });
 
-
+var  mapReqestedSoldiers;
 var client; // This is the Socket client from mainPage.ejs
 io.sockets.on('connection', function (socket) { // the actual socket opening and it's functions definition
     client = socket;
@@ -345,6 +372,42 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
+    client.on('mapSoldiersRequest', function (data) {  // updating evacuation request via mainPage socket request
+    console.log("before emiting ---------------------->" ,data.soldiers );
+        client.emit('mapSoldiersReady',data.soldiers );
+    });
+    client.on('removeUser', function (data) {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('users').findOneAndDelete({ user: data.user }, function () {
+                db.close();
+            });
+        });
+    });
+    client.on('updateUserName', function (data) {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('users').update({ user: data.user }, { $set: { name: data.name } }, function () {
+                db.close();
+            });
+        });
+    });
+    client.on('updateUserNum', function (data) {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('users').update({ user: data.user }, { $set: { number: data.num } }, function () {
+                db.close();
+            });
+        });
+    });
+    client.on('updateUserDiv', function (data) {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('users').update({ user: data.user }, { $set: { division: data.div } }, function () {
+                db.close();
+            });
+        });
+    });    
 });
 
 /*
@@ -419,3 +482,4 @@ app.post('/get-soldier/:braceletId', function (req, res) {
         });
     });
 });
+

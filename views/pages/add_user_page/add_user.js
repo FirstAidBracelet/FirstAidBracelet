@@ -1,20 +1,14 @@
 function isDoctor(){
-    var container = document.getElementById("divisions");
-    var divisions = new Array();
-    var divisions = army_struct.divisions;
-    container.appendChild(document.createElement("br"));
-    container.appendChild(document.createTextNode("Choose Division Doctor is in charge of:"));
-    container.appendChild(document.createElement("br"));
-    divisions.forEach(function (div) {
-        var open = '<div id="division-div" class="radio-inline"><label>';
-        var input = '<input type="radio" name="division" value="' + div + '" required>';
-        var close = div + '</label></div>';
-        container.innerHTML += open + input + close;
-    });
+    var container = document.getElementById("division");
+    var open = '<div class="form-group">';
+    var label = '<label><b>Division</b></label>';
+    var input = '<input type="text" class = "form-control" placeholder="Enter Division" name="division" required>';
+    var close = '</div>';
+    container.innerHTML = open + label + input + close;
 }
 
 function isAgam(){
-    var container = document.getElementById("divisions");
+    var container = document.getElementById("division");
     container.innerHTML = "";
 }
 
