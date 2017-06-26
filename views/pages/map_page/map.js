@@ -138,8 +138,7 @@ function setMarkerListeners(map, markers, markerCluster){
         mouseOut();
     });
 
-    markerCluster.addListener('click', function (cluster) {
-    window.open("/mainPage","_self"); // NOT WORKING THINK BECAUSE TOO SLOW WINDOW LOADING
+    markerCluster.addListener('click', function (cluster) { 
         //the markers in current cluster
         var list = cluster.getMarkers();
         //we add the foreach because we want to get the soldiers data page and not only the marker
@@ -149,7 +148,8 @@ function setMarkerListeners(map, markers, markerCluster){
                 soldiersArr.push(pair.soldier);
             }
         });  
-       socket.emit('mapSoldiersRequest', { soldiers: JSON.stringify(soldiersArr) }); //send to backEnd the soldiers to prepare rendering list
+        socket.emit('mapSoldiersRequest', { soldiers: JSON.stringify(soldiersArr) }); //send to backEnd the soldiers to prepare rendering list
+        window.open("/mainPage", "_self")
     });
 }
   

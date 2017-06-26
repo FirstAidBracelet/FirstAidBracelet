@@ -308,7 +308,14 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
             }
         }
         if (filtersArray.length == 0) {
-            MongoClient.connect(mongoUrl, function (err, db) {
+            if (mapReqestedSoldiers != null) {
+                res.json(JSON.parse(mapReqestedSoldiers));
+                mapReqestedSoldiers = null;
+                return;
+
+            }
+            
+                MongoClient.connect(mongoUrl, function (err, db) {
                 assert.equal(null, err);
                 db.collection('soldiers').find().forEach(function (sld, err) {
                     assert.equal(null, err);
@@ -334,7 +341,7 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     });
 });
 
-var  mapReqestedSoldiers;
+var  mapReqestedSoldiers = null; // local var to save map.js soldiers request
 var client; // This is the Socket client from mainPage.ejs
 io.sockets.on('connection', function (socket) { // the actual socket opening and it's functions definition
     client = socket;
@@ -354,7 +361,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
-    client.on('updateLocationFilter', function (data) {  // updating evacuation request via mainPage socket request
+    client.on('updateLocationFilter', function (data) {  // updating location via mainPage socket request
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             db.collection('soldiers').update({ Bracelet_ID: data.braceletId }, { $set: { Location: data.location } }, function () {
@@ -362,9 +369,8 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
-    client.on('mapSoldiersRequest', function (data) {  // updating evacuation request via mainPage socket request
-    console.log("before emiting ---------------------->" ,data.soldiers );
-        client.emit('mapSoldiersReady',data.soldiers );
+    client.on('mapSoldiersRequest', function (data) {  // reieving soldiers from map.js   
+        mapReqestedSoldiers = data.soldiers;
     });
     client.on('removeUser', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
