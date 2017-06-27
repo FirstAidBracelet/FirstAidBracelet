@@ -141,6 +141,10 @@ $("input[name=Add]").click(function(){
         document.getElementById("userError").innerHTML = "";
         document.getElementById("passError").innerHTML = "";
     }
+    
+    $(this).closest('form').find("input[type=text], input[type=password]").val("");
+    $(this).closest('form').find("input[type=radio]:checked").prop('checked', false);
+    isAgam();
 
     var tdUser = "<td>" + user + "</td>";
     var tdType = "<td>" + type + "</td>";
