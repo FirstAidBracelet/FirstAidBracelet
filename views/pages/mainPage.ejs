@@ -63,12 +63,6 @@
     var filteredSoldiers = [];
 
 window.onload = function () {
-    console.log("the cockie is: ", getCookie("division"));
-    if (getCookie("division")) {
-      socket.emit('removePreviuseMapFiltering');
-    putFilter("Division",getCookie("division"));
-    return;
-    };
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
@@ -81,10 +75,10 @@ window.onload = function () {
 
 function buildAllFilters(){
     <% filters.forEach(function (filter) { %>
-                filterButtonBuilder('<%= filter %>');
+       filterButtonBuilder('<%= filter %>');
         <% }); %>
-            buildLocationFilterButton();
-    }
+     buildLocationFilterButton();
+  }
 
 function addFilterEvent (myFilter, btn) {  // Auxilary functionf for updatePopovers - to add dynamicly events
         btn.addEventListener("click", function (event) {

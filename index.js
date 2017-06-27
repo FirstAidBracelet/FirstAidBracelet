@@ -47,14 +47,14 @@ app.post('/admin', function (request, response) {
         assert.equal(null, err);
         db.collection('equipment').update(
             { equipment_id: request.body.itemId }, // query
-            { $set: { name: request.body.name, type: request.body.type } } , // replacement
-            { upsert: true}, // if id is inside --> update. if id is not inside -->enter new record
+            { $set: { name: request.body.name, type: request.body.type } }, // replacement
+            { upsert: true }, // if id is inside --> update. if id is not inside -->enter new record
             function (err, object) {
-                if (err) {  
+                if (err) {
                 } else {
                     response.redirect('/admin') //show the new table
                 }
-        });
+            });
         db.close();
     });
 });
@@ -208,11 +208,11 @@ app.get('/doc_main', function (request, response) {
 //deleting a user. called from user_table.ejs
 app.get('/user_table', (req, res) => {
     MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);    
+        assert.equal(null, err);
         db.collection('users').find().toArray(function (err, users) {
             res.render('pages/users_page/users_table', { users: users });
         });
-         db.close();
+        db.close();
     });
 });
 
@@ -280,7 +280,7 @@ app.post('/addUser', function (request, response) {
 
 var filtersArray = []; // array that stores the filters for the AND operation
 var configs = [];
-app.get('/mainPage', function (request, response) { 
+app.get('/mainPage', function (request, response) {
     configs = [];
     filtersArray = [];
     MongoClient.connect(mongoUrl, function (err, db) {
@@ -316,15 +316,27 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
             }
         }
         if (filtersArray.length == 0) {
-            if (mapReqestedSoldiers != null) {
+            if (mapReqestedSoldiers != null) {// This case is when the Map invoces the soldiers table build
                 res.json(JSON.parse(mapReqestedSoldiers));
                 mapReqestedSoldiers = null;
                 return;
-
             }
-            
-        MongoClient.connect(mongoUrl, function (err, db) {
-            assert.equal(null, err);
+          
+            if (req.cookies.type == "doctor") { //This case is when Specific doctor invoced soldiers table - he will see only he's division soldiers      
+                MongoClient.connect(mongoUrl, function (err, db) {
+                    assert.equal(null, err);
+                    db.collection('soldiers').find({ Division: req.cookies.division }).forEach(function (sld, err) {
+                        assert.equal(null, err);
+                        result.push(sld);
+                    }, function () {
+                        db.close();
+                        res.json(result);
+                    });
+                });
+                return;
+            }
+            MongoClient.connect(mongoUrl, function (err, db) { // This case is when Admin invoces soldiers table - he will see all the soldiers
+                assert.equal(null, err);
                 db.collection('soldiers').find().forEach(function (sld, err) {
                     assert.equal(null, err);
                     result.push(sld);
@@ -336,6 +348,19 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
             });
             return;
         }
+    }
+    if (req.cookies.type == "doctor") { //This case is when Specific doctor invoced soldiers table - he will see only he's division soldiers      
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('soldiers').find({ Division: req.cookies.division , $and: filtersArray  }).forEach(function (sld, err) {
+                assert.equal(null, err);
+                result.push(sld);
+            }, function () {
+                db.close();
+                res.json(result);
+            });
+        });
+        return;
     }
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
@@ -380,7 +405,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('mapSoldiersRequest', function (data) {  // receiving soldiers from map.js   
         mapReqestedSoldiers = data.soldiers;
     });
-client.on('removePreviuseMapFiltering', function (data) {  // receiving soldiers from map.js   
+    client.on('removePreviuseMapFiltering', function (data) {  // receiving soldiers from map.js   
         mapReqestedSoldiers = null;
     });
 
@@ -415,7 +440,7 @@ client.on('removePreviuseMapFiltering', function (data) {  // receiving soldiers
                 db.close();
             });
         });
-    });    
+    });
 });
 
 /*
