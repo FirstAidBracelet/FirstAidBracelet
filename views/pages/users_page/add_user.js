@@ -15,20 +15,18 @@ function isAgam(){
 function validateForm(){
     var number = document.forms["addUser"]["number"].value;
     if (isNaN(number)){
-        alert("P.N is not a number");
-        return false;
+        return "P.N is not a number";
     }
     if (number.length != '7'){
-        alert("P.N length is not correct. P.N needs to be 7 digits");
-        return false;
+        return "P.N length is not correct. P.N needs to be 7 digits";
     }
     var uname = document.forms["addUser"]["user"].value;
     var psw = document.forms["addUser"]["password"].value;
+    var res = "true";
     users.forEach(function(doc) {
         if (doc.user == uname || doc.password == psw || doc.number == number){
-            alert("Non-exclusive information");
-            return false;
+            res = "Non-exclusive information";
         }
     });
-    return true;
+    return res;
 }
