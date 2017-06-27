@@ -97,9 +97,9 @@ app.post('/logged', function (request, response) {
     var number = request.cookies.number;
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        var col = db.collection('users');
-        col.update({ number: number }, { $set: { status: "connected" } })
-        db.close();
+        db.collection('users').update({ number: number }, { $set: { status: "connected" } }, function () {
+            db.close();
+        });
     });
 
     var type = request.cookies.type;
@@ -127,9 +127,9 @@ app.get('/logout', function (request, response) {
     var number = request.cookies.number;
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        var col = db.collection('users');
-        col.update({ number: number }, { $set: { status: "not connected" } })
-        db.close();
+        db.collection('users').update({ number: number }, { $set: { status: "not connected" } }, function () {
+            db.close();
+        });
     });
 
     var cookie = request.cookies;
@@ -408,7 +408,15 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('removePreviuseMapFiltering', function (data) {  // receiving soldiers from map.js   
         mapReqestedSoldiers = null;
     });
-
+    
+    client.on('addUser', function (data) {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('users').save(data.user, function () {
+                db.close();
+            });
+        });
+    });
     client.on('removeUser', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
