@@ -78,8 +78,12 @@
     var del = '#delete_' + user.user;
     $(del).click( function() {
         $(del).parents('tr').remove();
-        var uname = $(this).parents('tr').attr('id');
-        socket.emit('removeUser', { user: uname });
+        var username = $(this).parents('tr').attr('id');
+        var userIndex = usersArr.findIndex( function(userDoc) {
+            return userDoc.user == username;
+        });
+        usersArr.splice(userIndex, 1);
+        socket.emit('removeUser', { user: username });
     });
 }
 
