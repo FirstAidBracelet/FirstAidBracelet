@@ -23,10 +23,5 @@ function validateForm(){
     var uname = document.forms["addUser"]["user"].value;
     var psw = document.forms["addUser"]["password"].value;
     var res = "true";
-    users.forEach(function(doc) {
-        if (doc.user == uname || doc.password == psw || doc.number == number){
-            res = "Non-exclusive information";
-        }
-    });
     return res;
 }

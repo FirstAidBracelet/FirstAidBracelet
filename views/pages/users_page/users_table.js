@@ -16,6 +16,10 @@
         },
         success: function (response, val) {
             var username = $(this).data('editable').options.params.user;
+            var userUpdate = usersArr.find( function(userDoc) {
+                return userDoc.user == username;
+            });
+            userUpdate["name"] = val;
             socket.emit('updateUserName', { user: username, name: val });
         }
     });
@@ -30,9 +34,23 @@
             if (value.length != '7') {
                 return "This field's length needs be 7 digits";
             }
+            var res;
+            var username = $(this).data('editable').options.params.user;
+            usersArr.forEach(function(userDoc) {
+                if (userDoc.number == value && userDoc.user != username){
+                    res = "This field contains non-exclusive information";
+                }
+            });
+            if (res == "This field contains non-exclusive information") {
+                return res;
+            }
         },
         success: function (response, val) {
             var username = $(this).data('editable').options.params.user;
+            var userUpdate = usersArr.find( function(userDoc) {
+                return userDoc.user == username;
+            });
+            userUpdate["number"] = val;
             socket.emit('updateUserNum', { user: username, num: val });
         }
     });
@@ -48,6 +66,10 @@
             },
             success: function (response, val) {
                 var username = $(this).data('editable').options.params.user;
+                var userUpdate = usersArr.find( function(userDoc) {
+                    return userDoc.user == username;
+                });
+                userUpdate["division"] = val;
                 socket.emit('updateUserDiv', { user: username, div: val });
             }
         });
@@ -131,15 +153,33 @@ $("input[name=Add]").click(function(){
     var res = validateForm();
     if (res != "true"){
         document.getElementById("numberError").innerHTML = res;
-        if (res == "Non-exclusive information"){
-            document.getElementById("userError").innerHTML = res;
-            document.getElementById("passError").innerHTML = res;
-        }
         return false;
     } else {
         document.getElementById("numberError").innerHTML = "";
+    }
+    var userDoc = usersArr.find(function(userDoc) {
+        return (userDoc.user == user || userDoc.password == pass || userDoc.number == num);
+    });
+    
+    if (userDoc.user == user) {
+        document.getElementById("passError").innerHTML = "";
+        document.getElementById("numberError").innerHTML = "";
+        document.getElementById("userError").innerHTML = "Non-exclusive information";
+        return false;
+    } else if (userDoc.password == pass) {
+        document.getElementById("userError").innerHTML = "";
+        document.getElementById("numberError").innerHTML = "";
+        document.getElementById("passError").innerHTML = "Non-exclusive information";
+        return false;
+    } else if (userDoc.number == num){
         document.getElementById("userError").innerHTML = "";
         document.getElementById("passError").innerHTML = "";
+        document.getElementById("numberError").innerHTML = "Non-exclusive information";
+        return false;
+    } else {
+        document.getElementById("userError").innerHTML = "";
+        document.getElementById("passError").innerHTML = "";    
+        document.getElementById("numberError").innerHTML = "";
     }
     
     $(this).closest('form').find("input[type=text], input[type=password]").val("");
@@ -155,10 +195,11 @@ $("input[name=Add]").click(function(){
     var tdButton = "<td><button type='submit' id='delete_" + user + "' class='btn btn-default btn-sm delete'>Delete</button></td>";
     var markup = "<tr id='" + user + "'>" + tdUser + tdType + tdName + tdNum + tdDiv + tdStatus + tdButton + "</tr>";
     $("table tbody").append(markup);
-    var newUser = { user: user, password: pass, type: type, name: name, number: num };
+    var newUser = { user: user, password: pass, type: type, name: name, number: num, status: "not connected" };
     if (type == "doctor"){
         newUser.division = div;
     }
+    usersArr.push(newUser);
     socket.emit('addUser', { user : newUser });
     editables(newUser);
     return;

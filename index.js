@@ -97,9 +97,9 @@ app.post('/logged', function (request, response) {
     var number = request.cookies.number;
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        var col = db.collection('users');
-        col.update({ number: number }, { $set: { status: "connected" } })
-        db.close();
+        db.collection('users').update({ number: number }, { $set: { status: "connected" } }, function () {
+            db.close();
+        });
     });
 
     var type = request.cookies.type;
@@ -127,9 +127,9 @@ app.get('/logout', function (request, response) {
     var number = request.cookies.number;
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        var col = db.collection('users');
-        col.update({ number: number }, { $set: { status: "not connected" } })
-        db.close();
+        db.collection('users').update({ number: number }, { $set: { status: "not connected" } }, function () {
+            db.close();
+        });
     });
 
     var cookie = request.cookies;
