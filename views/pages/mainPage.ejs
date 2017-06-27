@@ -63,12 +63,6 @@
     var filteredSoldiers = [];
 
 window.onload = function () {
-    console.log("the cockie is: ", getCookie("division"));
-    if (getCookie("division")) {
-      socket.emit('removePreviuseMapFiltering');
-    putFilter("Division",getCookie("division"));
-    return;
-    };
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
@@ -81,10 +75,10 @@ window.onload = function () {
 
 function buildAllFilters(){
     <% filters.forEach(function (filter) { %>
-                filterButtonBuilder('<%= filter %>');
+       filterButtonBuilder('<%= filter %>');
         <% }); %>
-            buildLocationFilterButton();
-    }
+     buildLocationFilterButton();
+  }
 
 function addFilterEvent (myFilter, btn) {  // Auxilary functionf for updatePopovers - to add dynamicly events
         btn.addEventListener("click", function (event) {
@@ -265,7 +259,7 @@ function changeCurrentEvacuationRequestAndReturnOld(braceletID) {
 
 
     function evacuationStatusChange(braceletID) { // Changing the status of evacuation request on click
-        var cnfrmation = confirm("Are you sure you want to change pation evacuation status?");
+        var cnfrmation = confirm("Are you sure you want to change patient evacuation status?");
         var newStatus;
         var currStatus;
         if (cnfrmation == true) {
@@ -411,8 +405,7 @@ function changeCurrentEvacuationRequestAndReturnOld(braceletID) {
 
      var textnode = document.createTextNode(value);
     node.appendChild(textnode);
-    node.style.backgroundColor = "yellow";
-        chosenFiltersText
+    node.style.backgroundColor = "yellow";    
         document.getElementById("filtersBarId").appendChild(node);
         document.getElementById("chosenFiltersText").style.visibility = "visible";
 
