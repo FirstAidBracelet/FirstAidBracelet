@@ -141,6 +141,7 @@ $("input[name=Add]").click(function(){
             return false;
         } else {
             document.getElementById("divError").innerHTML = "";
+            div = div.substring(0, 1).toUpperCase() + div.substring(1, div.length - 1).toLowerCase();
         }
     }
     var name = $("input[name=name]").val();
