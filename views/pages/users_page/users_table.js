@@ -167,23 +167,24 @@ $("input[name=Add]").click(function(){
     var userDoc = usersArr.find(function(userDoc) {
         return (userDoc.user == user || userDoc.password == pass || userDoc.number == num);
     });
-    
-    if (userDoc.user == user) {
-        document.getElementById("passError").innerHTML = "";
-        document.getElementById("numberError").innerHTML = "";
-        document.getElementById("userError").innerHTML = "Non-exclusive information";
-        return false;
-    } else if (userDoc.password == pass) {
-        document.getElementById("userError").innerHTML = "";
-        document.getElementById("numberError").innerHTML = "";
-        document.getElementById("passError").innerHTML = "Non-exclusive information";
-        return false;
-    } else if (userDoc.number == num){
-        document.getElementById("userError").innerHTML = "";
-        document.getElementById("passError").innerHTML = "";
-        document.getElementById("numberError").innerHTML = "Non-exclusive information";
-        return false;
-    } else {
+    if (userDoc != undefined) {
+        if (userDoc.user == user) {
+            document.getElementById("passError").innerHTML = "";
+            document.getElementById("numberError").innerHTML = "";
+            document.getElementById("userError").innerHTML = "Non-exclusive information";
+            return false;
+        } else if (userDoc.password == pass) {
+            document.getElementById("userError").innerHTML = "";
+            document.getElementById("numberError").innerHTML = "";
+            document.getElementById("passError").innerHTML = "Non-exclusive information";
+            return false;
+        } else {
+            document.getElementById("userError").innerHTML = "";
+            document.getElementById("passError").innerHTML = "";
+            document.getElementById("numberError").innerHTML = "Non-exclusive information";
+            return false;
+        }
+    }else {
         document.getElementById("userError").innerHTML = "";
         document.getElementById("passError").innerHTML = "";    
         document.getElementById("numberError").innerHTML = "";
