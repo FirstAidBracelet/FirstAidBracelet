@@ -19,6 +19,9 @@
     <Compile Include="views\pages\admin_main.ejs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="views\pages\users_page\users_table.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Content Include="app.json" />
     <Content Include="package.json" />
     <Content Include="public\armyBackground.jpg" />
@@ -31,21 +34,23 @@
     <Content Include="public\IDFbadge.png" />
     <Content Include="public\medic-logo.png" />
     <Content Include="public\stylesheets\main.css" />
-    <Content Include="views\pages\add_user.ejs" />
     <Content Include="views\pages\login.ejs" />
     <Content Include="views\pages\index.ejs" />
     <Content Include="views\pages\mainPage.ejs" />
-    <Content Include="views\pages\map.ejs">
+    <Content Include="views\partials\user_nav.ejs">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\partials\header.ejs" />
-    <Content Include="views\partials\nav.ejs" />
+    <Content Include="views\partials\nav.ejs">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="firstAidBraceletProject" />
     <Folder Include="public" />
     <Folder Include="public\stylesheets" />
     <Folder Include="views" />
+    <Folder Include="views\pages\users_page\" />
     <Folder Include="views\partials\" />
     <Folder Include="views\pages" />
   </ItemGroup>
