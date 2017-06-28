@@ -170,7 +170,7 @@ function mouseOver(pair) {
         case "Moderate": stat_bg_type = "bg-info"; break;
         case "Severe": stat_bg_type = "bg-warning"; break;
         case "Critical": stat_bg_type = "bg-danger"; break;
-        case "Dead": stat_bg_type = "bg-danger"; break; //ALERT NEW COLOR
+        case "Dead": stat_bg_type = "bg-danger"; break;
         case "": break;
     }
     var evac_bg_type = "";
@@ -180,7 +180,11 @@ function mouseOver(pair) {
         case "true": evac_bg_type = "bg-danger"; evac = "Evacuate"; break;
     }
     //add to the window the bracelet-id and the colored status
-    document.getElementById('info').innerHTML += "<p>" + pair.soldier.Bracelet_ID + ": <span class='" + stat_bg_type + "'>" + pair.soldier.Status + "</span>  " + "<span class='" + evac_bg_type + "'>" + evac + "</span></p>";
+    var id = pair.soldier.Bracelet_ID;
+    if (pair.soldier.Soldier_ID != undefined) {
+        id = pair.soldier.Soldier_ID;
+    }
+    document.getElementById('info').innerHTML += "<p>" + id + ": <span class='" + stat_bg_type + "'>" + pair.soldier.Status + "</span>  " + "<span class='" + evac_bg_type + "'>" + evac + "</span></p>";
     //pop window in front of the map
     document.getElementById('info').style.display = "block";
 }
