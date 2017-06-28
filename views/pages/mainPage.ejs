@@ -34,20 +34,16 @@
                 <div id="filtersMenu" class="vertical-menu"></div>
             </center>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-9">
             <center>
-                <div class="container">
-                    <center>
-                        <h2> Soldiers Database </h2>
-                    </center>
-                    <center>  <div id="mainSoldiersTable" style="overflow:scroll ; height:400px; "></div> </center>
-                </div>
+                <h2> Soldiers Database </h2>
+                <div id="mainSoldiersTable" style="overflow:scroll ; height:400px; "></div>
             </center>
             <center> <h3 id="chosenSoldiersText" style="visibility:hidden"> Chosen Soldiers  </h3></center>
             <div class="container">
                 <center>  <ul id="filtersTable" class="list-inline"></ul> </center>
             </div>
-        </div>
+            <div class="col-md-1"> </div>
     </div>
 </body>
 <script>
@@ -405,7 +401,7 @@ function changeCurrentEvacuationRequestAndReturnOld(braceletID) {
 
      var textnode = document.createTextNode(value);
     node.appendChild(textnode);
-    node.style.backgroundColor = "yellow";    
+    node.style.backgroundColor = "yellow";
         document.getElementById("filtersBarId").appendChild(node);
         document.getElementById("chosenFiltersText").style.visibility = "visible";
 
