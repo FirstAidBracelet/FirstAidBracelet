@@ -280,12 +280,18 @@ app.post('/addUser', function (request, response) {
 
 var filtersArray = []; // array that stores the filters for the AND operation
 var configs = [];
+var logedInDoctorDivision = null;
 app.get('/mainPage', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
     if (user == null || type == null) {
         response.redirect('/login');
         return;
+    }
+    if (type == "doctor") {
+        logedInDoctorDivision = request.cookies.division;
+    } else {
+        logedInDoctorDivision = null;
     }
     configs = [];
     filtersArray = [];
@@ -466,30 +472,55 @@ const myEmitter = new MyEmitter();
 myEmitter.on('event', () => {
 
     var result = [];
-    if (filtersArray.length == 0) {
+    if (!logedInDoctorDivision) { // administrator loged in
+        if (filtersArray.length == 0) {
+            MongoClient.connect(mongoUrl, function (err, db) {
+                assert.equal(null, err);
+                db.collection('soldiers').find().forEach(function (sld, err) {
+                    assert.equal(null, err);
+                    result.push(sld);
+                }, function () {
+                    db.close();
+                    client.emit('news', JSON.stringify(result));
+                });
+            });
+            return;
+        }
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('soldiers').find().forEach(function (sld, err) {
+            db.collection('soldiers').find({ $and: filtersArray }).forEach(function (sld, err) {
                 assert.equal(null, err);
-                result.push(sld);
+                result.push((sld));
             }, function () {
                 db.close();
                 client.emit('news', JSON.stringify(result));
             });
         });
-        return;
-    }
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        db.collection('soldiers').find({ $and: filtersArray }).forEach(function (sld, err) {
+    } else { // doctor loged in
+        if (filtersArray.length == 0) {
+            MongoClient.connect(mongoUrl, function (err, db) {
+                assert.equal(null, err);
+                db.collection('soldiers').find({ Division: req.cookies.division }).forEach(function (sld, err) {
+                    assert.equal(null, err);
+                    result.push(sld);
+                }, function () {
+                    db.close();
+                    client.emit('news', JSON.stringify(result));
+                });
+            });
+            return;
+        }
+        MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            result.push((sld));
-        }, function () {
-            db.close();
-            client.emit('news', JSON.stringify(result));
+            db.collection('soldiers').find({ Division: req.cookies.division , $and: filtersArray }).forEach(function (sld, err) {
+                assert.equal(null, err);
+                result.push((sld));
+            }, function () {
+                db.close();
+                client.emit('news', JSON.stringify(result));
+            });
         });
-
-    });
+    }
 });
 
 myEmitter.on('mapEvent', () => {
