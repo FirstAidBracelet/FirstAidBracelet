@@ -281,6 +281,12 @@ app.post('/addUser', function (request, response) {
 var filtersArray = []; // array that stores the filters for the AND operation
 var configs = [];
 app.get('/mainPage', function (request, response) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login');
+        return;
+    }
     configs = [];
     filtersArray = [];
     MongoClient.connect(mongoUrl, function (err, db) {
@@ -458,6 +464,7 @@ updating the soldiers table
 class MyEmitter extends EventEmitter { } // event hendler for post request from android
 const myEmitter = new MyEmitter();
 myEmitter.on('event', () => {
+
     var result = [];
     if (filtersArray.length == 0) {
         MongoClient.connect(mongoUrl, function (err, db) {
