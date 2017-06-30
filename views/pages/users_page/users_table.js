@@ -66,11 +66,12 @@
             },
             success: function (response, val) {
                 var username = $(this).data('editable').options.params.user;
+                var division = val.substring(0, 1).toUpperCase() + val.substring(1, val.length).toLowerCase();
                 var userUpdate = usersArr.find( function(userDoc) {
                     return userDoc.user == username;
                 });
-                userUpdate["division"] = val;
-                socket.emit('updateUserDiv', { user: username, div: val });
+                userUpdate["division"] = division;
+                socket.emit('updateUserDiv', { user: username, div: division });
             }
         });
     }
@@ -141,6 +142,7 @@ $("input[name=Add]").click(function(){
             return false;
         } else {
             document.getElementById("divError").innerHTML = "";
+            div = div.substring(0, 1).toUpperCase() + div.substring(1, div.length).toLowerCase();
         }
     }
     var name = $("input[name=name]").val();
@@ -200,6 +202,15 @@ $("input[name=Add]").click(function(){
     if (type == "doctor"){
         newUser.division = div;
     }
+
+    if (user == getCookie("user")) {
+        document.cookie = "number=" + num;
+        document.cookie = "name=" + name;
+        if (type == "doctor") {
+            documernt.cookie = "division=" + div;
+        }
+    }
+
     usersArr.push(newUser);
     socket.emit('addUser', { user : newUser });
     editables(newUser);
