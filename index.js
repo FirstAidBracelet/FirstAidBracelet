@@ -500,7 +500,7 @@ myEmitter.on('event', () => {
         if (filtersArray.length == 0) {
             MongoClient.connect(mongoUrl, function (err, db) {
                 assert.equal(null, err);
-                db.collection('soldiers').find({ Division: req.cookies.division }).forEach(function (sld, err) {
+                db.collection('soldiers').find({ Division: logedInDoctorDivision }).forEach(function (sld, err) {
                     assert.equal(null, err);
                     result.push(sld);
                 }, function () {
@@ -512,7 +512,7 @@ myEmitter.on('event', () => {
         }
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('soldiers').find({ Division: req.cookies.division , $and: filtersArray }).forEach(function (sld, err) {
+            db.collection('soldiers').find({ Division: logedInDoctorDivision , $and: filtersArray }).forEach(function (sld, err) {
                 assert.equal(null, err);
                 result.push((sld));
             }, function () {
