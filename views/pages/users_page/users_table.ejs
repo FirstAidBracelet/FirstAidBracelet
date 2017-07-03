@@ -53,14 +53,14 @@
                     </thead>  
                     <tbody>
                         <% users.forEach(function(doc) { %>
-                        <tr id=<%= doc.user%> >
+                        <tr id=<%= doc.number%> >
                             <td><%= doc.user%> </td>
                             <td><%= doc.type%> </td>
-                            <td><a href="#" class="name_<%= doc.user%>"><%= doc.name%></a></td>
-                            <td><a href="#" class="num_<%= doc.user%>"><%= doc.number%></a></td>
-                            <td><a href="#" class="div_<%= doc.user%>"><%= doc.division%></a></td>
+                            <td><a href="#" class="name_<%= doc.number%>"><%= doc.name%></a></td>
+                            <td><a href="#" class="num_<%= doc.number%>"><%= doc.number%></a></td>
+                            <td><a href="#" class="div_<%= doc.number%>"><%= doc.division%></a></td>
                             <td><%= doc.status%> </td>
-                            <td><button type="submit" id="delete_<%= doc.user%>" class="btn btn-default btn-sm delete">Delete</button></td>
+                            <td><button type="submit" id="delete_<%= doc.number%>" class="btn btn-default btn-sm delete">Delete</button></td>
                         </tr>
                         <% }); %>
                     </tbody>          

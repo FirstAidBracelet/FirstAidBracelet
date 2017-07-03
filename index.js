@@ -142,30 +142,6 @@ app.get('/logout', function (request, response) {
     response.redirect('/login');
 });
 
-/*app.get('/user', function (request, response) {
-    var user = request.cookies.user;
-    var type = request.cookies.type;
-    if (user == null || type == null) {
-        response.redirect('/login')
-    } else {
-        var army_struct;
-        var users = [];
-        MongoClient.connect(mongoUrl, function (err, db) {
-            assert.equal(null, err);
-            db.collection('army_structure').find().forEach(function (doc, err) {
-                army_struct = doc;
-            }, function () {
-                db.collection('users').find().forEach(function (user, err) {
-                    users.push(user);
-                }, function () {
-                    db.close();
-                    response.render('pages/add_user_page/add_user', { army_struct: army_struct, users: users });
-                });
-            });
-        });
-    }
-});*/
-
 app.get('/equip', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
@@ -216,10 +192,6 @@ app.get('/user_table', (req, res) => {
     });
 });
 
-app.get('/try', function (request, response) {
-    response.render('pages/try');
-});
-
 app.get('/admin_main', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
@@ -252,30 +224,6 @@ app.get('/map', function (request, response) {
             });
         });
     }
-});
-
-/*app.get('/maps', function (request, response) {
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        var equipmentDB = db.collection('soldiers');
-        equipmentDB.find().toArray(
-            function (err, docs) {
-                response.render('pages/map', { docs : docs });
-            }
-        );
-        db.close();
-    });
-});*/
-
-app.post('/addUser', function (request, response) {
-    var form = request.body;
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        db.collection('users').save(form, function (err, result) {
-            if (err) return console.log(err);
-        });
-    });
-    response.redirect('/logged');
 });
 
 var filtersArray = []; // array that stores the filters for the AND operation
@@ -432,7 +380,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('removeUser', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('users').findOneAndDelete({ user: data.user }, function () {
+            db.collection('users').findOneAndDelete({ number: data.number }, function () {
                 db.close();
             });
         });
@@ -440,7 +388,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('updateUserName', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('users').update({ user: data.user }, { $set: { name: data.name } }, function () {
+            db.collection('users').update({ number: data.number }, { $set: { name: data.name } }, function () {
                 db.close();
             });
         });
@@ -448,7 +396,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('updateUserNum', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('users').update({ user: data.user }, { $set: { number: data.num } }, function () {
+            db.collection('users').update({ number: data.number }, { $set: { number: data.num } }, function () {
                 db.close();
             });
         });
@@ -456,7 +404,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('updateUserDiv', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('users').update({ user: data.user }, { $set: { division: data.div } }, function () {
+            db.collection('users').update({ number: data.number }, { $set: { division: data.div } }, function () {
                 db.close();
             });
         });

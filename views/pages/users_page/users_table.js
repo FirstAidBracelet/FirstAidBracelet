@@ -3,9 +3,9 @@
     $.fn.editable.defaults.type = 'text';
     $.fn.editable.defaults.placement = 'right';
 
-    var name = '.name_' + user.user;
+    var name = '.name_' + user.number;
     $(name).editable({
-        params: { user: user.user },
+        params: { number: user.number },
         validate: function (value) {
             if (value == '') {
                 return 'This field is required';
@@ -15,18 +15,22 @@
             }
         },
         success: function (response, val) {
-            var username = $(this).data('editable').options.params.user;
+            var usernum = $(this).data('editable').options.params.number;
             var userUpdate = usersArr.find( function(userDoc) {
-                return userDoc.user == username;
+                return userDoc.number == usernum;
             });
+            console.log(userUpdate["name"]);
             userUpdate["name"] = val;
-            socket.emit('updateUserName', { user: username, name: val });
+            if (usernum == getCookie("number")) {
+                document.cookie = "name=" + val;
+            }
+            socket.emit('updateUserName', { number: usernum, name: val });
         }
     });
 
-    var num = '.num_' + user.user;
+    var num = '.num_' + user.number;
     $(num).editable({
-        params: { user: user.user },
+        params: { number: user.number },
         validate: function (value) {
             if (isNaN(value)) {
                 return "This field needs be a number";
@@ -35,9 +39,9 @@
                 return "This field's length needs be 7 digits";
             }
             var res;
-            var username = $(this).data('editable').options.params.user;
+            var usernum = $(this).data('editable').options.params.number;
             usersArr.forEach(function(userDoc) {
-                if (userDoc.number == value && userDoc.user != username){
+                if (userDoc.number == value && value != usernum){
                     res = "This field contains non-exclusive information";
                 }
             });
@@ -46,47 +50,53 @@
             }
         },
         success: function (response, val) {
-            var username = $(this).data('editable').options.params.user;
+            var usernum = $(this).data('editable').options.params.number;
             var userUpdate = usersArr.find( function(userDoc) {
-                return userDoc.user == username;
+                return userDoc.number == usernum;
             });
             userUpdate["number"] = val;
-            socket.emit('updateUserNum', { user: username, num: val });
+            if (usernum == getCookie("number")) {
+                document.cookie = "number=" + num;
+            }
+            socket.emit('updateUserNum', { number: usernum, num: val });
         }
     });
 
-    var div = '.div_' + user.user;
+    var div = '.div_' + user.number;
     if (user.type == "doctor"){
         $(div).editable({
-            params: { user: user.user },
+            params: { number: user.number },
             validate: function (value) {
                 if (value == '') {
                     return 'This field is required';
                 }
             },
             success: function (response, val) {
-                var username = $(this).data('editable').options.params.user;
+                var usernum = $(this).data('editable').options.params.number;
                 var division = val.substring(0, 1).toUpperCase() + val.substring(1, val.length).toLowerCase();
                 var userUpdate = usersArr.find( function(userDoc) {
-                    return userDoc.user == username;
+                    return userDoc.number == usernum;
                 });
                 userUpdate["division"] = division;
-                socket.emit('updateUserDiv', { user: username, div: division });
+                if (usernum == getCookie("number")) {
+                    document.cookie = "division=" + val;
+                }
+                socket.emit('updateUserDiv', { number: usernum, div: division });
             }
         });
     }
     
-    var del = '#delete_' + user.user;
+    var del = '#delete_' + user.number;
     $(del).click( function() {
         var r = confirm("Are you sure you want to delete?");
         if (r == true) {
             $(del).parents('tr').remove();
-            var username = $(this).parents('tr').attr('id');
+            var usernum = $(this).parents('tr').attr('id');
             var userIndex = usersArr.findIndex( function(userDoc) {
-                return userDoc.user == username;
+                return userDoc.number == usernum;
             });
             usersArr.splice(userIndex, 1);
-            socket.emit('removeUser', { user: username });
+            socket.emit('removeUser', { number: usernum });
         }
     });
 }
@@ -97,14 +107,14 @@ $(document).ready(function () {
     });
 });
 
-var uname = getCookie("user");
-document.getElementById(uname).className = "success";
-document.getElementById(uname).title = "Current user";
+var num = getCookie("number");
+document.getElementById(num).className = "success";
+document.getElementById(num).title = "Current user";
 users.forEach(function (user) {
     var status = user.status;
     if (status == "connected") {
-        uname = user.user;
-        var udelete = "delete_" + uname;
+        num = user.number;
+        var udelete = "delete_" + num;
         document.getElementById(udelete).disabled = true;
         document.getElementById(udelete).title = "Cannot delete connected user";
     }
@@ -201,14 +211,6 @@ $("input[name=Add]").click(function(){
     var newUser = { user: user, password: pass, type: type, name: name, number: num, status: "not connected" };
     if (type == "doctor"){
         newUser.division = div;
-    }
-
-    if (user == getCookie("user")) {
-        document.cookie = "number=" + num;
-        document.cookie = "name=" + name;
-        if (type == "doctor") {
-            documernt.cookie = "division=" + div;
-        }
     }
 
     usersArr.push(newUser);

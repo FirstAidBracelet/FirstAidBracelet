@@ -33,7 +33,7 @@ function validateForm() {
 	}
 	<% docs.forEach(function(doc) { %>
 		var doc = <%- JSON.stringify(doc) %>;
-		if (doc.user == uname && doc.password == psw && doc.status == "not connected"){
+		if (doc.user == uname && doc.password == psw){
 			document.cookie = "user=" + uname;
 			document.cookie = "type=" + doc.type;
 			document.cookie = "number=" + doc.number;
@@ -44,7 +44,7 @@ function validateForm() {
 			return true;
 		}
 	<% }); %>
-	alert("wrong username/password or doctor already connected");
+	alert("The username or password is incorrect");
 	return false;
 }
 </script>
