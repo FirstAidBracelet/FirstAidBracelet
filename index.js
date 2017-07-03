@@ -471,6 +471,7 @@ myEmitter.on('event', () => {
     }
 });
 
+
 myEmitter.on('mapEvent', () => {
     console.log('a map event occurred');
     var soldiersArray = [];
