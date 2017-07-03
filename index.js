@@ -22,7 +22,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function (request, response) {
-    response.render('pages/index');
+    response.render('pages/welcomePage');
 });
 
 //shows Treatments DB
@@ -229,7 +229,7 @@ app.get('/map', function (request, response) {
 var filtersArray = []; // array that stores the filters for the AND operation
 var configs = [];
 var logedInDoctorDivision = null;
-app.get('/mainPage', function (request, response) {
+app.get('/soldiersFiltersTable', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
     if (user == null || type == null) {
@@ -249,7 +249,7 @@ app.get('/mainPage', function (request, response) {
             configs.push(cnfs);
         }, function () {
             db.close();
-            response.render('pages/mainPage', { soldiers_table: configs[0].soldiers_table, treatments_table: configs[0].treatments, filters: configs[0].filters });
+            response.render('pages/filterTable_page/soldiersFiltersTable', { soldiers_table: configs[0].soldiers_table, treatments_table: configs[0].treatments, filters: configs[0].filters });
         });
     });
 });
@@ -338,7 +338,7 @@ var mapReqestedSoldiers = null; // local var to save map.js soldiers request
 var client; // This is the Socket to client 
 io.sockets.on('connection', function (socket) { // the actual socket opening and it's functions definition
     client = socket;
-    client.on('removePatient', function (data) { // removing bracelet via mainPage socket request
+    client.on('removePatient', function (data) { // removing bracelet via soldiersFiltersTable socket request
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             db.collection('soldiers').findOneAndDelete({ Bracelet_ID: data.braceletId }, function () {
@@ -346,7 +346,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
-    client.on('updateEvacuationStatus', function (data) {  // updating evacuation request via mainPage socket request
+    client.on('updateEvacuationStatus', function (data) {  // updating evacuation request via soldiersFiltersTable socket request
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             db.collection('soldiers').update({ Bracelet_ID: data.braceletId }, { $set: { evacuation_request: data.status } }, function () {
@@ -354,7 +354,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
-    client.on('updateLocationFilter', function (data) {  // updating location via mainPage socket request
+    client.on('updateLocationFilter', function (data) {  // updating location via soldiersFiltersTable socket request
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             db.collection('soldiers').update({ Bracelet_ID: data.braceletId }, { $set: { Location: data.location } }, function () {

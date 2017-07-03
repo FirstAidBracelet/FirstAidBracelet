@@ -116,7 +116,7 @@ function setMarkerListeners(map, markers, markerCluster){
             var soldiersArr = [];
             soldiersArr.push(pair.soldier);
             socket.emit('mapSoldiersRequest', { soldiers: JSON.stringify(soldiersArr) }); //send to backEnd the soldiers to prepare rendering list
-        window.open("/mainPage", "_self")
+        window.open("/soldiersFiltersTable", "_self")
         });
 
         //add to cluster
@@ -156,7 +156,7 @@ function setMarkerListeners(map, markers, markerCluster){
             }
         });  
         socket.emit('mapSoldiersRequest', { soldiers: JSON.stringify(soldiersArr) }); //send to backEnd the soldiers to prepare rendering list
-        window.open("/mainPage", "_self")
+        window.open("/soldiersFiltersTable", "_self")
     });
 }
   

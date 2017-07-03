@@ -19,24 +19,42 @@
     <Compile Include="views\pages\admin_main.ejs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="views\pages\filterTable_page\evacuationRequestHandler.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="views\pages\filterTable_page\filteringRequests.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="views\pages\filterTable_page\filtersSideBarBuilder.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="views\pages\filterTable_page\locationFilteringConfigurations.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="views\pages\filterTable_page\onLoadAndLocalVariables.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="views\pages\filterTable_page\soldiersTableBuilder.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="views\pages\filterTable_page\treatmentsTableBuilder.js" />
     <Compile Include="views\pages\users_page\users_table.js">
       <SubType>Code</SubType>
     </Compile>
     <Content Include="app.json" />
     <Content Include="package.json" />
     <Content Include="public\armyBackground.jpg" />
-    <Content Include="public\background.png" />
     <Content Include="public\background_o40.png" />
     <Content Include="public\stylesheets\doctorStyles.css" />
-    <Content Include="public\stylesheets\mainPageStyles.css" />
+    <Content Include="public\stylesheets\soldiersFiltersTableStyles.css" />
     <Content Include="README.md" />
     <Compile Include="index.js" />
     <Content Include="public\IDFbadge.png" />
     <Content Include="public\medic-logo.png" />
-    <Content Include="public\stylesheets\main.css" />
+    <Content Include="public\stylesheets\welcamePageStyles.css" />
     <Content Include="views\pages\login.ejs" />
-    <Content Include="views\pages\index.ejs" />
-    <Content Include="views\pages\mainPage.ejs" />
+    <Content Include="views\pages\welcomePage.ejs" />
+    <Content Include="views\pages\filterTable_page\soldiersFiltersTable.ejs" />
     <Content Include="views\partials\user_nav.ejs">
       <SubType>Code</SubType>
     </Content>
@@ -46,10 +64,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="firstAidBraceletProject" />
     <Folder Include="public" />
     <Folder Include="public\stylesheets" />
     <Folder Include="views" />
+    <Folder Include="views\pages\filterTable_page\" />
     <Folder Include="views\pages\users_page\" />
     <Folder Include="views\partials\" />
     <Folder Include="views\pages" />
