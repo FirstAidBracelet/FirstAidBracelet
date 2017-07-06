@@ -94,9 +94,10 @@ function removeSoldier(braceletID) { // function to remove soldier from table
 function giveSoldierLocationAccordingToLatLong(Soldier) {
 
     if (!Soldier.Latitude || !Soldier.Longitude) {
-        continue;
+        return;
     }
     var sLocation = soldierLocation(Soldier);
     socket.emit('updateLocationFilter', { braceletId: Soldier.Bracelet_ID, location: sLocation });
+    return sLocation;
 
 }

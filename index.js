@@ -417,7 +417,7 @@ updating the soldiers table
 */
 class MyEmitter extends EventEmitter { } // event hendler for post request from android
 const myEmitter = new MyEmitter();
-myEmitter.on('event', () => {
+myEmitter.on('androidChangedDatabaseEvent', () => {
 
     var result = [];
     if (!logedInDoctorDivision) { // administrator loged in
@@ -491,7 +491,7 @@ This is the Post request for the Android application,
 It trigers event that update the soldiers table trought the socket
 */
 app.post('/soldiersChange', function (request, response) {
-    myEmitter.emit('event');
+    myEmitter.emit('androidChangedDatabaseEvent');
     myEmitter.emit('mapEvent');
     console.log('Got request from android!');
     response.send("Android i got your request!")
