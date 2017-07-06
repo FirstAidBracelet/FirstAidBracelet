@@ -23,6 +23,6 @@ function soldierLocation(sld) {
         if (isSouth(sld)) {
             return "South";
         }
-        return "undefined";
+        return ;
     }
 

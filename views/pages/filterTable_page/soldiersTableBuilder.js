@@ -42,7 +42,9 @@ function buildSoldiersTable(sldrs) {
                 cell.innerHTML = giveSoldierLocationAccordingToLatLong(sold);
             }
             else {
-                cell.innerHTML = sold.<%=tbl %>;
+                if (sold.<%=tbl %>){
+                    cell.innerHTML = sold.<%=tbl %>;
+                   }
             }
             k++;
           <% }); %>
