@@ -38,7 +38,12 @@ function buildSoldiersTable(sldrs) {
                 getTreatments(sold.Bracelet_ID);
                 event.preventDefault();
             });
-            cell.innerHTML = sold.<%=tbl %>;
+            if ('<%tbl %>' == "Location") {
+                cell.innerHTML = giveSoldierLocationAccordingToLatLong(sold);
+            }
+            else {
+                cell.innerHTML = sold.<%=tbl %>;
+            }
             k++;
           <% }); %>
                 /* Here we will create The Evacuation button  */
@@ -79,10 +84,19 @@ function buildSoldiersTable(sldrs) {
 }
 
 function removeSoldier(braceletID) { // function to remove soldier from table
-        var cnfrmation = confirm("Are you sure you want to remove this patient from Database?");
-        if (cnfrmation == true) {
-            document.getElementById('tRow' + braceletID).remove();
-             socket.emit('removePatient', { braceletId: braceletID });
+    var cnfrmation = confirm("Are you sure you want to remove this patient from Database?");
+    if (cnfrmation == true) {
+        document.getElementById('tRow' + braceletID).remove();
+        socket.emit('removePatient', { braceletId: braceletID });
 
-        }
-};
+    }
+}
+function giveSoldierLocationAccordingToLatLong(Soldier) {
+
+    if (!Soldier.Latitude || !Soldier.Longitude) {
+        continue;
+    }
+    var sLocation = soldierLocation(Soldier);
+    socket.emit('updateLocationFilter', { braceletId: Soldier.Bracelet_ID, location: sLocation });
+
+}
