@@ -38,7 +38,7 @@ function buildSoldiersTable(sldrs) {
                 getTreatments(sold.Bracelet_ID);
                 event.preventDefault();
             });
-            if ('<%tbl %>' == "Location") {
+            if ('<%=tbl %>' == "Location") {
                 cell.innerHTML = giveSoldierLocationAccordingToLatLong(sold);
             }
             else {
