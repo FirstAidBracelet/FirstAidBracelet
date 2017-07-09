@@ -65,8 +65,8 @@ function myMap() {
     var markers = changeMarkerReturn.markers;
 
     //average longtitude and latitude. If user has no soldiers the center is Tel-Aviv.
-    var long = (long == 0) ? 32.068089 : (long / count);
-    var lat = (lat == 0) ? 34.781450 : (lat / count);
+    var long = (long == 0) ? 34.781450 : (long / count);
+    var lat = (lat == 0) ? 32.068089 : (lat / count);
     //attributes of map = center according to avg long-lat, starting zoom, and type
     var mapOptions = {
         center: new google.maps.LatLng(lat, long),
