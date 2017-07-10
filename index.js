@@ -492,8 +492,10 @@ This is the Post request for the Android application,
 It trigers event that update the soldiers table trought the socket
 */
 app.post('/soldiersChange', function (request, response) {
-    myEmitter.emit('androidChangedDatabaseEvent');
-    myEmitter.emit('mapEvent');
+    if (client != undefined) {
+        myEmitter.emit('androidChangedDatabaseEvent');
+        myEmitter.emit('mapEvent');
+    }
     console.log('Got request from android!');
     response.send("Android i got your request!")
 });
