@@ -51,7 +51,6 @@
     <Compile Include="index.js" />
     <Content Include="public\IDFbadge.png" />
     <Content Include="public\medic-logo.png" />
-    <Content Include="public\stylesheets\welcamePageStyles.css" />
     <Content Include="views\pages\login.ejs" />
     <Content Include="views\pages\welcomePage.ejs" />
     <Content Include="views\pages\filterTable_page\soldiersFiltersTable.ejs" />

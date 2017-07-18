@@ -1,110 +1,103 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <title>TreatmentsDb</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-  <script src="/bootstrap-confirmation.js"></script>
-  <script src="/views/functions/cookie.js"></script>
+    <title>TreatmentsDb</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/bootstrap-confirmation.js"></script>
+    <script src="/views/functions/cookie.js"></script>
 </head>
 
-
-<!-- top of the page, bootstrap navigation bar -->
-<body>  
-
-
-<% include ../partials/user_nav.ejs %>
-    
-<script>
+<body>
+    <!-- top of the page, bootstrap navigation bar -->
+    <% include ../partials/user_nav.ejs %>
+    <script>
     var part = document.getElementById("nav-right");
     part.innerHTML += "<a class='navbar-brand' href='/equip'>Treatments Managment</a>";
-</script>
+    </script>
 
-
-<div class="row">
-  <div class="col-md-2"></div>
-  <!-- Database Treatments in MongoDB -->
-  <div class="col-md-8">
-      <h1 align="center">Insert new item </h1>
-  </div>
-   <div class="col-md-2"></div>
-</div>
-<div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
-  <!-- adding all the fields to Database posts back to index.js, where we are adding 
-  the item to the database using MongoDB functions, all the fields are required -->
-  <p align="center">Notice: Treatment id is unique</p>
-  <form action="/treatmentsDb" method="POST" align="center">Enter here: 
-    <input type="text" name="name" placeholder="name" id="name" required="required">
-    <input type="text" name="type" id="type" placeholder="type" required="required">
-    <input type="text" name="itemId" id="itemId" placeholder="identification" required="required">
-    <button type="submit">Submit</button> 
-  </form>
-
-  </div>
-   <div class="col-md-2"></div>
-</div>
-
-<!-- shows the database Treatments (name and picture)-->
-
-<div class="row">
-
-<div class="row">
-    <div class="col-md-2"></div>
-    <!-- Database Equipment in MongoDB -->
-    <div class="col-md-8">
-        <h1 align="center">Treatments</h1>
-    </div>
-    <div class="col-md-2"></div>
-</div>
- <div class="container">
-     <!-- renders mongoDb Treatments database and shows it on the screen -->
-   
-      <div class="row">
-        <div class="col-md-2"></div> 
+    <div class="row">
+        <div class="col-md-2"></div>
+        <!-- Database Treatments in MongoDB -->
         <div class="col-md-8">
-        <center>
-        <table class="table table-striped">
-              <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Id</th>
-                  </tr>
-               </thead>  
-               <tbody>
-                  <% docs.forEach(function(doc) { %>
-                  <tr>
-                      <td><%= doc.name%> </td>
-                      <td><%= doc.type%> </td>
-                      <td><%= doc.equipment_id%> </td>
-                      <td><form name="Delete_item">
-                      	<button class="btn btn-default" data-toggle="confirmation"
-                                id="delete_item_<%= doc.name%>" onclick="deletingItem('<%=doc.equipment_id%>')"> Delete </button>
-                      </form></td>
-                  </tr>
-                    <% }); %>
-
-                </tbody>          
-        </table> 
-            </center>
-
+            <h1 align="center">Insert new item </h1>
         </div>
-          <div class="col-md-2"></div>
-      </div>
-  </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <!-- adding all the fields to Database posts back to index.js, where we are adding
+            the item to the database using MongoDB functions, all the fields are required -->
+            <p align="center">Notice: Treatment id is unique</p>
+            <form action="/treatmentsDb" method="POST" align="center">
+                Enter here:
+                <input type="text" name="name" placeholder="name" id="name" required="required">
+                <input type="text" name="type" id="type" placeholder="type" required="required">
+                <input type="text" name="itemId" id="itemId" placeholder="identification" required="required">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <!-- shows the database Treatments (name and picture)-->
+    <div class="row">
 
-</div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <!-- Database Equipment in MongoDB -->
+            <div class="col-md-8">
+                <h1 align="center">Treatments</h1>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="container">
+            <!-- renders mongoDb Treatments database and shows it on the screen -->
 
-<div class="row"><h1></h1></div>
-<div class="row">""</div>
-<div class="row">""</div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <center>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Id</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% docs.forEach(function(doc) { %>
+                                <tr>
+                                    <td><%= doc.name%> </td>
+                                    <td><%= doc.type%> </td>
+                                    <td><%= doc.equipment_id%> </td>
+                                    <td>
+                                        <form name="Delete_item">
+                                            <button class="btn btn-default" data-toggle="confirmation"
+                                                    id="delete_item_<%= doc.name%>" onclick="deletingItem('<%=doc.equipment_id%>')">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </center>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row"><h1></h1></div>
+    <div class="row">""</div>
+    <div class="row">""</div>
 
-<script>
+    <script>
 //posts to backend in order to delete item from the database.
 // sending Treatments Id as parameter
 function deletingItem(item_id) {
@@ -123,14 +116,13 @@ function deletingItem(item_id) {
    				window.location.reload()
   			})
     }
- 		
+
 }
 
 $(document).ready(function(){
-    $('[data-toggle="popover"]').popover();   
+    $('[data-toggle="popover"]').popover();
 });
-</script>
-
+    </script>
 
 </body>
 </html>
