@@ -60,7 +60,7 @@ app.post('/treatmentsDb', function (request, response) {
     });
 });
 
-//deleting an item in Equipment. called from treatmentsDb.ejs
+//deleting an item in Equipment Datebase. called from treatmentsDb.ejs
 app.post('/treatments_delete_item', (req, res) => {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
