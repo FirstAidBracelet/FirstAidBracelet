@@ -5,7 +5,7 @@ Attention - <% %> iterators are "EJS" syntax. (Read about ejs module)
  @param sldrs - array of soldiers where each soldier is a legal JSON object
  @pageParam soldiers_table - array that we pass to soldiersFiltersTable.ejs page when we render it.
             Each element in it represents header for specific column of the soldiers table.
-@localPageParam filteredSoldiers - local array of soldiers kind of - "cashe" that represents the soldiers acordingly to filter requests.                           
+@localPageParam filteredSoldiers - local array of soldiers kind of - "cache" that represents the soldiers acordingly to filter requests.                           
 */
 function buildSoldiersTable(sldrs) {
 

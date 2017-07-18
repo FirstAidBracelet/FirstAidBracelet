@@ -8,7 +8,7 @@ socket.on('news', function (data) { // listen to news event raised by the server
 /*local page variables to manipulate chosen data in real time */
 var chosenFilters = []; // to prevent chosing same filter twice
 var chosenBracelets = [];  // to prevent chosing same bracelet twice when building treatments table
-var filteredSoldiers = [];// kind of "cashe" for more eficient management (in relevant functios there is an explanation about this globalPageVariable)
+var filteredSoldiers = [];// kind of "cache" for more eficient management (in relevant functios there is an explanation about this globalPageVariable)
 
 /*
 Function that run on page load
