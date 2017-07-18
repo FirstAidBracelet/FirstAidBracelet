@@ -1,4 +1,12 @@
-﻿// Dynamic Table builder
+﻿/*
+Builds the main soldiers table.
+Attention - <% %> iterators are "EJS" syntax. (Read about ejs module)
+
+ @param sldrs - array of soldiers where each soldier is a legal JSON object
+ @pageParam soldiers_table - array that we pass to soldiersFiltersTable.ejs page when we render it.
+            Each element in it represents header for specific column of the soldiers table.
+@localPageParam filteredSoldiers - local array of soldiers kind of - "cashe" that represents the soldiers acordingly to filter requests.                           
+*/
 function buildSoldiersTable(sldrs) {
 
     if (document.getElementById("mainTable") !== null) {
@@ -34,7 +42,7 @@ function buildSoldiersTable(sldrs) {
             tHeader.setAttribute('style', 'text-align:center;');
             var cell = tHeader.insertCell(k);
             cell.style.cursor = "pointer";
-            cell.addEventListener("click", function (event) { // this is the handler that will open treatments table on some row click
+            cell.addEventListener("click", function (event) { // this is the handler that will open treatments table on row click
                 getTreatments(sold.Bracelet_ID);
                 event.preventDefault();
             });
@@ -43,63 +51,74 @@ function buildSoldiersTable(sldrs) {
             }
             else {
                 if (sold.<%=tbl %>){
-                    cell.innerHTML = sold.<%=tbl %>;
-                   }
-            }
+            cell.innerHTML = sold.<%=tbl %>;
+        }
+    }
             k++;
           <% }); %>
-                /* Here we will create The Evacuation button  */
-          var btn = document.createElement("BUTTON");
+    /* Here we will create The Evacuation button  */
+    var btn = document.createElement("BUTTON");
 
-        btn.addEventListener("click", function (event) {
-            evacuationStatusChange(sold.Bracelet_ID);
-            event.preventDefault();
-        });
-        var evacButtonText = document.createTextNode(sold.evacuation_request);
-        if (sold.evacuation_request == "true") {
-            btn.style.backgroundColor = "#b3ffcc";
-        } else {
-            btn.style.backgroundColor = "#e6e6e6";
-        }
-        btn.setAttribute("id", 'evacButton' + sold.Bracelet_ID);
-        btn.appendChild(evacButtonText);
-        tHeader.setAttribute('style', 'text-align:center;');
-        tHeader.insertCell(k).appendChild(btn);
-        k++
-        /* End of the evacuation button creation*/
-        /* Here we will create The button to remove soldier from table */
-        var btn = document.createElement("BUTTON");
-        btn.addEventListener("click", function (event) {
-            removeSoldier(sold.Bracelet_ID);
-            event.preventDefault();
-        });
-        var t = document.createTextNode("X");
-        btn.appendChild(t);
-        tHeader.setAttribute('style', 'text-align:center;');
-        tHeader.insertCell(k).appendChild(btn);
-        k++;
-        /* End of the delete button creation*/
-        k = 0;
+    btn.addEventListener("click", function (event) {
+        evacuationStatusChange(sold.Bracelet_ID);
+        event.preventDefault();
     });
+    var evacButtonText = document.createTextNode(sold.evacuation_request);
+    if (sold.evacuation_request == "true") {
+        btn.style.backgroundColor = "#b3ffcc";
+    } else {
+        btn.style.backgroundColor = "#e6e6e6";
+    }
+    btn.setAttribute("id", 'evacButton' + sold.Bracelet_ID);
+    btn.appendChild(evacButtonText);
+    tHeader.setAttribute('style', 'text-align:center;');
+    tHeader.insertCell(k).appendChild(btn);
+    k++
+    /* End of the evacuation button creation*/
+
+    /* Here we will create The button to remove soldier from table */
+    var btn = document.createElement("BUTTON");
+    btn.addEventListener("click", function (event) {
+        removeSoldier(sold.Bracelet_ID);
+        event.preventDefault();
+    });
+    var t = document.createTextNode("X");
+    btn.appendChild(t);
+    tHeader.setAttribute('style', 'text-align:center;');
+    tHeader.insertCell(k).appendChild(btn);
+    k++;
+    /* End of the remove button creation*/
+    k = 0;
+        });
     document.getElementById("mainSoldiersTable").appendChild(table);
     buildAllFilters();
 }
 
-function removeSoldier(braceletID) { // function to remove soldier from table
+/*
+Removes soldier from DATABASE and from main soldiers table.
+
+ @param braceletID - The bracelet ID of the soldier we want to remove             
+*/
+function removeSoldier(braceletID) { 
     var cnfrmation = confirm("Are you sure you want to remove this patient from Database?");
     if (cnfrmation == true) {
-        document.getElementById('tRow' + braceletID).remove();
-        socket.emit('removePatient', { braceletId: braceletID });
-
+        document.getElementById('tRow' + braceletID).remove(); // remove the row from main soldiers table
+        socket.emit('removePatient', { braceletId: braceletID }); // send request to backEnd via socket to remove soldier from database
     }
 }
+/*
+Calculates soldier location zone and update it in DATABASE and in the main soldiers table.
+
+@param Soldier -  soldier as legal JSON object
+@return sLocation - string that rapresents soldier location as defined in sildierLocation() function.
+*/
 function giveSoldierLocationAccordingToLatLong(Soldier) {
 
     if (!Soldier.Latitude || !Soldier.Longitude) {
         return;
     }
     var sLocation = soldierLocation(Soldier);
-    socket.emit('updateLocationFilter', { braceletId: Soldier.Bracelet_ID, location: sLocation });
+    socket.emit('updateLocationFilter', { braceletId: Soldier.Bracelet_ID, location: sLocation }); // send request to backEnd via socket to update soldier location in database.
     return sLocation;
 
 }
