@@ -26,14 +26,14 @@ app.get('/', function (request, response) {
 });
 
 //shows Treatments DB
-app.get('/admin', function (request, response) {
+app.get('/treatmentsDb', function (request, response) {
 
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         var equipmentDB = db.collection('equipment');
         equipmentDB.find().toArray(
             function (err, docs) {
-                response.render('pages/admin', { docs: docs });
+                response.render('pages/treatmentsDb', { docs: docs });
             }
         );
         db.close();
@@ -42,7 +42,7 @@ app.get('/admin', function (request, response) {
 
 
 //adding new item to Treatments DB
-app.post('/admin', function (request, response) {
+app.post('/treatmentsDb', function (request, response) {
 
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
@@ -53,20 +53,20 @@ app.post('/admin', function (request, response) {
             function (err, object) {
                 if (err) {
                 } else {
-                    response.redirect('/admin') //show the new table
+                    response.redirect('/treatmentsDb') //show the new table
                 }
             });
         db.close();
     });
 });
 
-//deleting an item in Equipment. called from admin.ejs
-app.post('/admin_delete_item', (req, res) => {
+//deleting an item in Equipment. called from treatmentsDb.ejs
+app.post('/treatments_delete_item', (req, res) => {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
         db.collection('equipment').findOneAndDelete({ equipment_id: req.body.item_id }, function () {
             db.collection('equipment').find().toArray(function (err, docs) {
-                res.render('pages/admin', { docs: docs });
+                res.render('pages/treatmentsDb', { docs: docs });
             });
             db.close();
         });
@@ -154,7 +154,7 @@ app.get('/equip', function (request, response) {
             var equipmentDB = db.collection('equipment');
             equipmentDB.find().toArray(
                 function (err, docs) {
-                    response.render('pages/admin', { docs: docs });
+                    response.render('pages/treatmentsDb', { docs: docs });
                 }
             );
             db.close();
