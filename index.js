@@ -12,20 +12,33 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('port', (process.env.PORT || 5000)); // Defining Application port
-var io = require('socket.io').listen(app.listen(app.get('port'))); // Setting App and Socket Listening port (same one)
+/*
+ io - is the "communication chanel" between this backend and the app pages - which are the frontend.
+ The connection established on application creation, io socket listening to events which are treated latter in this file. 
+ */
+var io = require('socket.io').listen(app.listen(app.get('port'))); // Setting App and Socket Listening port (same one). 
 
+/* Here we will define the "static root" directory path for our project.
+In other words - every time we will use the "/" redirection in our project, it will search in those paths.
+*/
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname));
 
-// views is directory for all template files
+/* defining directory for all EJS module, template files */
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-app.get('/', function (request, response) {
+/*-------- Local "BackEnd" variables -------- */
+var filtersArray = []; // array that stores the chosen filters requests from filterTable_page.
+var logedInDoctorDivision = null; // indicates wherever doctor or admin is loged to the system. If doctor loged - in, this will save his Division name.
+var mapReqestedSoldiers = null; // Soldiers that map.js requested via group/soldier click. 
+/*---- End of local variables defenition -----*/
+
+app.get('/', function (request, response) { // Redirection "welcome page"
     response.render('pages/welcomePage');
 });
 
-//shows Treatments DB
+//Shows Treatments DB
 app.get('/treatmentsDb', function (request, response) {
 
     MongoClient.connect(mongoUrl, function (err, db) {
@@ -40,8 +53,7 @@ app.get('/treatmentsDb', function (request, response) {
     });
 });
 
-
-//adding new item to Treatments DB
+//Adding new item to Treatments Database
 app.post('/treatmentsDb', function (request, response) {
 
     MongoClient.connect(mongoUrl, function (err, db) {
@@ -60,7 +72,7 @@ app.post('/treatmentsDb', function (request, response) {
     });
 });
 
-//deleting an item in Equipment Datebase. called from treatmentsDb.ejs
+//Deleting an item in equipment database, called from treatmentsDb.ejs.
 app.post('/treatments_delete_item', (req, res) => {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
@@ -182,7 +194,7 @@ app.get('/doc_main', function (request, response) {
     }
 });
 
-//deleting a user. called from user_table.ejs
+//Deleting a user. called from user_table.ejs
 app.get('/user_table', (req, res) => {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
@@ -232,9 +244,13 @@ app.get('/map', function (request, response) {
     }
 });
 
-var filtersArray = []; // array that stores the filters for the AND operation
-var configs = [];
-var logedInDoctorDivision = null;
+/* Handles the GET request to show the Command Center page (Soldiers table and filters bar).
+Note that this request render the page with some page variables from "configuration" file in our database.
+The configuration contains the basic information to build a valid soldiers table and filters bar.
+Includes (for now - may change in future) Soldiers and treatments tables columns names, and the available filters names.
+
+@response - rendered page with the configuration arrays parameters.
+*/
 app.get('/soldiersFiltersTable', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
@@ -242,6 +258,7 @@ app.get('/soldiersFiltersTable', function (request, response) {
         response.redirect('/login');
         return;
     }
+    var configs = [];
     if (type == "doctor") {
         logedInDoctorDivision = request.cookies.division;
     } else {
@@ -260,8 +277,15 @@ app.get('/soldiersFiltersTable', function (request, response) {
     });
 });
 
+/* Handles the POST request to recive array of soldiers according to given filter and the option (add or remove the filter).
+ The response will ber the "AND" operation between all chosen filter values.
+ @request.params filter - the filter you want to apply on soldiers database search (e.g. Division ).
+ @request.params value - the filter value you want to apply on soldiers database search (e.g. Golani).
+ @request.params action - the action you want to perform (add/remove the filter from chosen filters array).
+ @result - the filtered soldiers as stringified JSON array object.
 
-
+Attention - the request " /get-soldiers/_/_/remove " will return all soldiers without any filtering condition. 
+*/
 app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     var result = [];
     var databaseDoctors = [];
@@ -287,7 +311,7 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
                 mapReqestedSoldiers = null;
                 return;
             }
-          
+
             if (req.cookies.type == "doctor") { //This case is when Specific doctor invoced soldiers table - he will see only he's division soldiers      
                 MongoClient.connect(mongoUrl, function (err, db) {
                     assert.equal(null, err);
@@ -315,10 +339,10 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
             return;
         }
     }
-    if (req.cookies.type == "doctor") { //This case is when Specific doctor invoced soldiers table - he will see only he's division soldiers      
+    if (req.cookies.type == "doctor") { //This case is when Specific doctor invoced soldiers table - he will see only his Division soldiers      
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('soldiers').find({ Division: req.cookies.division , $and: filtersArray  }).forEach(function (sld, err) {
+            db.collection('soldiers').find({ Division: req.cookies.division, $and: filtersArray }).forEach(function (sld, err) {
                 assert.equal(null, err);
                 result.push(sld);
             }, function () {
@@ -340,8 +364,13 @@ app.post('/get-soldiers/:filter/:value/:action', function (req, res) {
     });
 });
 
-var mapReqestedSoldiers = null; // local var to save map.js soldiers request
-var client; // This is the Socket to client 
+/*
+ client is socket.io variable, we need to define it outside the io.sockets.on() function
+to be able to use it anytime while applicaiton is running.
+(The io.sockets.on('connection') function run once - on app load, so we use the 'client' local variable
+to keep the request handlers "alive" while our application running)
+ */
+var client; // This is the Socket to that listen and handle our client (pages) events.
 io.sockets.on('connection', function (socket) { // the actual socket opening and it's functions definition
     client = socket;
     client.on('removePatient', function (data) { // removing bracelet via soldiersFiltersTable socket request
@@ -371,10 +400,10 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('mapSoldiersRequest', function (data) {  // receiving soldiers from map.js   
         mapReqestedSoldiers = data.soldiers;
     });
-    client.on('removePreviuseMapFiltering', function (data) {  // receiving soldiers from map.js   
+    client.on('removePreviuseMapFiltering', function (data) {  // removing soldiers request from map.js   
         mapReqestedSoldiers = null;
     });
-    
+
     client.on('addUser', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
@@ -417,12 +446,17 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     });
 });
 
+class MyEmitter extends EventEmitter { } // Event hendler for post request from Android.
+const myEmitter = new MyEmitter();
 /*
 This is the Event function that handles the Android request for
-updating the soldiers table
+updating the soldiers table.
+We will use this eventEmitter method because we dont want that other devices (like android tablet)
+will have an access to our source code. With this method androind sends us some natification, and we are
+checking the database for changes.
+You may consider to change this method to other more secure/compatible one when you will develop the code.
+For now this is the only way for android to tell us that some change ocured (update,delete,add ... etc.).
 */
-class MyEmitter extends EventEmitter { } // event hendler for post request from android
-const myEmitter = new MyEmitter();
 myEmitter.on('androidChangedDatabaseEvent', () => {
 
     var result = [];
@@ -466,7 +500,7 @@ myEmitter.on('androidChangedDatabaseEvent', () => {
         }
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
-            db.collection('soldiers').find({ Division: logedInDoctorDivision , $and: filtersArray }).forEach(function (sld, err) {
+            db.collection('soldiers').find({ Division: logedInDoctorDivision, $and: filtersArray }).forEach(function (sld, err) {
                 assert.equal(null, err);
                 result.push((sld));
             }, function () {
@@ -477,34 +511,22 @@ myEmitter.on('androidChangedDatabaseEvent', () => {
     }
 });
 
-
-myEmitter.on('mapEvent', () => {
-    console.log('a map event occurred');
-    var soldiersArray = [];
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        db.collection('soldiers').find().forEach(function (sol, err) {
-            soldiersArray.push(sol);
-        }, function () {
-            db.close();
-            client.emit('new', { soldiersArray: soldiersArray });
-        });
-    });
-    return;
-});
 /*
-This is the Post request for the Android application,
-It trigers event that update the soldiers table trought the socket
+Handles the Post request for the Android application,
+It trigers "androidChangedDatabaseEvent" event that updates the soldiers table trough the socket.
 */
 app.post('/soldiersChange', function (request, response) {
     if (client != undefined) {
         myEmitter.emit('androidChangedDatabaseEvent');
-        myEmitter.emit('mapEvent');
     }
-    console.log('Got request from android!');
     response.send("Android i got your request!")
 });
 
+/* Handles the POST request to recive specific soldier by Bracelet_ID.
+ The response will ber the "AND" operation between all chosen filter values.
+ @request.params braceletId - the Bracelet_ID of the soldier.
+ @result - array containing soldier which bracelet id provided as JSON object.
+*/
 app.post('/get-soldier/:braceletId', function (req, res) {
     var result = [];
     MongoClient.connect(mongoUrl, function (err, db) {
@@ -518,4 +540,3 @@ app.post('/get-soldier/:braceletId', function (req, res) {
         });
     });
 });
-

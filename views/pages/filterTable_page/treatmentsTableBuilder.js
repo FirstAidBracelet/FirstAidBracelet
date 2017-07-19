@@ -95,45 +95,6 @@ function buildTreatmentsTable(givenSoldier) {
 }
 
 /*
-Applies chosen filter on current soldiers table and REBUILD the table acordingly (add/remove constrains - filters ).
-Attention - the function uses POST request that should be handled in index.js
-
- @param type - the type of the filter. ATTENTION!!! Must to be an EXISTING soldier object field (property) (Status,Division,Unit ... etc)
- @param value - filter value . ( Example if type is "Status" then value must to be "Severe/Dead/ ... etc")
- @localPageParam chosenFilters - local array of chosen filters names , to prevent duplicated filters option.
- 
-*/
-function putFilter(type, value) {
-    for (i = 0; i < chosenFilters.length; i++) {
-        if (value === chosenFilters[i]) {
-            return;
-        }
-    }
-    chosenFilters.push(value);
-    var node = document.createElement("BUTTON");
-    node.setAttribute("id", type + value);
-    node.addEventListener("click", function (event) {
-        removeFilter(type, value);
-        event.preventDefault();
-    });
-
-    var textnode = document.createTextNode(value);
-    node.appendChild(textnode);
-    node.style.backgroundColor = "yellow";
-    document.getElementById("filtersBarId").appendChild(node);
-    document.getElementById("chosenFiltersText").style.visibility = "visible";
-
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {//Call a function when the state changes.
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-            buildSoldiersTable(JSON.parse(this.response));
-
-        }
-    }
-    xhr.open('POST', '/get-soldiers/' + type + '/' + value + '/add', true);
-    xhr.send({});
-}
-/*
 
 Builds treatments table for given bracelet ID with the help of buildTreatmentsTable() function.
 Attention - the function uses POST request that should be handled in index.js 
