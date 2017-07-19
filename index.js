@@ -211,16 +211,21 @@ app.get('/map', function (request, response) {
     } else {
         var soldiers = [];
         var users = [];
+        var configurations;
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
             db.collection('soldiers').find().forEach(function (sol, err) {
                 soldiers.push(sol);
             }, function () {
-                db.collection('users').find().forEach(function (use, err) {
-                    users.push(use);
+                db.collection('configurations').find().forEach(function (config, err) {
+                    configurations = config;
                 }, function () {
-                    db.close();
-                    response.render('pages/map_page/map', { soldiers: soldiers, users: users });
+                    db.collection('users').find().forEach(function (use, err) {
+                        users.push(use);
+                    }, function () {
+                        db.close();
+                        response.render('pages/map_page/map', { soldiers: soldiers, users: users, configurations: configurations });
+                    });
                 });
             });
         });

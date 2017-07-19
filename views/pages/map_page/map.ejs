@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome</title>
+    <title>Map</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -16,8 +16,10 @@
 </head>
 <body>
 
+    <!-- General page header -->
     <% include ../../partials/user_nav.ejs %>
     
+    <!-- Script to add specific navigation button to page header -->
     <script>
         var part = document.getElementById("nav-right");
         part.innerHTML += "<a class='navbar-brand' href='/map'>Map</a>";
@@ -25,17 +27,18 @@
 
     <center><h1>  Patient Map <br> </h1></center>
 
-	
+	<!-- The div of the map -->
 	<div id="content">
-		<!-- The div of the map -->
 		<div id="map"></div>
 	</div>
 
-	<!-- The div of the floating window to show marker information on the map -->
+	<!-- The div of the top-left-corner floating window to show marker information on the map -->
 	<div id="info"></div>
 
+    <!-- Map script -->
 	<script src="/views/pages/map_page/map.js"></script>
 	
+    <!-- Turn nodejs parameters to variables so that the map script will be able to interact with them  -->
 	<script>
 	var soldiersArray = [];
 	<% soldiers.forEach(function(doc) { %>
@@ -48,7 +51,9 @@
 	<% }); %>
 	</script>
 
+    <!-- Google marker clusterer API (combines close markers) -->
 	<script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/markerclustererplus/src/markerclusterer.js"></script>
+    <!-- Google Map API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEaOzdRahKL3nXRnZA0n-yK1hB2C828SQ&callback=myMap"></script>
 
 </body>
