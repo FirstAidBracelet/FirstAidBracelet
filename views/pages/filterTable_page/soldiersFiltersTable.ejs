@@ -12,17 +12,17 @@
     <script src="/views/functions/cookie.js"></script>
 </head>
 <body>
-    <% include ../../partials/user_nav.ejs %>
+    <% include ../../partials/user_nav.ejs %>  <!-- Top page navigation bar -->
     <script>
         var part = document.getElementById("nav-right");
         part.innerHTML += "<a class='navbar-brand' href='/soldiersFiltersTable'>Command Center</a>";
-        <% include ./onLoadAndLocalVariables.js %> // function hat run on Page Load, and some Local variables for real time management
-       <% include ./soldiersTableBuilder.js %> // function that builds table by given soldiers
-       <% include ./treatmentsTableBuilder.js %> // function that builds treatments table by given specific soldier
-       <% include ./filtersSideBarBuilder.js %> // functions that builds  and updates the sideBar filters panel
-       <% include ./evacuationRequestHandler.js %> // functions that updates the evacuations request status in the Soldiers Table
-       <% include ./filteringRequests.js %> // functions that manages put/remove filters requests
-       <% include ./locationFilteringConfigurations.js %> // functions that builds  configures the lcoations long\lat and it's Aliases
+        <% include ./onLoadAndLocalVariables.js %> // function hat run on Page Load, and some Local variables for real time management.
+       <% include ./soldiersTableBuilder.js %> // functions that builds mainSoldiersTable.
+       <% include ./treatmentsTableBuilder.js %> // functions that builds soldier treatments table.
+       <% include ./filtersSideBarBuilder.js %> // functions that builds and updates the sidebar filters panel.
+       <% include ./evacuationRequestHandler.js %> // functions that updates the evacuations request status in the soldiers table and database.
+       <% include ./filteringRequests.js %> // functions that manages put/remove filters requests.
+       <% include ./locationFilteringConfigurations.js %> // functions that builds and configures the lcoations according to the long/lat properties.
     </script>
     <div class="row">
         <div class="col-md-1"></div>
