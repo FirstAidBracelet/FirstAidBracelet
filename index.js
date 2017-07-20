@@ -4,10 +4,10 @@ var mongoUrl = 'mongodb://heroku_8lwbv1x0:hlus7a54o0lnapqd2nhtlkaet7@dbh73.mlab.
 var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
 const EventEmitter = require('events');
-app.use(bodyParser.urlencoded({ extended: true }));
+var cookieParser = require('cookie-parser');
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 

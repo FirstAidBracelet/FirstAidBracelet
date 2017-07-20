@@ -1,8 +1,8 @@
 {
-  "name": "Start on Heroku: Node.js",
-  "description": "A barebones Node.js app using Express 4",
+  "name": "FirstAidBracelet application",
+  "description": "Node.js application using Express 4, to communicate with mongoDB",
   "repository": "https://github.com/FirstAidBracelet/FirstAidBracelet",
   "logo": "http://node-js-sample.herokuapp.com/node.svg",
-  "keywords": ["node", "express", "static"],
+  "keywords": [ "node", "express", "static" ],
   "image": "heroku/nodejs"
 }

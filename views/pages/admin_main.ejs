@@ -9,29 +9,24 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/admin_mainStyles.css">
     <script src="/views/functions/cookie.js"></script>
-  
+
 </head>
 <body>
     <div id="backGrndPic">
-
         <% include ../partials/user_nav.ejs %>
+        <div class="page-header" id="header"></div>
 
-       
-            <div class="page-header" id="header"></div>
- 
-            <div class="row">
-                <div class="col-md-3"> <center><img src="/treatmentsIcon.jpg"><h3><br></h3><a type="button" class="btn btn-lg btn-default" href="/equip">Treatments Database</a> </center> </div>
-                <div class="col-md-3"> <center><img id="users_database" src="Users-icon.png"><h3><br></h3><a type="button" class="btn btn-lg btn-default" href="/user_table">Users Database</a> </center> </div>
-                <div class="col-md-3"> <center><img src="/command-center.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/soldiersFiltersTable">Command Center</a> </center> </div>
-                <div class="col-md-3"> <center><img src="/mapIcon.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/map">Map</a> </center> </div>
-            </div>
-                <div class="row"><h1><br></h1><h1><br></h1><h1><br></h1><h1><br></h1></div>
-       
-
+        <div class="row">
+            <div class="col-md-3"> <center><img src="/treatmentsIcon.jpg"><h3><br></h3><a type="button" class="btn btn-lg btn-default" href="/treatmentsDb">Treatments Database</a> </center> </div>
+            <div class="col-md-3"> <center><img id="users_database" src="Users-icon.png"><h3><br></h3><a type="button" class="btn btn-lg btn-default" href="/user_table">Users Database</a> </center> </div>
+            <div class="col-md-3"> <center><img src="/command-center.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/soldiersFiltersTable">Command Center</a> </center> </div>
+            <div class="col-md-3"> <center><img src="/mapIcon.png"><h3><br></h3> <a type="button" class="btn btn-lg btn-default" href="/map">Map</a> </center> </div>
+        </div>
+        <div class="row"><h1><br></h1><h1><br></h1><h1><br></h1><h1><br></h1></div>
         <script>
 		var user = getCookie("user");
 		document.getElementById("header").innerHTML = "<center><h2>  Welcome Admin " + user + " <br> </h2></center>";
         </script>
-        </div>
+    </div>
 </body>
 </html>
