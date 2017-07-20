@@ -4,13 +4,15 @@
     <title>Map</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap stylesheet and scripts. Used in stylizing page -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- socket script used to update map dynamically -->
 	<script src="/socket.io/socket.io.js"></script>
-
+    <!-- page stylesheet -->
 	<link rel="stylesheet" href="/stylesheets/map.css">
-
+    <!-- side script to help find and deal with cookies. used in map.js -->
     <script src="/views/functions/cookie.js"></script>
 
 </head>
@@ -41,14 +43,11 @@
     <!-- Turn nodejs parameters to variables so that the map script will be able to interact with them  -->
 	<script>
 	var soldiersArray = [];
-	<% soldiers.forEach(function(doc) { %>
-		soldiersArray.push(<%- JSON.stringify(doc) %>);
-	<% }); %>
+	    <% soldiers.forEach(function(doc) { %>
+		    soldiersArray.push(<%- JSON.stringify(doc) %>);
+	    <% }); %>
 
-	var doctorsArray = [];
-	<% users.forEach(function(doc) { %>
-		doctorsArray.push(<%- JSON.stringify(doc) %>);
-	<% }); %>
+        var configurations = <%- JSON.stringify(configurations) %>;
 	</script>
 
     <!-- Google marker clusterer API (combines close markers) -->

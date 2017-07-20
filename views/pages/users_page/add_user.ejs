@@ -1,30 +1,26 @@
-<script src="/views/pages/users_page/add_user.js"></script>
-<script>
-	var users = [];
-	<% users.forEach(function(doc) { %>
-		users.push(<%- JSON.stringify(doc) %>);
-	<% }); %>
-</script>
-
 <center><h1>  Add User </h1></center>
 
-<form name="addUser" action="#" method="post" onsubmit="return validateForm()">
+<!-- The form never POSTS but updates both the page and the backend via sockets. The submit button is overrid in users_table.js -->
+<form name="addUser">
+    <!-- username password and type row -->
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-3">
+            <!-- username field -->
             <div class="form-group">
 				<label><b>Username</b></label>
 				<input type="text" class = "form-control" placeholder="Enter Username" name="user">
 			</div>
         </div>
         <div class="col-md-3">
+            <!-- password field -->
             <div class="form-group">
 				<label><b>Password</b></label>
 				<input type="password" class = "form-control" placeholder="Enter Password" name="password">
 			</div>
         </div>
         <div class="col-md-2">
-            <!-- <label style="padding-left:4.5em"><b>Type</b></label> -->
+            <!-- type field -->
         	<div id="type-div" class="radio-inline">
 				<label><input type="radio" name="type" value="doctor" required>Doctor</label>
 			</div>
@@ -35,29 +31,35 @@
         <div class="col-md-2"></div>
     </div>
 
+    <!-- username password and type alert row. Used to alert about problem with field value. Field dynamically in users_table.js -->
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-3">
+            <!-- username alet label -->
             <div class="form-group">
 				<label class="label label-warning" id="userError"></label>
 			</div>
         </div>
         <div class="col-md-3">
+            <!-- password alet label -->
             <div class="form-group">
 				<label class="label label-warning" id="passError"></label>
 			</div>
         </div>
         <div class="col-md-2">
+            <!-- type alet label -->
             <label class="label label-warning" id="typeError"></label>
         </div>
         <div class="col-md-2"></div>
     </div>
 
+    <!-- division row -->
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-5" id="division"></div>
     </div>
 
+    <!-- division alert row -->
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-5">
@@ -65,16 +67,18 @@
         </div>
     </div>
             
-
+    <!-- name and personal number row -->
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-5">
+            <!-- user full name field -->
 			<div class ="form-group">
 				<label><b>Name</b></label>
 				<input type="text" class = "form-control" placeholder="Enter Full Name" name="name" required>
 			</div>
         </div>
         <div class="col-md-3">
+            <!-- user personal number field -->
 			<div class ="form-group">
 				<label><b>P.N</b></label>
 				<input type="text" class = "form-control" placeholder="Enter Personal Number" name="number" required>
@@ -82,32 +86,32 @@
         </div>
     </div>
 
+    <!-- name and personal number aler row -->
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-5">
+            <!-- user full name alert label -->
 			<label class="label label-warning" id="nameError"></label>
         </div>
         <div class="col-md-3">
+            <!-- user personal number alert label -->
 			<label class="label label-warning" id="numberError"></label>
         </div>
     </div>
 
-	<div class ="form-group">
-		<input type="hidden" class = "form-control" name="status" value="not connected" required>
-	</div>
-
+    <!-- Submit button -->
     <div class="row">
         <div class="col-md-2"></div>
             <input type="submit" class="btn btn-primary" name="Add" value="Add">
     </div>
 </form>
 
+<!-- Form script -->
+<script src="/views/pages/users_page/add_user.js"></script>
+<!-- Turn nodejs parameters to variables so that the add user script will be able to interact with them  -->
 <script>
-	var type = document.addUser.type;
-	type[0].onclick = function() {
-		isDoctor();
-	};
-	type[1].onclick = function() {
-		isAgam();
-	};
+	var users = [];
+	<% users.forEach(function(doc) { %>
+		users.push(<%- JSON.stringify(doc) %>);
+	<% }); %>
 </script>

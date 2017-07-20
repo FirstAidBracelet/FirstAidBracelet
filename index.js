@@ -38,19 +38,102 @@ app.get('/', function (request, response) { // Redirection "welcome page"
     response.render('pages/welcomePage');
 });
 
-//Shows Treatments DB
-app.get('/treatmentsDb', function (request, response) {
+/* Handles the GET request to reach the login page.
+The request leads to the main page fitting the user's roll (doctor or agam) if the user is already connected.
+Note that this request render the page with some page variables from "users" collection in our database.
+The users collection includes all users that signed up to the system
 
+@response - rendered page with users array parameter.
+*/
+app.get('/login', function (request, response) {
+    var type = request.cookies.type;
+    if (type == "doctor") {
+        response.redirect('/doc_main');
+    }
+    else if (type == "agam") {
+        response.redirect('/admin_main');
+    }
+    else {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            var col = db.collection('users');
+            col.find().toArray(function (err, docs) {
+                response.render('pages/login_page/login', { docs: docs });
+            });
+            db.close();
+        });
+    }
+});
+
+/* Handles the POST request to login. Called after users succeful attempt at logging in.
+The request leads to the main page fitting the user's roll (doctor or agam).
+Note that this request sets the users status in the database to "connected". This has no effect now but is a possibility for future
+advancements to control number of simultaneous entrances of same user to the site.
+
+@response - rendered page.
+*/
+app.post('/logged', function (request, response) {
+    var number = request.cookies.number;
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
-        var equipmentDB = db.collection('equipment');
-        equipmentDB.find().toArray(
-            function (err, docs) {
-                response.render('pages/treatmentsDb', { docs: docs });
-            }
-        );
-        db.close();
+        db.collection('users').update({ number: number }, { $set: { status: "connected" } }, function () {
+            db.close();
+        });
     });
+
+    var type = request.cookies.type;
+    if (type == "doctor") {
+        response.redirect('/doc_main');
+    }
+    else if (type == "agam") {
+        response.redirect('/admin_main');
+    }
+});
+
+/* Handles the GET request to logout (leads to main page).
+Note that this request deletes all of the user's existing cookies.
+Also it sets the users status in the database to "not connected". This has no effect now but is a possibility for future
+advancements to control number of simultaneous entrances of same user to the site.
+
+@response - rendered page.
+*/
+app.get('/logout', function (request, response) {
+    var number = request.cookies.number;
+    MongoClient.connect(mongoUrl, function (err, db) {
+        assert.equal(null, err);
+        db.collection('users').update({ number: number }, { $set: { status: "not connected" } }, function () {
+            db.close();
+        });
+    });
+
+    var cookie = request.cookies;
+    for (var key in cookie) {
+        if (!cookie.hasOwnProperty(key)) {
+            continue;
+        }
+        response.clearCookie(key);
+    }
+    response.redirect('/login');
+});
+
+//Shows Treatments DB
+app.get('/treatmentsDb', function (request, response) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            var equipmentDB = db.collection('equipment');
+            equipmentDB.find().toArray(
+                function (err, docs) {
+                    response.render('pages/treatmentsDb', { docs: docs });
+                }
+            );
+            db.close();
+        });
+    }
 });
 
 //Adding new item to Treatments Database
@@ -85,105 +168,10 @@ app.post('/treatments_delete_item', (req, res) => {
     });
 });
 
+/* Handles the GET request to show the Doctor page (First page after doctor logs in).
 
-app.get('/login', function (request, response) {
-    var type = request.cookies.type;
-    if (type == "doctor") {
-        response.redirect('/doc_main');
-    }
-    else if (type == "agam") {
-        response.redirect('/admin_main');
-    }
-    else {
-        MongoClient.connect(mongoUrl, function (err, db) {
-            assert.equal(null, err);
-            var col = db.collection('users');
-            col.find().toArray(function (err, docs) {
-                response.render('pages/login', { docs: docs });
-            });
-            db.close();
-        });
-    }
-});
-
-app.post('/logged', function (request, response) {
-    var number = request.cookies.number;
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        db.collection('users').update({ number: number }, { $set: { status: "connected" } }, function () {
-            db.close();
-        });
-    });
-
-    var type = request.cookies.type;
-    if (type == "doctor") {
-        response.redirect('/doc_main');
-    }
-    else if (type == "agam") {
-        response.redirect('/admin_main');
-    }
-});
-
-app.get('/logged', function (request, response) {
-    var type = request.cookies.type;
-    if (type == "doctor") {
-        response.redirect('pages/doc_main');
-    }
-    else if (type == "agam") {
-        response.render('pages/admin_main');
-    } else {
-        response.redirect('/login');
-    }
-});
-
-app.get('/logout', function (request, response) {
-    var number = request.cookies.number;
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        db.collection('users').update({ number: number }, { $set: { status: "not connected" } }, function () {
-            db.close();
-        });
-    });
-
-    var cookie = request.cookies;
-    for (var key in cookie) {
-        if (!cookie.hasOwnProperty(key)) {
-            continue;
-        }
-        response.clearCookie(key);
-    }
-    response.redirect('/login');
-});
-
-app.get('/equip', function (request, response) {
-    var user = request.cookies.user;
-    var type = request.cookies.type;
-    if (user == null || type == null) {
-        response.redirect('/login')
-    } else {
-        MongoClient.connect(mongoUrl, function (err, db) {
-            assert.equal(null, err);
-            var equipmentDB = db.collection('equipment');
-            equipmentDB.find().toArray(
-                function (err, docs) {
-                    response.render('pages/treatmentsDb', { docs: docs });
-                }
-            );
-            db.close();
-        });
-    }
-});
-
-app.get('/admin_main', function (request, response) {
-    var user = request.cookies.user;
-    var type = request.cookies.type;
-    if (user == null || type == null) {
-        response.redirect('/login')
-    } else {
-        response.render('pages/admin_main');
-    }
-});
-
+@response - rendered page.
+*/
 app.get('/doc_main', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
@@ -194,17 +182,10 @@ app.get('/doc_main', function (request, response) {
     }
 });
 
-//Deleting a user. called from user_table.ejs
-app.get('/user_table', (req, res) => {
-    MongoClient.connect(mongoUrl, function (err, db) {
-        assert.equal(null, err);
-        db.collection('users').find().toArray(function (err, users) {
-            res.render('pages/users_page/users_table', { users: users });
-        });
-        db.close();
-    });
-});
+/* Handles the GET request to show the Admin page (First page after admin logs in).
 
+@response - rendered page.
+*/
 app.get('/admin_main', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
@@ -215,6 +196,36 @@ app.get('/admin_main', function (request, response) {
     }
 });
 
+/* Handles the GET request to show the users table page.
+Note that this request render the page with some page variables from "users" collection in our database.
+The users collection includes all users that signed up to the system
+
+@response - rendered page.
+*/
+app.get('/user_table', function (request, response) {
+    var user = request.cookies.user;
+    var type = request.cookies.type;
+    if (user == null || type == null) {
+        response.redirect('/login')
+    } else {
+        MongoClient.connect(mongoUrl, function (err, db) {
+            assert.equal(null, err);
+            db.collection('users').find().toArray( function (err, users) {
+                    response.render('pages/users_page/users_table', { users: users });
+            });
+            db.close();
+        });
+    }
+});
+
+/* Handles the GET request to show the Map page.
+Note that this request render the page with some page variables from "configuration", and "soldiers" collections in our database.
+The soldiers collection includes all soldiers added to the system from the field
+The configuration contains the basic information to show soldier information.
+Includes (for now - may change in future) Soldiers and treatments tables columns names, and the available filters names.
+
+@response - rendered page with the configuration arrays and soldiers arrays parameters.
+*/
 app.get('/map', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
@@ -222,7 +233,6 @@ app.get('/map', function (request, response) {
         response.redirect('/login')
     } else {
         var soldiers = [];
-        var users = [];
         var configurations;
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
@@ -232,12 +242,8 @@ app.get('/map', function (request, response) {
                 db.collection('configurations').find().forEach(function (config, err) {
                     configurations = config;
                 }, function () {
-                    db.collection('users').find().forEach(function (use, err) {
-                        users.push(use);
-                    }, function () {
-                        db.close();
-                        response.render('pages/map_page/map', { soldiers: soldiers, users: users, configurations: configurations });
-                    });
+                    db.close();
+                    response.render('pages/map_page/map', { soldiers: soldiers, configurations: configurations });
                 });
             });
         });
@@ -403,7 +409,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
     client.on('removePreviuseMapFiltering', function (data) {  // removing soldiers request from map.js   
         mapReqestedSoldiers = null;
     });
-
+    //Adding a user according to request from user_table
     client.on('addUser', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
@@ -412,6 +418,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
+    //Removing a user according to request from user_table
     client.on('removeUser', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
@@ -420,6 +427,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
+    //Updating username according to request from user_table
     client.on('updateUserName', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
@@ -428,6 +436,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
+    //Updating user personal number according to request from user_table
     client.on('updateUserNum', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
@@ -436,6 +445,7 @@ io.sockets.on('connection', function (socket) { // the actual socket opening and
             });
         });
     });
+    //Updating user division according to request from user_table
     client.on('updateUserDiv', function (data) {
         MongoClient.connect(mongoUrl, function (err, db) {
             assert.equal(null, err);
