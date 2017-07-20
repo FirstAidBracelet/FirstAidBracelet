@@ -116,7 +116,12 @@ app.get('/logout', function (request, response) {
     response.redirect('/login');
 });
 
-//Shows Treatments DB
+/* Handles a GET from treatmentsDb.ejs.
+connected to equipment Database.
+docs is an array of the Json files which represent each item
+
+@response - renders the page
+*/
 app.get('/treatmentsDb', function (request, response) {
     var user = request.cookies.user;
     var type = request.cookies.type;
@@ -136,7 +141,17 @@ app.get('/treatmentsDb', function (request, response) {
     }
 });
 
-//Adding new item to Treatments Database
+
+/* Handles a POST from treatmentsDb.ejs.
+Adding new item to Treatments Database.
+The parameters are passed using Body-parser module
+@request.params name - the name of the item
+@request.params type - the name of the item
+@request.params itemId - the id of the item
+
+@response - rendered page, when the new item is inside the Db.
+*/
+
 app.post('/treatmentsDb', function (request, response) {
 
     MongoClient.connect(mongoUrl, function (err, db) {
@@ -155,7 +170,13 @@ app.post('/treatmentsDb', function (request, response) {
     });
 });
 
-//Deleting an item in equipment database, called from treatmentsDb.ejs.
+/* Handles a POST from treatmentsDb.ejs.
+Deleting an item to Treatments Database.
+The parameters are passed using Body-parser module
+@request.params itemId - the id of the item
+
+@response - rendered page, when the deleted from the Db.
+*/
 app.post('/treatments_delete_item', (req, res) => {
     MongoClient.connect(mongoUrl, function (err, db) {
         assert.equal(null, err);
