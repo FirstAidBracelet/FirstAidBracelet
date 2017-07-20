@@ -30,7 +30,9 @@
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <!-- adding all the fields to Database posts back to index.js, where we are adding
-            the item to the database using MongoDB functions, all the fields are required -->
+            the item to the database using MongoDB functions, all the fields are required
+	    notice the name field (values:name, type, itemId), this name is the same we use
+	    in index.js with req.body.name -->
             <p align="center">Notice: Treatment id is unique</p>
             <form action="/treatmentsDb" method="POST" align="center">
                 Enter here:
@@ -98,7 +100,7 @@
 
     <script>
 //posts to backend in order to delete item from the database.
-// sending Treatments Id as parameter
+// sending Treatment Id as parameter
 function deletingItem(item_id) {
     var r = confirm("Are you sure you want to delete?");
 
@@ -117,7 +119,7 @@ function deletingItem(item_id) {
     }
 
 }
-
+// The following code will enable all popovers in the document:
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
 });
